@@ -9,3 +9,7 @@ export async function signInGithub() {
 export async function signInGoogle() {
   return auth.signIn('google');
 }
+
+export async function signInChoice() {
+  return auth.signIn();
+}

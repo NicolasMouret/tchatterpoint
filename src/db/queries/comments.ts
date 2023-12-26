@@ -6,7 +6,8 @@ export type CommentWithAuthor = (
   Comment & { 
     user: { 
       name: string | null,
-      image: string | null, };
+      image: string | null,
+      id: string | null };
   }
 );
 
@@ -16,6 +17,7 @@ export const fetchCommentsByPostId = cache((postId: string): Promise<CommentWith
     include: { user: { 
       select: { 
         name: true, 
-        image: true } } }
+        image: true,
+        id: true } } }
   }); 
 })

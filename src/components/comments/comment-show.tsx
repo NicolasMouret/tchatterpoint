@@ -1,6 +1,9 @@
+import { auth } from '@/auth';
 import CommentCreateForm from "@/components/comments/comment-create-form";
+import CommentDeleteForm from "@/components/comments/comment-delete-form";
 import { fetchCommentsByPostId } from "@/db/queries/comments";
 import Image from "next/image";
+import CommentEditForm from './comment-edit-form';
 
 interface CommentShowProps {
   commentId: string;
@@ -11,6 +14,8 @@ interface CommentShowProps {
 export default async function CommentShow({ commentId, postId }: CommentShowProps) {
   const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
+  const session = await auth();
+  const isAuthor = session?.user?.id === comment?.user.id;
 
   if (!comment) {
     return null;
@@ -38,8 +43,18 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
             {comment.user.name}
           </p>
           <p className="text-gray-900">{comment.content}</p>
-
-          <CommentCreateForm postId={comment.postId} parentId={comment.id} />
+          <div className="flex gap-3">
+            <CommentCreateForm postId={postId} parentId={commentId} />
+            {isAuthor ? (
+              <>
+              <CommentEditForm
+                postId={postId}
+                commentId={commentId}
+                originalContent={comment.content}/>
+              <CommentDeleteForm postId={postId} commentId={commentId} />
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>
