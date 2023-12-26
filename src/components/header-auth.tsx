@@ -34,10 +34,10 @@ export default function HeaderAuth() {
   } else {
     authContent = (<>
       <NavbarItem>
-        <form action={actions.signInGithub}><Button type="submit" variant="bordered" color="secondary">Sign In</Button></form>
+        <form action={actions.signInGoogle}><Button type="submit" variant="bordered" color="secondary">Sign in with Google</Button></form>
       </NavbarItem>
       <NavbarItem>
-        <form action={actions.signInGithub}><Button type="submit" variant="flat" color="primary">Sign Up</Button></form>
+        <form action={actions.signInGithub}><Button type="submit" variant="flat" color="primary">Sign in with github</Button></form>
       </NavbarItem>
     </>);
   }
