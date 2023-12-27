@@ -4,6 +4,8 @@ import NextAuth from 'next-auth';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
@@ -36,7 +38,7 @@ export const {
         })
         if (user) {
           userRole = user.role
-        } else if (profile.email === 'rootsrockreggae06@gmail.com') {
+        } else if (profile.email === ADMIN_EMAIL) {
           userRole = 'admin';
         }
 
