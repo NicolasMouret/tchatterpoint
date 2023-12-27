@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
+import { FaEdit } from "react-icons/fa";
 
 interface CommentEditFormProps {
   commentId: string;
@@ -30,10 +31,18 @@ export default function CommentEditForm({ commentId, postId, originalContent }: 
 
   return (
     <>
+      {/* ON DESKTOP */}
       <Button 
       onPress={onOpen}
       size="sm"
-      variant="light">Modifier</Button>
+      variant="light"
+      className="hidden sm:block">
+        Modifier
+      </Button>
+      {/* ON MOBILE */}
+      <button type="button" onClick={onOpen} className="sm:hidden">
+        <FaEdit className="text-lg" />
+      </button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose: () => void) => (
