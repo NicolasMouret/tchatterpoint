@@ -1,5 +1,5 @@
 import Providers from '@/app/providers'
-import Header from '@/components/header'
+import Header from '@/components/header/header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -18,13 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
-        <div className="container mx-auto px-4 max-w-6xl">
-          <Providers>
+      <body className={`${inter.className} dark text-foreground bg-background`}>
+        <Providers>
+          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl">
             <Header/>
             {children}
-          </Providers>
-        </div>
+          </div>
+        </Providers>
       </body>
     </html>
   )

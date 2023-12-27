@@ -21,13 +21,14 @@ export default function HeaderAuth() {
     authContent = (
     <Popover placement="left">
       <PopoverTrigger>
-        <Avatar src={session.data.user.image || ""} />
+        <Avatar src={session.data.user.image || ""} />       
       </PopoverTrigger>
       <PopoverContent>
         <div className="p-4">
           <form action={actions.signOut}>
             <Button type="submit">Sign Out</Button>
           </form>
+          <p>{session.data.user.role}</p>
         </div>
       </PopoverContent>
     </Popover>);

@@ -15,6 +15,7 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
   const session = await auth();
+  const isAdmin = session?.user?.role === "admin";
   const isAuthor = session?.user?.id === comment?.user.id;
 
   if (!comment) {
@@ -45,15 +46,18 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
           <p className="text-gray-900">{comment.content}</p>
           <div className="flex gap-3">
             <CommentCreateForm postId={postId} parentId={commentId} />
-            {isAuthor ? (
+            {(isAuthor || isAdmin) && (
               <>
-              <CommentEditForm
-                postId={postId}
-                commentId={commentId}
-                originalContent={comment.content}/>
-              <CommentDeleteForm postId={postId} commentId={commentId} />
+                {isAuthor && (
+                  <CommentEditForm
+                    postId={postId}
+                    commentId={commentId}
+                    originalContent={comment.content}
+                  />
+                )}
+                <CommentDeleteForm postId={postId} commentId={commentId} />
               </>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

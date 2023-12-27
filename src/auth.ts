@@ -14,7 +14,12 @@ if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
   throw new Error('Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET');
 }
 
-export const { handlers: {GET, POST }, auth, signOut, signIn } = NextAuth({
+export const {
+  handlers: { GET, POST },
+  auth,
+  signOut,
+  signIn,
+} = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
     Github({
@@ -24,6 +29,25 @@ export const { handlers: {GET, POST }, auth, signOut, signIn } = NextAuth({
     Google({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
+      async profile(profile) {
+        let userRole = 'user'
+        const user = await db.user.findUnique({
+          where: { email: profile?.email },
+        })
+        if (user) {
+          userRole = user.role
+        } else if (profile.email === 'rootsrockreggae06@gmail.com') {
+          userRole = 'admin';
+        }
+
+        return {
+          id: profile.sub,
+          role: userRole,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        }
+      }
     }),
   ],
   cookies: {
@@ -38,12 +62,14 @@ export const { handlers: {GET, POST }, auth, signOut, signIn } = NextAuth({
     }
   },
   callbacks: {
-    async session({session, user}: any) {
+    // Usually not needed, here we are fixing a bug in nextauth
+    async session({ session, user, token }: any) {
       if (session && user) {
         session.user.id = user.id;
       }
-
+      session.user.role = user.role;
+      
       return session;
     },
   },
-})
+});
