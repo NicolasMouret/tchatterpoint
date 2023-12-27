@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useFormState } from 'react-dom';
+import { MdDeleteForever } from "react-icons/md";
 
 interface CommentDeleteFormProps {
   commentId: string;
@@ -26,12 +27,23 @@ export default function CommentDeleteForm({ commentId, postId }: CommentDeleteFo
 
   return (
     <>
+      {/* ON DESKTOP */}
       <Button 
       onPress={onOpen}
       size="sm"
       variant="light"
-      color="danger">Supprimer le commentaire</Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      color="danger"
+      className="hidden sm:block">
+        Supprimer le commentaire
+      </Button>
+      {/* ON MOBILE */}
+      <button type="button" onClick={onOpen} className="sm:hidden">
+        <MdDeleteForever className="text-lg" />
+      </button>
+      <Modal 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        className="sm:max-w-lg">
         <ModalContent>
           {(onClose: () => void) => (
             <>
@@ -40,7 +52,7 @@ export default function CommentDeleteForm({ commentId, postId }: CommentDeleteFo
                 <p>Supprimer ce commentaire supprimera les commentaires en réponses à celui ci.</p>
                 <p>Etes-vous sûr de vouloir supprimer ce commentaire ?</p>
               </ModalBody>
-              <ModalFooter>
+              <ModalFooter className="flex justify-center">
                 <Button color="danger" variant="light" onPress={onClose}>Annuler</Button>
                 <form onSubmit={onClose} action={action}>
                   <FormButton>Supprimer</FormButton>

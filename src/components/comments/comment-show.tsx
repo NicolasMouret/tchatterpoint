@@ -30,8 +30,8 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   });
 
   return (
-    <div className="p-4 border mt-2 mb-1">
-      <div className="flex gap-3">
+    <div className="p-2 my-2 text-small border rounded">
+      <div className="flex gap-3 mb-2">
         <Image
           src={comment.user.image || ""}
           alt="user image"
@@ -40,28 +40,28 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
           className="w-10 h-10 rounded-full"
         />
         <div className="flex-1 space-y-3">
-          <p className="text-sm font-medium text-gray-500">
-            {comment.user.name}
-          </p>
-          <p className="text-gray-900">{comment.content}</p>
-          <div className="flex gap-3">
-            <CommentCreateForm postId={postId} parentId={commentId} />
+          <div className="flex gap-4 items-center">
+            <p className="text-sm font-medium">
+              {comment.user.name}
+            </p>
             {(isAuthor || isAdmin) && (
-              <>
-                {isAuthor && (
-                  <CommentEditForm
-                    postId={postId}
-                    commentId={commentId}
-                    originalContent={comment.content}
-                  />
-                )}
-                <CommentDeleteForm postId={postId} commentId={commentId} />
-              </>
-            )}
+                <>
+                  {isAuthor && (
+                    <CommentEditForm
+                      postId={postId}
+                      commentId={commentId}
+                      originalContent={comment.content}
+                    />
+                  )}
+                  <CommentDeleteForm postId={postId} commentId={commentId} />
+                </>
+              )}
           </div>
+          <p className="">{comment.content}</p>
+          <CommentCreateForm postId={postId} parentId={commentId} />
         </div>
       </div>
-      <div className="pl-4">{renderedChildren}</div>
+      {renderedChildren}
     </div>
   );
 }

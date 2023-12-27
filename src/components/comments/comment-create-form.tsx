@@ -1,10 +1,10 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { useEffect, useRef, useState } from "react";
-import { Textarea, Button } from "@nextui-org/react";
-import FormButton from "@/components/common/form-button";
 import * as actions from "@/actions";
+import FormButton from "@/components/common/form-button";
+import { Button, Textarea } from "@nextui-org/react";
+import { useEffect, useRef, useState } from "react";
+import { useFormState } from "react-dom";
 
 interface CommentCreateFormProps {
   postId: string;
@@ -36,7 +36,7 @@ export default function CommentCreateForm({
 
   const form = (
     <form action={action} ref={ref}>
-      <div className="space-y-2 px-1">
+      <div className={`space-y-2 px-1 mt-1 w-full ${parentId ? "sm:w-4/5" : ""}`}>
         <Textarea
           name="content"
           label="Reply"

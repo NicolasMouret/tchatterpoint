@@ -28,7 +28,6 @@ export default function HeaderAuth() {
           <form action={actions.signOut}>
             <Button type="submit">Sign Out</Button>
           </form>
-          <p>{session.data.user.role}</p>
         </div>
       </PopoverContent>
     </Popover>);
