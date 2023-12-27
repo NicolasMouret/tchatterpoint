@@ -20,13 +20,13 @@ export default function PostCreateform({ slug }: PostCreateformProps) {
     errors: {}
   });
   return (
-    <Popover placement="left">
+    <Popover placement="bottom">
       <PopoverTrigger>
-        <Button color="primary">Create a Post</Button>
+        <Button className="self-center" color="primary">Create a Post</Button>
       </PopoverTrigger>
       <PopoverContent>       
         <form action={action}>
-          <div className="flex flex-col gap-4 p-4 w-80">
+          <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-6xl">
             <h3 className="text-lg">Create a Post</h3>
             <Input 
               name="title" 

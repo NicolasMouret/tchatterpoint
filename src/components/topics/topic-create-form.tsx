@@ -16,13 +16,13 @@ export default function TopicCreateForm() {
     errors: {}
   });
   return (
-    <Popover placement="left">
+    <Popover placement="bottom">
       <PopoverTrigger>
-        <Button color="primary">Create a Topic</Button>
+        <Button className="self-center" color="primary">Create a Topic</Button>
       </PopoverTrigger>
       <PopoverContent>       
         <form action={action}>
-          <div className="flex flex-col gap-4 p-4 w-80">
+          <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-2xl">
             <h3 className="text-lg">Create a Topic</h3>
             <Input 
               name="name" 

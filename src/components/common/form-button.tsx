@@ -10,7 +10,7 @@ interface FormButtonProps {
 export default function FormButton({ children }: FormButtonProps) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" isLoading={pending}>
+    <Button className="sm:w-80 self-center" type="submit" isLoading={pending}>
       {children}
     </Button>
   )
