@@ -7,6 +7,8 @@ declare module "next-auth" {
   interface Session {
     user: {
       role: string | undefined | null
+      latitude: number | undefined | null
+      longitude: number | undefined | null
     } & DefaultSession["user"]
   }
 }
