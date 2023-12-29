@@ -13,21 +13,22 @@ import FormButton from '../common/form-button';
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 
-export default function MapUserPosition({initialLocation}: {initialLocation: google.maps.LatLngLiteral | null}) {
+export default function MapUserPosition({initialLocation}: 
+  {initialLocation: google.maps.LatLngLiteral | null}) {
   const session = useSession();
   const [initialCenter, setInitialCenter] = useState(
     { lat: 46.7772, lng: 2.2 }); // Center on France whole visible
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(initialLocation || null);
+  const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>
+  (initialLocation || null);
+
   const [formState, action] = useFormState(actions.updateUserLocation.bind(null, location), {
     errors: {}
   });
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: API_KEY as string,
   });
-
-  const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>
-  (initialLocation || null)
-
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading...</div>;
 
@@ -36,10 +37,6 @@ export default function MapUserPosition({initialLocation}: {initialLocation: goo
     setMarkerPosition(event.latLng.toJSON());
     setLocation(event.latLng.toJSON());
   };
-
-  const updateSession = () => {
-    session.update();
-  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 w-full h-[500px] sm:h-[700px]">
@@ -58,7 +55,7 @@ export default function MapUserPosition({initialLocation}: {initialLocation: goo
         )}
       </GoogleMap>
       <form action={action}>
-      <FormButton onClick={updateSession}>Enregistrer la position</FormButton> 
+      <FormButton onClick={() => session.update}>Enregistrer la position</FormButton> 
         {formState.errors._form ? 
             <div className="p-2 bg-red-900 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
