@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
+import { revalidatePath } from "next/cache";
 
 interface UpdateUserLocationResult {
   errors: {
@@ -62,7 +63,7 @@ export async function updateUserLocation(
       };
     }
   }
-
+  revalidatePath("/ma-position")
   return {
     success: true,
     errors: {},
