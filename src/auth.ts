@@ -37,7 +37,7 @@ export const {
           where: { email: profile?.email },
         })
         if (user) {
-          userRole = user.role
+          userRole = user.role;
         } else if (profile.email === ADMIN_EMAIL) {
           userRole = 'admin';
         }
@@ -65,11 +65,14 @@ export const {
   },
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
-    async session({ session, user, token }: any) {
+    async session({ session, user }: any) {
       if (session && user) {
         session.user.id = user.id;
       }
-      session.user.role = user.role;
+      session.user = {
+        ...session.user,
+        ...user,
+      }
       
       return session;
     },
