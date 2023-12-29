@@ -10,7 +10,6 @@ const paths = {
   },
   postShow(topicSlug: string, postId: string) {
     return `/cantina/topics/${topicSlug}/posts/${postId}`
-
   },
 }
 

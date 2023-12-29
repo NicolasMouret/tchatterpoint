@@ -35,9 +35,9 @@ export default function Header() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive={pathname === "/map"}>
-          <Link color="foreground" href="/map">
-            Carte des joueurs
+        <NavbarItem isActive={pathname === "/ma-position"}>
+          <Link color="foreground" href="/ma-position">
+            Ma position
           </Link>
         </NavbarItem>
         <NavbarItem isActive={pathname === "/cantina"}>
@@ -52,8 +52,8 @@ export default function Header() {
 
       <NavbarMenu>
       {/* close menu when clicking a link */}
-      <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/map"}>
-        <Link href="/map">Cartes de joueurs</Link>
+      <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/ma-position"}>
+        <Link href="/ma-position">Ma position</Link>
       </NavbarMenuItem>
       <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
         <Link href="/cantina">Cantina</Link>
