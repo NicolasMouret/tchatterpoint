@@ -18,6 +18,14 @@ const config: Config = {
     },
   },
   darkMode: 'class',
-  plugins: [nextui()],
+  plugins: [nextui({
+    layout: {
+      fontSize: {
+        small: '0.750rem',
+        medium: '0.950rem',
+        large: '1rem',
+      }
+    }
+  })],
 }
 export default config

@@ -12,7 +12,7 @@ interface TopicShowPageProps {
 export default function TopicShowPage({ params }: TopicShowPageProps) {
   const slug = decodeURIComponent(params.slug);
   return (
-    <div className="flex flex-col items gap-4 px-4 w-screen sm:w-3/5">
+    <div className="flex flex-col items gap-4 px-4 w-screen sm:w-3/5 relative z-10">
       <Link className="underline decoration-solid" href="/cantina">
         {"< "}Back to Cantina
       </Link>

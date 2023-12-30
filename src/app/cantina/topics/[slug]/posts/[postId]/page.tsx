@@ -17,7 +17,7 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
   const { slug, postId } = params;
 
   return (
-    <div className="space-y-3 w-[90vw] sm:max-w-5xl">
+    <div className="space-y-3 w-[90vw] sm:max-w-5xl z-10">
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
         {"< "}Back to {decodeURIComponent(slug)}
       </Link>

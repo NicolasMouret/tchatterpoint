@@ -30,7 +30,7 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   });
 
   return (
-    <div className="p-2 my-2 text-small border rounded">
+    <div className="p-2 my-2 text-small border rounded bg-black bg-opacity-70 backdrop-blur-sm">
       <div className="flex gap-3 mb-2">
         <Image
           src={comment.user.image || ""}
