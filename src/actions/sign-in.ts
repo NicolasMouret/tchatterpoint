@@ -7,7 +7,7 @@ export async function signInGithub() {
 }
 
 export async function signInGoogle() {
-  return auth.signIn('google');
+  return auth.signIn('google', { callbackUrl: process.env.NEXTAUTH_URL });
 }
 
 export async function signInChoice() {
