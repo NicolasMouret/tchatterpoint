@@ -1,10 +1,10 @@
 import Providers from '@/app/providers'
 import Header from '@/components/header/header'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Orbitron } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const oswald = Orbitron({ subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,11 +16,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="fr">
-      <body className={`${inter.className} dark text-foreground bg-background`}>
+      <body className={`${oswald.className} dark text-foreground bg-background tracking-wider`} style={{
+        // use the src property of the image object
+        backgroundImage: `url("/space-bg.jpg")`,
+        // other styles
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        width: "100vw",
+        height: "100vh",
+      }}>
         <Providers>
-          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl">
+          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl relative">
             <Header/>
             {children}
           </div>

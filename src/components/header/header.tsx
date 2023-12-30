@@ -35,14 +35,19 @@ export default function Header() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive={pathname === "/ma-position"}>
-          <Link color="foreground" href="/ma-position">
-            Ma position
+        <NavbarItem isActive={pathname === "/carte-des-joueurs"}>
+          <Link color="foreground" href="/carte-des-joueurs">
+            Carte des joueurs
           </Link>
         </NavbarItem>
         <NavbarItem isActive={pathname === "/cantina"}>
           <Link href="/cantina">
             Cantina
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={pathname === "/ma-position"}>
+          <Link color="foreground" href="/ma-position">
+            Ma position
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -51,14 +56,16 @@ export default function Header() {
       </NavbarContent>
 
       <NavbarMenu>
-      {/* close menu when clicking a link */}
-      <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/ma-position"}>
-        <Link href="/ma-position">Ma position</Link>
-      </NavbarMenuItem>
-      <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
-        <Link href="/cantina">Cantina</Link>
-      </NavbarMenuItem>
-    </NavbarMenu>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/carte-des-joueurs"}>
+          <Link href="/carte-des-joueurs">Carte des joueurs</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
+          <Link href="/cantina">Cantina</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/ma-position"}>
+          <Link href="/ma-position">Ma position</Link>
+        </NavbarMenuItem>
+      </NavbarMenu>
 
     </Navbar>
   )

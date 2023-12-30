@@ -7,6 +7,7 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import FormButton from '../common/form-button';
@@ -15,6 +16,7 @@ const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 
 export default function MapUserPosition({initialLocation}: 
   {initialLocation: google.maps.LatLngLiteral | null}) {
+  const router = useRouter();
   const session = useSession();
   const [initialCenter, setInitialCenter] = useState(
     { lat: 46.7772, lng: 2.2 }); // Center on France whole visible
@@ -22,7 +24,10 @@ export default function MapUserPosition({initialLocation}:
   const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>
   (initialLocation || null);
 
-  const [formState, action] = useFormState(actions.updateUserLocation.bind(null, location), {
+  const [updateFormState, updateAction] = useFormState(actions.updateUserLocation.bind(null, location), {
+    errors: {}
+  });
+  const [deleteFormState, deleteAction] = useFormState(actions.deleteUserLocation, {
     errors: {}
   });
 
@@ -54,10 +59,27 @@ export default function MapUserPosition({initialLocation}:
           />
         )}
       </GoogleMap>
-      <form action={action}>
-      <FormButton onClick={() => session.update}>Enregistrer la position</FormButton> 
-        {formState.errors._form ? 
-            <div className="p-2 bg-red-900 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
+      <form action={updateAction}>
+        <FormButton 
+        onClick={() => session.update}
+        color="primary"
+        >
+        Enregistrer la position
+        </FormButton> 
+        {updateFormState.errors._form ? 
+            <div className="p-2 bg-red-900 border border-red-400 rounded">{updateFormState.errors._form?.join(', ')}</div> :
+            null}
+      </form>
+      <form action={deleteAction}>
+        <FormButton 
+          onClick={() => {session.update; setMarkerPosition(null);}}
+          color="warning"
+          variant="ghost"
+          >
+          Retirer ma position
+        </FormButton> 
+        {deleteFormState.errors._form ? 
+            <div className="p-2 bg-red-900 border border-red-400 rounded">{deleteFormState.errors._form?.join(', ')}</div> :
             null}
       </form>
     </div>

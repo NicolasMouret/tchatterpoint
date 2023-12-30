@@ -4,36 +4,22 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { revalidatePath } from "next/cache";
 
-interface UpdateUserLocationResult {
+interface DeleteUserLocationFormState {
   errors: {
     _form?: string[];
   };
   success?: boolean;
-  updatedLocation?: {
-    latitude: number | null;
-    longitude: number | null;
-  } | null;
 }
 
-export async function updateUserLocation(
-  location : google.maps.LatLngLiteral | null,
-  formState: UpdateUserLocationResult,
-  formData: FormData
-): Promise<UpdateUserLocationResult> {
+export async function deleteUserLocation(
+  formState: DeleteUserLocationFormState
+): Promise<DeleteUserLocationFormState> {
   const session = await auth();
   if (!session || !session.user) {
     return {
       errors: {
         _form: ["You must sign in to do this."],
-      }
-    };
-  }
-
-  if (!location) {
-    return {
-      errors: {
-        _form: ["The location you entered was invalid."],
-      }
+      },
     };
   }
 
@@ -43,8 +29,8 @@ export async function updateUserLocation(
         id: session.user.id,
       },
       data: {
-        latitude: location.lat as number,
-        longitude: location.lng as number,
+        latitude: null,
+        longitude: null,
       },
     });
   } catch (err) {
@@ -62,9 +48,10 @@ export async function updateUserLocation(
       };
     }
   }
-  revalidatePath("/ma-position")
+
+  revalidatePath(`/ma-position`);
   return {
-    success: true,
     errors: {},
-  }
+    success: true,
+  };
 }
