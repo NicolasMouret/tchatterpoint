@@ -1,6 +1,7 @@
 'use client';
 
 import { UserWithLocation } from '@/db/queries/users';
+import { Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -17,7 +18,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
     googleMapsApiKey: API_KEY as string,
   });
   if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>;
 
   //Create a list of markers from the usersLocationList
   const MarkerList = usersLocationList.map((user) => {
