@@ -4,6 +4,7 @@ import * as actions from '@/actions';
 import {
   Avatar,
   Button,
+  Link,
   NavbarItem,
   Popover,
   PopoverContent,
@@ -39,9 +40,9 @@ export default function HeaderAuth() {
     {/* ON DESKTOP */}
       <div className="hidden sm:flex gap-2">
         <NavbarItem>
-          <form action={actions.signInGoogle}>
-            <Button type="submit" variant="bordered" color="secondary">Sign in with Google</Button>
-          </form>
+          <Link href='/api/auth/signin'>
+            <Button variant="bordered" color="secondary">Sign in with Google</Button>
+          </Link>          
         </NavbarItem>
         <NavbarItem>
           <form action={actions.signInGithub}>
