@@ -26,8 +26,6 @@ export default function RootLayout({
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-        width: "100vw",
-        height: "100vh",
       }}>
         <Providers>
           <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl relative">
