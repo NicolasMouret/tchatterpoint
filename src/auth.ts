@@ -52,18 +52,18 @@ export const {
       }
     }),
   ],
-  cookies: {
-    pkceCodeVerifier: {
-      name: "next-auth.pkce.code_verifier",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    }
-  },
-  secret: process.env.AUTH_SECRET,
+  // cookies: {
+  //   pkceCodeVerifier: {
+  //     name: "next-auth.pkce.code_verifier",
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: process.env.NODE_ENV === "production",
+  //     },
+  //   }
+  // },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user }: any) {
