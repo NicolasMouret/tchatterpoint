@@ -63,6 +63,7 @@ export const {
       },
     }
   },
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user }: any) {
