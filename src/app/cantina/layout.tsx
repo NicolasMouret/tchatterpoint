@@ -12,7 +12,8 @@ export default function CantinaLayout({
           backgroundImage: 'url("/cantina-bg.jpeg")',
           backgroundPosition: "center",
           backgroundSize: "cover",
-          backgroundRepeat: "no-repeat", }}
+          backgroundRepeat: "no-repeat",
+          width: "100vw",}}
       ></div>
       {children}
     </>
