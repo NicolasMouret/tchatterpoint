@@ -2,6 +2,8 @@
 import MapUsersShow from "@/components/map/users-map";
 import { fetchAllUsersWithLocation } from "@/db/queries/users";
 
+export const dynamic = 'force-dynamic';
+
 export default async function MapPage() {
   const usersLocationList = await fetchAllUsersWithLocation();
 
