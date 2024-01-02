@@ -62,8 +62,7 @@ export async function updateUserLocation(
       };
     }
   }
-  revalidatePath("/ma-position")
-  revalidatePath("/carte-des-joueurs")
+  revalidatePath("/", "layout")
   return {
     success: true,
     errors: {},
