@@ -21,7 +21,6 @@ export function fetchPostsByTopicSlug(slug: string): Promise<PostWithData[]> {
 }
 
 export function fetchTopPosts(): Promise<PostWithData[]> {
-  console.log('fetchTopPosts');
   return db.post.findMany({
     orderBy: [{
       comments: {
