@@ -1,5 +1,8 @@
 import { auth } from "@/auth";
 import MapUserPosition from "@/components/map/user-position";
+import { fetchUserWithLocation } from "@/db/queries/users";
+
+export const dynamic = 'force-dynamic';
 
 export default async function MapPage() {
   const session = await auth();
@@ -9,22 +12,15 @@ export default async function MapPage() {
       <p>Veuillez vous connecter pour pouvoir indiquer votre position géographique</p>
     </div>
   )
-
-  if (session.user.latitude && session.user.longitude) {
-    const userLocation = {lat: session.user.latitude, lng: session.user.longitude}
+  const user = await fetchUserWithLocation(session.user.id);
+    
     return (
       <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
         <h1 className="font-bold text-xl">Ma position</h1>
-        <MapUserPosition initialLocation={userLocation} />
+        {user?.location ? 
+          <MapUserPosition initialLocation={user.location} /> :
+          <MapUserPosition initialLocation={null} />
+        }
       </div>
     )
-  } else {
-    return (
-      <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
-        <h1 className="font-bold text-xl">Ma position sans</h1>
-        <p>{JSON.stringify(session.user)}</p>
-        <MapUserPosition initialLocation={null} />
-      </div>
-    )
-  }
 }

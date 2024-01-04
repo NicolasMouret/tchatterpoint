@@ -59,9 +59,8 @@ export default function MapUserPosition({initialLocation}:
           />
         )}
       </GoogleMap>
-      <form action={updateAction}>
+      <form action={updateAction} onSubmit={() => session.update({latitude: location?.lat, longitude: location?.lng})}>
         <FormButton 
-        onClick={() => session.update}
         color="primary"
         >
         Enregistrer la position
@@ -70,9 +69,8 @@ export default function MapUserPosition({initialLocation}:
             <div className="p-2 bg-red-900 border border-red-400 rounded">{updateFormState.errors._form?.join(', ')}</div> :
             null}
       </form>
-      <form action={deleteAction}>
+      <form action={deleteAction} onSubmit={() => {session.update({latitude: null, longitude: null}); setMarkerPosition(null);}}>
         <FormButton 
-          onClick={() => {session.update; setMarkerPosition(null);}}
           color="warning"
           variant="ghost"
           >

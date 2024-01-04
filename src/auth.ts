@@ -1,6 +1,8 @@
 import { db } from '@/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
@@ -54,59 +56,80 @@ export const {
         }
       }
     }),
-    // CredentialsProvider({
-    //   name: 'Credentials',
-    //   credentials: {
-    //     email: { label: "Email", type: "email", placeholder: "Mon mail" },
-    //     password: {  label: "Mot de passe", type: "password" }
-    //   },
-    //   async authorize(credentials, req) {
-    //     const res = await db.user.findUnique({
-    //       where: { email: credentials.email as string,
-    //        },
-    //     });
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "Mon mail" },
+        password: {  label: "Mot de passe", type: "password" }
+      },
+      async authorize(credentials, req) {
+        const res = await db.user.findUnique({
+          where: { email: credentials.email as string,
+           },
+        });
 
-    //     if (res && res.pwHash) {
-    //       const passwordValid = await compare(credentials.password as string, res.pwHash);
-    //       if (passwordValid) {
-    //         console.log(res);
-    //         return {
-    //           id: res.id,
-    //           name: res.name,
-    //           email: res.email,
-    //           role: res.role,
-    //         }
-    //       } else {
-    //         throw new Error('Invalid password');
-    //       }
-    //     } else {
-    //       throw new Error('No user found');
-    //     }
-    //   }
-    // })
+        if (res && res.pwHash) {
+          const passwordValid = await compare(credentials.password as string, res.pwHash);
+          if (passwordValid) {
+            console.log(res);
+            return {
+              id: res.id,
+              name: res.name,
+              email: res.email,
+              role: res.role,
+              latitude: res.latitude,
+              longitude: res.longitude,
+            }
+          } else {
+            throw new Error('Invalid password');
+          }
+        } else {
+          throw new Error('No user found');
+        }
+      }
+    })
   ],
-  // session: {
-  //   strategy: 'jwt',
-  // },
+  session: {
+    strategy: 'jwt',
+  },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
-    async session({ session, user }: any) {
-      if (session && user) {
-        session.user.id = user.id;
+    async session({ session, user, token }: any) {
+      console.log('session session', session);
+      console.log('session user', user);  
+      console.log('session token', token);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          role: token.role,
+          latitude: token.latitude,
+          longitude: token.longitude,
+        }
       }
-      session.user = { ...session.user, ...user}  
-       
-      return session;
     },
-    // async jwt({ token, user, account }: any) {
-    //   if (account?.access_token) {
-    //     token.accessToken = account.access_token;
-    //   }
-    //   if (user) {       
-    //     return { ...token, ...user };
-    //   }
-    //   return token;
-    // },
+    async jwt({ token, user, account, session, trigger }: any) {
+
+      if (trigger === 'update' && session?.latitude && session?.longitude) {
+        console.log('trigger', session);
+        token.latitude = session.latitude
+        token.longitude = session.longitude      
+      }
+
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          role: user.role,
+          latitude: user.latitude,
+          longitude: user.longitude,
+        }
+      }
+      
+      return token;
+    },
   },
 });
