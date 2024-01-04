@@ -42,6 +42,7 @@ model User {
   image         String?
   latitude      Float?
   longitude     Float?
+  pwHash        String?
   role          String    @default("user")
   accounts      Account[]
   sessions      Session[]

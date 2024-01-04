@@ -4,6 +4,7 @@ import * as actions from '@/actions';
 import {
   Avatar,
   Button,
+  Link,
   NavbarItem,
   Popover,
   PopoverContent,
@@ -35,19 +36,25 @@ export default function HeaderAuth() {
     </Popover>);
   } else {
     authContent = (<>
+
     {/* ON DESKTOP */}
       <div className="hidden sm:flex gap-2">
         <NavbarItem>
-          <form action={actions.signInGoogle}>
-            <Button type="submit" variant="bordered" color="secondary">Sign in with Google</Button>
+          <form action={actions.signIn}>
+            <Button className="font-bold" type="submit" variant="ghost" color="warning">
+              Se Connecter
+            </Button>
           </form>          
         </NavbarItem>
         <NavbarItem>
-          <form action={actions.signInGithub}>
-            <Button type="submit" variant="flat" color="primary">Sign in with github</Button>
-          </form>
+          <Link href="/sign-up">
+            <Button className="font-bold"  type="button" variant="ghost" color="primary">
+              S&apos;inscrire
+            </Button>                   
+          </Link>
         </NavbarItem>
       </div>
+
     {/* ON MOBILE */}
       <div className="flex sm:hidden gap-4">
         <NavbarItem>
