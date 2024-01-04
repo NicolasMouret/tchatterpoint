@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@nextui-org/react';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
@@ -39,12 +39,15 @@ export default function HeaderAuth() {
 
     {/* ON DESKTOP */}
       <div className="hidden sm:flex gap-2">
-        <NavbarItem>
-          <form action={actions.signIn}>
-            <Button className="font-bold" type="submit" variant="ghost" color="warning">
-              Se Connecter
-            </Button>
-          </form>          
+        <NavbarItem>          
+          <Button 
+            className="font-bold" 
+            type="button" 
+            variant="ghost" 
+            color="warning"
+            onClick={() => signIn()}>
+            Se Connecter
+          </Button>          
         </NavbarItem>
         <NavbarItem>
           <Link href="/sign-up">

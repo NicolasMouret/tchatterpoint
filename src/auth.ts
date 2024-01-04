@@ -2,7 +2,7 @@ import { db } from '@/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
-import CredentialsProvider from "next-auth/providers/credentials";
+import CredentialsProvider from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
@@ -25,9 +25,9 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
-  pages: {
-    signIn: "/api/auth/signin",
-  },
+  // pages: {
+  //   signIn: "/api/auth/signin",
+  // },
   providers: [
     Github({
       clientId: GITHUB_CLIENT_ID,
@@ -77,6 +77,8 @@ export const {
               name: res.name,
               email: res.email,
               role: res.role,
+              latitude: res.latitude,
+              longitude: res.longitude,
             }
           } else {
             throw new Error('Invalid password');
@@ -94,20 +96,39 @@ export const {
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user, token }: any) {
-      if (session && user) {
-        session.user.id = user.id;
+      console.log('session session', session);
+      console.log('session user', user);  
+      console.log('session token', token);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          role: token.role,
+          latitude: token.latitude,
+          longitude: token.longitude,
+        }
       }
-      session.accessToken = token.accessToken;   
-      session.user.id = token.id;  
-      return session;
     },
-    async jwt({ token, user, account }: any) {
-      if (account?.accessToken) {
-        token.accessToken = account.accessToken;
+    async jwt({ token, user, account, session, trigger }: any) {
+
+      if (trigger === 'update' && session?.latitude && session?.longitude) {
+        console.log('trigger', session);
+        token.latitude = session.latitude
+        token.longitude = session.longitude      
       }
+
       if (user) {
-        return { ...token, ...user };
+        return {
+          ...token,
+          id: user.id,
+          role: user.role,
+          latitude: user.latitude,
+          longitude: user.longitude,
+        }
       }
+      
       return token;
     },
   },

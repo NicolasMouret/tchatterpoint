@@ -22,14 +22,10 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
 
   //Create a list of markers from the usersLocationList
   const MarkerList = usersLocationList.map((user) => {
-    const location = {
-      lat: user.location.latitude,
-      lng: user.location.longitude
-    }
     return (
       <GoogleMapMarker
         key={user.id}
-        position={location}
+        position={user.location}
       />
     );
   
