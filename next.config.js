@@ -12,14 +12,6 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/auth/signin",
-        destination: "https://tchatterpoint.vercel.app/api/auth/signin",
-      },
-    ];
-  }
 };
 
 module.exports = nextConfig;

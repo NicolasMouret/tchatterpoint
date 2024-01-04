@@ -21,7 +21,8 @@ export default async function MapPage() {
   } else {
     return (
       <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
-        <h1 className="font-bold text-xl">Ma position</h1>
+        <h1 className="font-bold text-xl">Ma position sans</h1>
+        <p>{JSON.stringify(session.user)}</p>
         <MapUserPosition initialLocation={null} />
       </div>
     )
