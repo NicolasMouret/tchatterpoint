@@ -93,6 +93,7 @@ export const {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user, token }: any) {
