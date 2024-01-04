@@ -96,9 +96,6 @@ export const {
   callbacks: {
     // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user, token }: any) {
-      console.log('session session', session);
-      console.log('session user', user);  
-      console.log('session token', token);
 
       return {
         ...session,
@@ -114,7 +111,7 @@ export const {
     async jwt({ token, user, account, session, trigger }: any) {
 
       if (trigger === 'update' && session?.latitude && session?.longitude) {
-        console.log('trigger', session);
+        
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }

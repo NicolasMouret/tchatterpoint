@@ -75,7 +75,7 @@ export async function createTopic(
     }
   }
 
-  revalidatePath('/cantina');
+  revalidatePath('/');
   redirect(paths.topicShow(topic.slug));
   
 }

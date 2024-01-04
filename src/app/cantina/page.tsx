@@ -4,10 +4,8 @@ import TopicList from "@/components/topics/topic-list";
 import { fetchTopPosts } from "@/db/queries/posts";
 import { Divider } from "@nextui-org/react";
 
-const dynamic = 'force-dynamic';
-
-
 export default function CantinaPage() {
+
   return (
     <div className="flex flex-col sm:w-3/5 gap-4 p-4 relative">
       <div className="flex flex-col border rounded-lg shadow py-3 px-2 bg-black bg-opacity-60 backdrop-blur-sm">
