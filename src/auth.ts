@@ -25,9 +25,6 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
-  // pages: {
-  //   signIn: "/api/auth/signin",
-  // },
   providers: [
     Github({
       clientId: GITHUB_CLIENT_ID,
@@ -93,32 +90,28 @@ export const {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    // Usually not needed, here we are fixing a bug in nextauth
-    async session({ session, user, token }: any) {
-      console.log('session session', session);
-      console.log('session user', user);  
-      console.log('session token', token);
-
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-          role: token.role,
-          latitude: token.latitude,
-          longitude: token.longitude,
-        }
-      }
-    },
+  callbacks: {   
     async jwt({ token, user, account, session, trigger }: any) {
 
+      // WHEN USER UPDATE HIS LOCATION WE UPDATE THE JWT 
+      // session.update([newValues]) => trigger jwt update => update token => update session
       if (trigger === 'update' && session?.latitude && session?.longitude) {
-        console.log('trigger', session);
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
 
+      // WHEN USER SIGN IN WITH GOOGLE OR GITHUB 
+      if (account?.provider === 'google' || account?.provider === 'github') {
+        return {
+          ...token,
+          id: user.id,
+          role: user.role,
+          latitude: user.latitude,
+          longitude: user.longitude,
+        }
+      }
+
+      // WHEN USER SIGN IN WITH EMAIL AND PASSWORD
       if (user) {
         return {
           ...token,
@@ -130,6 +123,21 @@ export const {
       }
       
       return token;
+    },
+    async session({ session, token }: any) {
+
+      // SET THE SESSION FROM THE JWT
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          image: token.picture,
+          role: token.role,
+          latitude: token.latitude,
+          longitude: token.longitude,
+        }
+      }
     },
   },
 });
