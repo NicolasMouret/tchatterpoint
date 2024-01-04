@@ -26,7 +26,7 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(db),
   pages: {
-    signIn: "/signin",
+    signIn: "/api/auth/signin",
   },
   providers: [
     Github({
@@ -110,10 +110,5 @@ export const {
       }
       return token;
     },
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? 
-      Promise.resolve(url) 
-      : Promise.resolve(baseUrl);
-    }
   },
 });
