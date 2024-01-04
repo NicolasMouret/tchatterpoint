@@ -1,5 +1,6 @@
 'use client';
 import * as actions from '@/actions';
+import FormButton from '@/components/common/form-button';
 import {
   Button,
   Input,
@@ -9,7 +10,6 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { useFormState } from 'react-dom';
-import FormButton from '../common/form-button';
 
 interface PostCreateformProps {
   slug: string;

@@ -25,7 +25,7 @@ const config: Config = {
         medium: '0.950rem',
         large: '1rem',
       }
-    }
+    },
   })],
 }
 export default config

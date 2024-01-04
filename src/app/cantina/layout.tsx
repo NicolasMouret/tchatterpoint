@@ -10,10 +10,8 @@ export default function CantinaLayout({
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
           backgroundImage: 'url("/cantina-bg.jpeg")',
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          width: "100vw",}}
+          backgroundRepeat: "no-repeat",         
+          }}
       ></div>
       {children}
     </>
