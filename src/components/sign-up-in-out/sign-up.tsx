@@ -32,20 +32,22 @@ export default function SignUpForm() {
         <form action={action}>
           <div className="flex flex-col items-center gap-4 sm:gap-6 p-2 sm:px-12 w-[90vw] sm:w-[550px]">
             <Input
-              classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm"}}
+              classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
+              label: "p-0.5"}}
               variant="bordered"
               size="lg"
               name="name" 
-              placeholder="Pseudo" 
+              label="Pseudo" 
               startContent={
                 <FaUserAlt className="text-gray-400 mr-2"/>
               }
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/>
             <Input
-              classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm"}}
+              classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
+              label: "p-0.5"}}
               name="email" 
-              placeholder="Email" 
+              label="Email" 
               variant="bordered"
               size="lg"
               startContent={
@@ -55,9 +57,10 @@ export default function SignUpForm() {
               errorMessage={formState.errors.email?.join(', ')}/> 
             <Input
               classNames={{input: `placeholder:font-normal ${isVisible ? "font-normal" : "font-extrabold"}`,
-              inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm"}}
+              inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
+              label: "p-0.5"}}
               name="password"
-              placeholder="Mot de passe" 
+              label="Mot de passe" 
               variant="bordered"
               size="lg"
               startContent={
@@ -74,9 +77,10 @@ export default function SignUpForm() {
             />
             <Input
               classNames={{input: `placeholder:font-normal ${isVisible ? "font-normal" : "font-extrabold"}`,
-              inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm"}}
+              inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
+              label: "p-0.5"}}
               name="confirmPassword"
-              placeholder="Confirmer le mot de passe" 
+              label="Confirmer le mot de passe" 
               variant="bordered"
               size="lg"
               startContent={
