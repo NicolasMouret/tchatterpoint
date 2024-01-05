@@ -38,10 +38,17 @@ export default function CommentCreateForm({
     <form action={action} ref={ref}>
       <div className={`space-y-2 px-1 mt-1 w-full ${parentId ? "sm:w-4/5" : ""}`}>
         <Textarea
+          classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
+          "border border-slate-500 border-opacity-0",
+          "dark:hover:bg-opacity-70 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
+          "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
+          "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
+          errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+          base: "box-content"
+          }}
           name="content"
           label="Reply"
           placeholder="Enter your comment"
-          isInvalid={!!formState.errors.content}
           errorMessage={formState.errors.content?.join(", ")}
         />
 
@@ -51,7 +58,8 @@ export default function CommentCreateForm({
           </div>
         ) : null}
 
-        <FormButton>Create Comment</FormButton>
+        <FormButton
+        color="primary">Create Comment</FormButton>
       </div>
     </form>
   );

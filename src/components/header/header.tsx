@@ -23,7 +23,7 @@ export default function Header() {
     <Navbar 
     onMenuOpenChange={setIsMenuOpen} 
     isMenuOpen={isMenuOpen}
-    className="mb-6 border-b sm:border sm:border-t-0 sm:rounded-b-md"
+    className="mb-3 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md"
     >
       <NavbarContent>
         <NavbarMenuToggle

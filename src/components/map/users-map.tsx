@@ -1,7 +1,7 @@
 'use client';
 
 import { UserWithLocation } from '@/db/queries/users';
-import { Skeleton } from '@nextui-org/react';
+import { Card, Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -33,7 +33,12 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
 
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 w-full h-[500px] sm:h-[700px]">
+    <Card 
+      className="flex flex-col items-center justify-center gap-4 p-3 sm:p-6
+      w-full h-[500px] sm:h-[700px] border-1 border-slate-500"
+      isBlurred
+      radius="sm"
+      >
       <GoogleMap
         mapContainerClassName="map"
         mapContainerStyle={{ height: "100%", width: "100%" }}
@@ -42,6 +47,6 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
       >
         {MarkerList}  
       </GoogleMap>
-    </div>
+    </Card>
   );
 };

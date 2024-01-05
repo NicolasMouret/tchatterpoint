@@ -3,18 +3,14 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
   throw new Error('Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET');
 }
 
@@ -26,10 +22,6 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
-    Github({
-      clientId: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
-    }),
     Google({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
@@ -56,7 +48,7 @@ export const {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "Mon mail" },
+        email: { label: "Email", type: "email" },
         password: {  label: "Mot de passe", type: "password" }
       },
       async authorize(credentials, req) {
@@ -68,7 +60,6 @@ export const {
         if (res && res.pwHash) {
           const passwordValid = await compare(credentials.password as string, res.pwHash);
           if (passwordValid) {
-            console.log(res);
             return {
               id: res.id,
               name: res.name,
@@ -77,12 +68,12 @@ export const {
               latitude: res.latitude,
               longitude: res.longitude,
             }
-          } else {
-            throw new Error('Invalid password');
-          }
-        } else {
-          throw new Error('No user found');
+          } 
         }
+        if (!res) {
+          throw new Error(`L'adresse mail ou le mot de passe est incorrect`);
+        }
+        return null;
       }
     })
   ],

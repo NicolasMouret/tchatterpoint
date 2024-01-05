@@ -1,6 +1,7 @@
 'use client';
 
 import * as actions from '@/actions';
+import { Card } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -44,7 +45,10 @@ export default function MapUserPosition({initialLocation}:
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 w-full h-[500px] sm:h-[700px]">
+    <Card 
+    className="flex flex-col items-center justify-center gap-3 w-full h-[500px] sm:h-[700px]
+    px-3 py-5 sm:p-6 border-1 border-slate-500"
+    isBlurred>
       <GoogleMap
         mapContainerClassName="map"
         mapContainerStyle={{ height: "100%", width: "100%" }}
@@ -59,15 +63,18 @@ export default function MapUserPosition({initialLocation}:
           />
         )}
       </GoogleMap>
-      <form action={updateAction} onSubmit={() => session.update({latitude: location?.lat, longitude: location?.lng})}>
+      <form className="mt-2" action={updateAction} 
+      onSubmit={() => session.update({latitude: location?.lat, longitude: location?.lng})}>
         <FormButton 
         color="primary"
         >
         Enregistrer la position
         </FormButton> 
         {updateFormState.errors._form ? 
-            <div className="p-2 bg-red-900 border border-red-400 rounded">{updateFormState.errors._form?.join(', ')}</div> :
-            null}
+          <div className="p-2 bg-red-900 border border-red-400 rounded">
+            {updateFormState.errors._form?.join(', ')}
+          </div> 
+          : null}
       </form>
       <form action={deleteAction} onSubmit={() => {session.update({latitude: null, longitude: null}); setMarkerPosition(null);}}>
         <FormButton 
@@ -80,6 +87,6 @@ export default function MapUserPosition({initialLocation}:
             <div className="p-2 bg-red-900 border border-red-400 rounded">{deleteFormState.errors._form?.join(', ')}</div> :
             null}
       </form>
-    </div>
+    </Card>
   );
 };

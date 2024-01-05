@@ -25,7 +25,7 @@ export default function SignUpForm() {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <Card isBlurred className="w-full border-1 border-slate-500">
+    <Card isBlurred className="w-full border-1 border-slate-400">
       <CardHeader className="text-xl flex justify-center">Inscription</CardHeader>
       <Divider/>
       <CardBody>
