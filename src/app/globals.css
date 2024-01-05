@@ -5,7 +5,7 @@
 input:autofill {
   background: none !important;
   /* prevent placeholder to be invisible */
-  color: inherit;
+  display: none !important;
 }
 
 input:placeholder-shown {
