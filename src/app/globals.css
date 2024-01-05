@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 input:autofill {
-  background: rgb(30 41 59);
+  background: transparent !important;
 }
 
 
