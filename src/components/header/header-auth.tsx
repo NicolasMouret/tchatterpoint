@@ -11,8 +11,7 @@ import {
   PopoverTrigger
 } from '@nextui-org/react';
 import { signIn, useSession } from 'next-auth/react';
-import { FaGithub } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaSignInAlt } from 'react-icons/fa';
 
 export default function HeaderAuth() {
   const session = useSession();
@@ -41,10 +40,9 @@ export default function HeaderAuth() {
       <div className="hidden sm:flex gap-2">
         <NavbarItem>          
           <Button 
-            className="font-bold" 
+            className="border-yellow-400 text-yellow-400 font-bold" 
             type="button" 
             variant="ghost" 
-            color="warning"
             onClick={() => signIn()}>
             Se Connecter
           </Button>          
@@ -59,18 +57,40 @@ export default function HeaderAuth() {
       </div>
 
     {/* ON MOBILE */}
-      <div className="flex sm:hidden gap-4">
-        <NavbarItem>
-          <form action={actions.signInGoogle}>
-            <button type="submit"><FcGoogle className="text-2xl"/></button>
-          </form>
-        </NavbarItem>
-        <NavbarItem>
-          <form action={actions.signInGithub}>
-            <button type="submit"><FaGithub className="text-2xl"/></button>
-          </form>
-        </NavbarItem>
-      </div>
+      <Popover placement="bottom">
+        <PopoverTrigger>           
+          <Button 
+            className="border-yellow-400 text-yellow-400 font-bold sm:hidden"
+            variant="ghost"
+            type="button"
+            size="sm">
+          <FaSignInAlt className="text-base" /> Connexion
+          </Button>      
+        </PopoverTrigger>
+        <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50
+          border-1 border-slate-500">
+          <div className="flex flex-col justify-center items-center gap-3 p-3">
+            <Button 
+              className="font-medium" 
+              type="button"
+              variant="shadow"
+              color="primary"
+              onClick={() => signIn()}>
+              Se Connecter
+            </Button> 
+            <Link href="/sign-up">
+              <Button 
+                className="font-medium bg-yellow-400 text-slate-900" 
+                type="button"
+                variant="shadow"
+                color="warning">
+                S&apos;enregistrer
+              </Button>                   
+            </Link>
+          </div>
+        </PopoverContent>
+      </Popover>
+      
     </>);
   }
 

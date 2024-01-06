@@ -18,20 +18,37 @@ export default function TopicCreateForm() {
   return (
     <Popover placement="bottom">
       <PopoverTrigger>
-        <Button className="self-center" color="primary">Create a Topic</Button>
+        <Button className="self-center font-medium text-base" color="primary" variant="shadow">Créer un sujet</Button>
       </PopoverTrigger>
-      <PopoverContent>       
+      <PopoverContent className="backdrop-blur-lg rounded-lg bg-slate-950 bg-opacity-70
+        border-1 border-slate-400">       
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-2xl">
             <h3 className="text-lg">Create a Topic</h3>
             <Input 
+              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
+              "border border-slate-600 border-opacity-50",
+              "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
+              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
+              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
+              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+              base: "box-content"
+              }}
               name="name" 
               label="Name" 
               labelPlacement="outside" 
               placeholder="Name"
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/> 
-            <Textarea 
+            <Textarea
+              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
+              "border border-slate-600 border-opacity-50",
+              "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
+              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
+              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
+              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+              base: "box-content"
+              }}
               name="description"
               label="Description" 
               labelPlacement="outside" 
@@ -42,7 +59,7 @@ export default function TopicCreateForm() {
             {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton>Save</FormButton>
+            <FormButton color="primary">Enregistrer</FormButton>
           </div>
         </form>
       </PopoverContent>

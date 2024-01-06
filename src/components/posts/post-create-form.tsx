@@ -22,7 +22,7 @@ export default function PostCreateform({ slug }: PostCreateformProps) {
   return (
     <Popover placement="bottom">
       <PopoverTrigger>
-        <Button className="self-center" color="primary">Create a Post</Button>
+        <Button className="self-center" color="primary">Créer un post</Button>
       </PopoverTrigger>
       <PopoverContent>       
         <form action={action}>

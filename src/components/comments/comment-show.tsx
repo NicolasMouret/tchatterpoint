@@ -33,13 +33,6 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
     <div className="p-2 my-2 text-small border border-slate-400 rounded 
     bg-black bg-opacity-70 backdrop-blur-sm">
       <div className="flex gap-3 mb-2">
-        {/* <Image
-          src={comment.user.image || ""}
-          alt="user image"
-          width={40}
-          height={40}
-          className="w-10 h-10 rounded-full"
-        /> */}
         <Avatar
           src={comment.user.image || ""}
           size="sm"

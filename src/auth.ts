@@ -46,7 +46,8 @@ export const {
       }
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'email et mot de passe',
+
       credentials: {
         email: { label: "Email", type: "email" },
         password: {  label: "Mot de passe", type: "password" }

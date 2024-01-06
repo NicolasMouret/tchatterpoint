@@ -29,9 +29,10 @@ export default function SignUpForm() {
       <CardHeader className="text-xl flex justify-center">Inscription</CardHeader>
       <Divider/>
       <CardBody>
-        <form action={action}>
+        <form action={action} autoComplete="off">
           <div className="flex flex-col items-center gap-4 sm:gap-6 p-2 sm:px-12 w-[90vw] sm:w-[550px]">
             <Input
+              autoComplete='new-password'
               classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
               label: "p-0.5"}}
               variant="bordered"
@@ -44,6 +45,7 @@ export default function SignUpForm() {
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/>
             <Input
+              autoComplete='new-password'
               classNames={{inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
               label: "p-0.5"}}
               name="email" 
@@ -76,6 +78,7 @@ export default function SignUpForm() {
               errorMessage={formState.errors.password?.join(', ')}
             />
             <Input
+              autoComplete='off'
               classNames={{input: `placeholder:font-normal ${isVisible ? "font-normal" : "font-extrabold"}`,
               inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
               label: "p-0.5"}}
@@ -98,7 +101,7 @@ export default function SignUpForm() {
             {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton className="sm:mt-4 w-1/2" color="primary">S&apos;inscrire</FormButton>
+            <FormButton className="sm:mt-2 w-1/2" color="primary">S&apos;inscrire</FormButton>
           </div>
         </form>
       </CardBody>
