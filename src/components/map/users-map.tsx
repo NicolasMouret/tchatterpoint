@@ -1,11 +1,13 @@
 'use client';
 
+
 import { UserWithLocation } from '@/db/queries/users';
-import { Card, Skeleton } from '@nextui-org/react';
+import { Card, Image, Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
-  useLoadScript,
+  InfoWindow,
+  useLoadScript
 } from "@react-google-maps/api";
 import { useState } from "react";
 
@@ -14,6 +16,7 @@ const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 export default function MapUsersShow({usersLocationList}: {usersLocationList: UserWithLocation[]}) {
   const [initialCenter, setInitialCenter] = useState(
     { lat: 46.7772, lng: 2.2 }); // Center on France whole visible
+  const [selectedUser, setSelectedUser] = useState<UserWithLocation | null >(null);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: API_KEY as string,
   });
@@ -26,6 +29,9 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
       <GoogleMapMarker
         key={user.id}
         position={user.location}
+        onClick={() => {
+          setSelectedUser(user);
+        }}
       />
     );
   
@@ -45,7 +51,25 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
         center={initialCenter}
         zoom={5.4}
       >
-        {MarkerList}  
+      <>
+        {MarkerList} 
+        {selectedUser && (
+          <InfoWindow
+            onCloseClick={() => {
+            setSelectedUser(null);
+          }}     
+            position={selectedUser.location}>
+              <div className="w-fit h-fit text-black flex items-center gap-2">
+                <Image 
+                  alt="user profile picture" 
+                  src={selectedUser.image || ""}
+                  width={40}
+                  height={40}/>
+                <h2 className="font-bold text-lg">{selectedUser.name}</h2>
+              </div>   
+          </InfoWindow>
+        )} 
+      </>
       </GoogleMap>
     </Card>
   );

@@ -3,6 +3,8 @@ import { db } from '@/db';
 export type UserWithLocation = {
   id: string;
   name: string;
+  email?: string;
+  image: string | null;
   location: {
     lat: number;
     lng: number;
@@ -14,6 +16,7 @@ export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
     select: {
       id: true,
       name: true,
+      image: true,
       latitude: true,
       longitude: true,
     }
@@ -23,6 +26,7 @@ export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
     .map(user => ({
       id: user.id!,
       name: user.name!,
+      image: user.image,
       location: {
         lat: user.latitude!,
         lng: user.longitude!,
@@ -31,12 +35,14 @@ export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
   return parsedQuery;
 }
 
-export async function fetchUserWithLocation(id: string): Promise<UserWithLocation | null> {
+export async function fetchUserWithInfos(id: string): Promise<UserWithLocation | null> {
   const query = await db.user.findUnique({
     where: { id },
     select: {
       id: true,
       name: true,
+      email: true,
+      image: true,
       latitude: true,
       longitude: true,
     }
@@ -47,6 +53,8 @@ export async function fetchUserWithLocation(id: string): Promise<UserWithLocatio
   const parsedQuery = {
     id: query.id!,
     name: query.name!,
+    email: query.email!,
+    image: query.image,
     location: {
       lat: query.latitude,
       lng: query.longitude,

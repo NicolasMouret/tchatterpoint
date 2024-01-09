@@ -48,9 +48,9 @@ export default function Header() {
             Cantina
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathname === "/ma-position"}>
-          <Link color="foreground" href="/ma-position">
-            Ma position
+        <NavbarItem isActive={pathname === "/mon-profil"}>
+          <Link color="foreground" href="/mon-profil">
+            Mon profil
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -65,8 +65,8 @@ export default function Header() {
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
           <Link href="/cantina">Cantina</Link>
         </NavbarMenuItem>
-        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/ma-position"}>
-          <Link href="/ma-position">Ma position</Link>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/mon-profil"}>
+          <Link href="/mon-profil">Mon profil</Link>
         </NavbarMenuItem>
       </NavbarMenu>
 
