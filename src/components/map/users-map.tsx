@@ -2,7 +2,8 @@
 
 
 import { UserWithLocation } from '@/db/queries/users';
-import { Card, Image, Skeleton } from '@nextui-org/react';
+import paths from '@/paths';
+import { Card, Image, Link, Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -65,7 +66,11 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
                   src={selectedUser.image || ""}
                   width={40}
                   height={40}/>
-                <h2 className="font-bold text-lg">{selectedUser.name}</h2>
+                <Link 
+                  href={paths.publicProfile(selectedUser.id)} 
+                  className="font-bold text-lg">
+                    {selectedUser.name}
+                </Link>
               </div>   
           </InfoWindow>
         )} 

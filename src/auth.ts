@@ -41,7 +41,7 @@ export const {
           role: userRole,
           name: profile.name,
           email: profile.email,
-          image: profile.picture,
+          image: user?.image,
         }
       }
     }),
@@ -99,6 +99,7 @@ export const {
           ...token,
           id: user.id,
           role: user.role,
+          image: user.image,
           latitude: user.latitude,
           longitude: user.longitude,
         }
