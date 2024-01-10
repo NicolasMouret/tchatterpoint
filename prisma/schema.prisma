@@ -43,6 +43,7 @@ model User {
   latitude      Float?
   longitude     Float?
   pwHash        String?
+  biography     String?
   role          String    @default("user")
   accounts      Account[]
   sessions      Session[]
