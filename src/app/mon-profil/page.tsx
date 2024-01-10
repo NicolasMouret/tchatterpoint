@@ -21,6 +21,7 @@ export default async function Profile() {
     <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
       <h1 className="font-bold text-xl text-yellow-400">Mon profil</h1>
       <p>Une erreur est survenue</p>
+      <p>{JSON.stringify(session.user)}</p>
     </div>
   )
     

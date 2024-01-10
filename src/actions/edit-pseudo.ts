@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { z } from 'zod';
 
 const editPseudoUser = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3, { message: "Minimum 3 caractères" }),
 })
 
 interface EditPseudoFormState {
@@ -22,7 +22,7 @@ export async function editPseudo(
 ): Promise<EditPseudoFormState> {
   const session = await auth();
   if (!session || !session.user) {
-    throw new Error("You must sign in to do this.");
+    throw new Error("Vous devez vous connectez pour effectuer cette action.");
   }
 
   const result = editPseudoUser.safeParse({

@@ -23,7 +23,7 @@ export default function HeaderAuth() {
     authContent = (
     <Popover placement="left">
       <PopoverTrigger>
-        <Avatar src={session.data.user.image || ""} />       
+        <Avatar src={session.data.user.image!} />             
       </PopoverTrigger>
       <PopoverContent>
         <div className="p-4">

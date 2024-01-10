@@ -3,6 +3,7 @@
 import { auth } from '@/auth';
 import { db } from '@/db';
 import { hash } from 'bcrypt';
+import { signIn } from 'next-auth/react';
 import { z } from 'zod';
 
 const signUpUser = z.object({
@@ -53,6 +54,7 @@ export async function signUp(
         name: result.data.name,
         email: result.data.email,
         pwHash: pwHash,
+        image: "/default-avatar.webp"
       },
     });
 
@@ -84,7 +86,7 @@ export async function signUp(
       };
     }
   }
-
+  signIn();
   return {
     errors: {},
   };

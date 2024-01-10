@@ -65,6 +65,7 @@ export const {
               id: res.id,
               name: res.name,
               email: res.email,
+              image: res.image,
               role: res.role,
               latitude: res.latitude,
               longitude: res.longitude,
@@ -109,6 +110,7 @@ export const {
           ...token,
           id: user.id,
           role: user.role,
+          image: user.image,
           latitude: user.latitude,
           longitude: user.longitude,
         }
@@ -124,7 +126,7 @@ export const {
         user: {
           ...session.user,
           id: token.id,
-          image: token.picture,
+          image: token.image,
           role: token.role,
           latitude: token.latitude,
           longitude: token.longitude,

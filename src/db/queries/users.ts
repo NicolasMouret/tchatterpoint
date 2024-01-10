@@ -11,6 +11,17 @@ export type UserWithLocation = {
   }
 }
 
+export type UserWithInfos = {
+  id: string;
+  name: string;
+  email?: string;
+  image: string | null;
+  location: {
+    lat: number;
+    lng: number;
+  } | null;
+}
+
 export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
   const query = await db.user.findMany({
     select: {
@@ -35,7 +46,7 @@ export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
   return parsedQuery;
 }
 
-export async function fetchUserWithInfos(id: string): Promise<UserWithLocation | null> {
+export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | null> {
   const query = await db.user.findUnique({
     where: { id },
     select: {
@@ -47,9 +58,16 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithLocation |
       longitude: true,
     }
   });
-  if (!query || !query.latitude || !query.longitude) {
-    return null;
-  }
+  if (!query) return null;
+  if(!query.latitude || !query.longitude) {
+    return {
+      id: query.id!,
+      name: query.name!,
+      email: query.email!,
+      image: query.image,
+      location: null,
+    };
+  };
   const parsedQuery = {
     id: query.id!,
     name: query.name!,
@@ -58,7 +76,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithLocation |
     location: {
       lat: query.latitude,
       lng: query.longitude,
-    }
+    },
   };
   return parsedQuery;
 }
