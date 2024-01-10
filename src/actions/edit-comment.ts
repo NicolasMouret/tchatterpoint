@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const createCommentSchema = z.object({
-  content: z.string().min(3),
+  content: z.string().min(3, { message: "Minimum 3 caractères" }),
 });
 
 interface EditCommentFormState {
@@ -37,7 +37,7 @@ export async function editComment(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must sign in to do this."],
+        _form: ["Vous devez être connecté pour modifier un commentaire"],
       },
     };
   }
@@ -61,7 +61,7 @@ export async function editComment(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong..."],
+          _form: ["Une erreur est survenue"],
         },
       };
     }
@@ -74,7 +74,7 @@ export async function editComment(
   if (!topic) {
     return {
       errors: {
-        _form: ["Failed to revalidate topic"],
+        _form: ["Le sujet n'existe pas"],
       },
     };
   }

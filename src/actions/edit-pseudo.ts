@@ -22,7 +22,7 @@ export async function editPseudo(
 ): Promise<EditPseudoFormState> {
   const session = await auth();
   if (!session || !session.user) {
-    throw new Error("Vous devez vous connectez pour effectuer cette action.");
+    throw new Error("Vous devez vous connecter pour effectuer cette action.");
   }
 
   const result = editPseudoUser.safeParse({
@@ -54,7 +54,7 @@ export async function editPseudo(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong..."],
+          _form: ["Une erreur est survenue"],
         },
       };
     }

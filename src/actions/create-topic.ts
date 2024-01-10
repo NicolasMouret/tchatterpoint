@@ -10,13 +10,13 @@ import { z } from 'zod';
 
 const createTopicSchema = z.object({
   name: z
-  .string().min(3)
+  .string().min(3, {message: "Minimum 3 caractères"})
   .regex(/[a-z-]/, { 
-    message: "Must be lowercase letters or dashes without spaces"
+    message: "Doit contenir uniquement des lettres minuscules et des tirets"
   }),
   description: z
   .string()
-  .min(10),
+  .min(10, {message: "Minimum 10 caractères"}),
 });
 
 interface CreateTopicFormState {
@@ -47,7 +47,7 @@ export async function createTopic(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must be logged in to create a topic"]
+        _form: ["Vous devez être connecté pour créer un topic"]
       }
     }
   };
@@ -70,7 +70,7 @@ export async function createTopic(
     }
     return {
       errors: {
-        _form: ["An unknown error occurred"],
+        _form: ["Une erreur est survenue"],
       }
     }
   }

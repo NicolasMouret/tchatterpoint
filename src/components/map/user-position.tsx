@@ -1,7 +1,7 @@
 'use client';
 
 import * as actions from '@/actions';
-import { Card } from '@nextui-org/react';
+import { Card, Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -35,8 +35,8 @@ export default function MapUserPosition({initialLocation}:
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: API_KEY as string,
   });
-  if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading...</div>;
+  if (loadError) return <div>Erreur au chargement de la carte</div>;
+  if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>
 
   const handleMapClick = (event: google.maps.MapMouseEvent) => {
     if (!event.latLng) return;
