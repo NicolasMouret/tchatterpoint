@@ -2,4 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* input:autofill {
+  background: none !important;
+} */
+
+/* input:placeholder-shown {
+  color: rgb(156 163 175) !important; 
+  z-index: 2;
+} */
+
+
+
 

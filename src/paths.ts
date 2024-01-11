@@ -11,6 +11,9 @@ const paths = {
   postShow(topicSlug: string, postId: string) {
     return `/cantina/topics/${topicSlug}/posts/${postId}`
   },
+  publicProfile(userId: string) {
+    return `/profil/${userId}`
+  }
 }
 
 export default paths

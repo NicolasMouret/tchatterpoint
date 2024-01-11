@@ -3,25 +3,37 @@
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { revalidatePath } from "next/cache";
+import { z } from 'zod';
 
-interface DeleteUserLocationFormState {
+const editPseudoUser = z.object({
+  name: z.string().min(3, { message: "Minimum 3 caractères" }),
+})
+
+interface EditPseudoFormState {
   errors: {
+    name?: string[];
     _form?: string[];
   };
-  success?: boolean;
 }
 
-export async function deleteUserLocation(
-  formState: DeleteUserLocationFormState
-): Promise<DeleteUserLocationFormState> {
+export async function editPseudo(
+  formState: EditPseudoFormState,
+  formData: FormData,
+): Promise<EditPseudoFormState> {
   const session = await auth();
   if (!session || !session.user) {
-    return {
-      errors: {
-        _form: ["Vous devez être connecté pour supprimer votre position"],
-      },
-    };
+    throw new Error("Vous devez vous connecter pour effectuer cette action.");
   }
+
+  const result = editPseudoUser.safeParse({
+    name: formData.get('name'),
+  });
+
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
+  };
 
   try {
     await db.user.update({
@@ -29,8 +41,7 @@ export async function deleteUserLocation(
         id: session.user.id,
       },
       data: {
-        latitude: null,
-        longitude: null,
+        name: result.data.name,
       },
     });
   } catch (err) {
@@ -49,9 +60,8 @@ export async function deleteUserLocation(
     }
   }
 
-  revalidatePath(`/ma-position`);
+  revalidatePath(`/mon-profil`);
   return {
     errors: {},
-    success: true,
-  };
+  }
 }

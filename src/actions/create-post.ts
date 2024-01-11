@@ -10,10 +10,10 @@ import { z } from 'zod';
 
 const createTopicSchema = z.object({
   title: z
-  .string().min(3),
+  .string().min(3, {message: "Minimum 3 caractères"}),
   content: z
   .string()
-  .min(10),
+  .min(10, {message: "Minimum 10 caractères"}),
 });
 
 interface CreatePostFormState {
@@ -45,7 +45,7 @@ export async function createPost(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must be logged in to create a Post"]
+        _form: ["Vous devez être connecté pour créer un post"]
       }
     }
   };
@@ -57,7 +57,7 @@ export async function createPost(
   if (!topic) {
     return {
       errors: {
-        _form: ["Topic does not exist"]
+        _form: ["Le sujet n'existe pas"]
       }
     }
   };
@@ -83,7 +83,7 @@ export async function createPost(
     } else {
       return {
         errors: {
-          _form: ["An unknown error occurred"],
+          _form: ["Une erreur est survenue"],
         }
       }
     }

@@ -24,7 +24,7 @@ export async function updateUserLocation(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must sign in to do this."],
+        _form: ["Vous devez être connecté pour modifier votre position"],
       }
     };
   }
@@ -32,7 +32,7 @@ export async function updateUserLocation(
   if (!location) {
     return {
       errors: {
-        _form: ["The location you entered was invalid."],
+        _form: ["La position n'est pas valide"],
       }
     };
   }
@@ -57,12 +57,13 @@ export async function updateUserLocation(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong..."],
+          _form: ["Une erreur est survenue"],
         },
       };
     }
   }
   revalidatePath("/ma-position")
+  revalidatePath("/carte-des-joueurs")
   return {
     success: true,
     errors: {},

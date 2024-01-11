@@ -23,7 +23,9 @@ export default function Header() {
     <Navbar 
     onMenuOpenChange={setIsMenuOpen} 
     isMenuOpen={isMenuOpen}
-    className="mb-6 border-b"
+    className="mb-3 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md"
+    classNames={{item: ["data-[active=true]:text-yellow-400",
+      "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400"]}}
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -34,8 +36,9 @@ export default function Header() {
           <Link href="/" className="font-bold text-xl">Tchatterpoint</Link>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive={pathname === "/carte-des-joueurs"}>
+      <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">
+        <NavbarItem 
+          isActive={pathname === "/carte-des-joueurs"}>
           <Link color="foreground" href="/carte-des-joueurs">
             Carte des joueurs
           </Link>
@@ -45,9 +48,9 @@ export default function Header() {
             Cantina
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathname === "/ma-position"}>
-          <Link color="foreground" href="/ma-position">
-            Ma position
+        <NavbarItem isActive={pathname === "/mon-profil"}>
+          <Link color="foreground" href="/mon-profil">
+            Mon profil
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -62,8 +65,8 @@ export default function Header() {
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
           <Link href="/cantina">Cantina</Link>
         </NavbarMenuItem>
-        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/ma-position"}>
-          <Link href="/ma-position">Ma position</Link>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/mon-profil"}>
+          <Link href="/mon-profil">Mon profil</Link>
         </NavbarMenuItem>
       </NavbarMenu>
 

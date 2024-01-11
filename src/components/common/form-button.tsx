@@ -10,6 +10,7 @@ interface FormButtonProps extends Omit<React.ComponentProps<typeof Button>, 'isL
 
 export default function FormButton({ children, onClick, ...props }: FormButtonProps) {
   const { pending } = useFormStatus();
+
   return (
     <Button 
       onClick={onClick} 

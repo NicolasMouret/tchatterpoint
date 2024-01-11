@@ -19,16 +19,16 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
-      <body className={`${oswald.className} dark text-foreground bg-background tracking-wider`} style={{
+      <body className={`${oswald.className} dark text-foreground bg-background tracking-wider relative`} style={{
         // use the src property of the image object
-        backgroundImage: `url("/space-bg.jpg")`,
+        backgroundImage: `url("/Free-Space-Background.png")`,
         // other styles
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}>
         <Providers>
-          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl relative">
+          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl">
             <Header/>
             {children}
           </div>
