@@ -23,7 +23,7 @@ export default async function CommentList({ postId }: CommentListProps) {
 
   return (
     <div>
-      <h1 className="text-lg font-bold">All {comments.length} comments</h1>
+      <h1 className="text-lg font-bold">{comments.length} commentaires</h1>
       {renderedComments}
     </div>
   );

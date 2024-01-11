@@ -20,7 +20,7 @@ export async function deleteComment(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must sign in to do this."],
+        _form: ["Vous devez être connecté pour supprimer un commentaire"],
       },
     };
   }
@@ -41,7 +41,7 @@ export async function deleteComment(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong..."],
+          _form: ["Une erreur est survenue"],
         },
       };
     }
@@ -54,7 +54,7 @@ export async function deleteComment(
   if (!topic) {
     return {
       errors: {
-        _form: ["Failed to revalidate topic"],
+        _form: ["Le sujet n'existe pas"],
       },
     };
   }

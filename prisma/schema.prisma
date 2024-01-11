@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -42,6 +42,8 @@ model User {
   image         String?
   latitude      Float?
   longitude     Float?
+  pwHash        String?
+  biography     String?
   role          String    @default("user")
   accounts      Account[]
   sessions      Session[]
