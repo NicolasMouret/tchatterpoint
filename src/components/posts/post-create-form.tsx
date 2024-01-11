@@ -27,26 +27,26 @@ export default function PostCreateform({ slug }: PostCreateformProps) {
       <PopoverContent>       
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-6xl">
-            <h3 className="text-lg">Create a Post</h3>
+            <h3 className="text-lg">Créer un post</h3>
             <Input 
               name="title" 
-              label="Title" 
+              label="Titre" 
               labelPlacement="outside" 
-              placeholder="Title"
+              placeholder="Titre"
               isInvalid={!!formState.errors.title}
               errorMessage={formState.errors.title?.join(', ')}/> 
             <Textarea 
               name="content"
-              label="Content" 
+              label="Contenu" 
               labelPlacement="outside" 
-              placeholder="Content" 
+              placeholder="Contenu du post" 
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(', ')}
             />
             {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton>Create a post</FormButton>
+            <FormButton>Créer le post</FormButton>
           </div>
         </form>
       </PopoverContent>

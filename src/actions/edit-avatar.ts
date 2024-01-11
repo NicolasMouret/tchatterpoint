@@ -10,7 +10,7 @@ export async function editAvatar(
 ) {
   const session = await auth();
   if (!session || !session.user) {
-    throw new Error("You must sign in to do this.");
+    throw new Error("Vous devez être connecté pour modifier votre avatar");
   }
 
   try {
@@ -26,7 +26,7 @@ export async function editAvatar(
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Something went wrong...");
+      throw new Error("Une erreur est survenue");
     }
   }
 

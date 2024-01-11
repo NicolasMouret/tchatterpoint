@@ -24,7 +24,7 @@ export default function TopicCreateForm() {
         border-1 border-slate-400">       
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-2xl">
-            <h3 className="text-lg">Create a Topic</h3>
+            <h3 className="text-lg">Créer un sujet</h3>
             <Input 
               classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
               "border border-slate-600 border-opacity-50",
@@ -35,9 +35,9 @@ export default function TopicCreateForm() {
               base: "box-content"
               }}
               name="name" 
-              label="Name" 
+              label="Nom du sujet" 
               labelPlacement="outside" 
-              placeholder="Name"
+              placeholder="Nom du sujet"
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/> 
             <Textarea
@@ -52,7 +52,7 @@ export default function TopicCreateForm() {
               name="description"
               label="Description" 
               labelPlacement="outside" 
-              placeholder="Describe your topic" 
+              placeholder="Décrivez votre sujet" 
               isInvalid={!!formState.errors.description}
               errorMessage={formState.errors.description?.join(', ')}
             />

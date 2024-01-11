@@ -28,7 +28,7 @@ export default function HeaderAuth() {
       <PopoverContent>
         <div className="p-4">
           <form action={actions.signOut}>
-            <Button type="submit">Sign Out</Button>
+            <Button type="submit">Déconnexion</Button>
           </form>
         </div>
       </PopoverContent>

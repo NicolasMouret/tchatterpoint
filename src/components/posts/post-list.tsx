@@ -12,7 +12,7 @@ export default async function PostList({ fetchData }: PostListProps) {
     const topicSlug = post.topic.slug;
 
     if (!topicSlug) {
-      throw new Error('Need a slug to link to a post');
+      throw new Error('Sujet introuvable');
     }
 
     return (
