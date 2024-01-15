@@ -26,7 +26,7 @@ export default function SignUpForm() {
 
   return (
     <Card isBlurred className="w-full border-1 border-slate-400">
-      <CardHeader className="text-xl flex justify-center">Inscription</CardHeader>
+      <CardHeader className="text-xl flex justify-center font-bold">Inscription</CardHeader>
       <Divider/>
       <CardBody>
         <form action={action} autoComplete="off">
@@ -98,10 +98,15 @@ export default function SignUpForm() {
               isInvalid={!!formState.errors.confirmPassword}
               errorMessage={formState.errors.confirmPassword?.join(', ')}
             />
+            <Divider/>
             {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton className="sm:mt-2 w-1/2" color="primary">S&apos;inscrire</FormButton>
+            <FormButton 
+              className="sm:my-1 w-1/2 font-medium text-base" 
+              color="primary"
+              variant="shadow"
+              >S&apos;inscrire</FormButton>
           </div>
         </form>
       </CardBody>

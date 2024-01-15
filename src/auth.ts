@@ -21,6 +21,9 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     Google({
       clientId: GOOGLE_CLIENT_ID,
