@@ -100,7 +100,7 @@ export default function SignUpForm() {
             />
             <Divider/>
             {formState.errors._form ? 
-            <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
+            <div className="p-2 bg-red-600 border border-red-500 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
             <FormButton 
               className="sm:my-1 w-1/2 font-medium text-base" 

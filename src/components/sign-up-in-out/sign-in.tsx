@@ -33,6 +33,9 @@ export default function SignInForm() {
         email,
         password
       });
+      if (!res) {
+        setError("Une erreur est survenue");
+      }
 
     } catch (error) {
       if(error instanceof Error) {
