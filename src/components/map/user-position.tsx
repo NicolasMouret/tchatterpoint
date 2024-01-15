@@ -66,7 +66,10 @@ export default function MapUserPosition({initialLocation}:
       <form className="mt-2" action={updateAction} 
       onSubmit={() => session.update({latitude: location?.lat, longitude: location?.lng})}>
         <FormButton 
+        className="font-medium text-base"
+        size="lg"
         color="primary"
+        variant="shadow"
         >
         Enregistrer la position
         </FormButton> 
@@ -78,8 +81,10 @@ export default function MapUserPosition({initialLocation}:
       </form>
       <form action={deleteAction} onSubmit={() => {session.update({latitude: null, longitude: null}); setMarkerPosition(null);}}>
         <FormButton 
+          className="font-medium text-base"
           color="warning"
           variant="ghost"
+          size="lg"
           >
           Retirer ma position
         </FormButton> 

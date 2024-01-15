@@ -59,7 +59,8 @@ export default function CommentCreateForm({
         ) : null}
 
         <FormButton
-        color="primary">Commenter</FormButton>
+          className="font-medium text-base w-1/5 self-center"
+          color="primary">Commenter</FormButton>
       </div>
     </form>
   );

@@ -18,7 +18,9 @@ export default function TopicCreateForm() {
   return (
     <Popover placement="bottom">
       <PopoverTrigger>
-        <Button className="self-center font-medium text-base" color="primary" variant="shadow">Créer un sujet</Button>
+        <Button className="self-center font-medium text-base" 
+          color="primary" 
+          variant="shadow">Créer un sujet</Button>
       </PopoverTrigger>
       <PopoverContent className="backdrop-blur-lg rounded-lg bg-slate-950 bg-opacity-70
         border-1 border-slate-400">       
@@ -59,7 +61,9 @@ export default function TopicCreateForm() {
             {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton color="primary">Enregistrer</FormButton>
+            <FormButton
+              className="font-medium text-base w-2/5 self-center" 
+              color="primary">Enregistrer</FormButton>
           </div>
         </form>
       </PopoverContent>

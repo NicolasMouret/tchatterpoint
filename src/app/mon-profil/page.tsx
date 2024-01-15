@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import CloudinaryUpload from "@/components/common/cloudinary-upload-button";
 import MapUserPosition from "@/components/map/user-position";
-import EditPseudoForm from "@/components/user/edit-pseudo-form";
+import EditUserInfo from "@/components/user/user-edit-modal";
 import { fetchUserWithInfos } from "@/db/queries/users";
 import { Card, Divider, Image } from "@nextui-org/react";
 
@@ -31,8 +31,12 @@ export default async function myProfilePage() {
         <Divider/>
         <h2 className="font-bold text-lg text-yellow-400">Mes infos</h2>
         <Card 
-          className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2"
+          className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 relative"
           isBlurred>
+            <EditUserInfo // <== ABSOLUTE POSITION
+              originalName={user.name}
+              originalBio={user.biography!}
+              />
           <div className="flex flex-col md:flex-row items-center justify-start md:justify-center 
           md:items-stretch gap-4">
             <div className="relative">
@@ -47,12 +51,12 @@ export default async function myProfilePage() {
                   height: "80px",
                   objectFit: "cover",}}
                 />
-              <CloudinaryUpload />
-            </div>
+                <CloudinaryUpload/>
+            </div>          
             <div className="flex flex-col items-center sm:items-start justify-start pt-2 gap-4">
               <div className="flex flex-col sm:flex-row sm:gap-2 items-center">
                 <span className="font-medium">Pseudo :</span>
-                <EditPseudoForm initialPseudo={user.name} />
+                <span>{user?.name}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2 items-center break-all">
                 <span className="font-medium">Email :</span>
@@ -62,8 +66,7 @@ export default async function myProfilePage() {
           </div>
           <div className="mt-4 flex flex-col items-center">
             <span className="font-medium">Bio :</span>
-            <span className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Corporis eaque omnis veritatis odio, maxime repellat?</span>
+            <span className="text-center">{user.biography}</span>
           </div>
         </Card>
         <h2 className="font-bold text-lg text-yellow-400">Ma position</h2>

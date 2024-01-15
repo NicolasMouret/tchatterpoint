@@ -45,6 +45,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
       w-full h-[500px] sm:h-[700px] border-1 border-slate-500"
       isBlurred
       radius="sm"
+      data-testid="map"
       >
       <GoogleMap
         mapContainerClassName="map"

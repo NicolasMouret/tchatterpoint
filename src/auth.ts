@@ -21,6 +21,9 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     Google({
       clientId: GOOGLE_CLIENT_ID,
@@ -54,12 +57,12 @@ export const {
       },
       async authorize(credentials, req) {
         const res = await db.user.findUnique({
-          where: { email: credentials.email as string,
+          where: { email: credentials!.email as string,
            },
         });
 
         if (res && res.pwHash) {
-          const passwordValid = await compare(credentials.password as string, res.pwHash);
+          const passwordValid = await compare(credentials!.password as string, res.pwHash);
           if (passwordValid) {
             return {
               id: res.id,

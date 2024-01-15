@@ -1,5 +1,5 @@
 import { fetchUserWithInfos } from "@/db/queries/users";
-import { Card, Image } from "@nextui-org/react";
+import { Card, Divider, Image } from "@nextui-org/react";
 
 
 interface PublicProfilePageProps {
@@ -20,6 +20,7 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
   return (
     <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
       <h1 className="font-bold text-xl text-yellow-400">Profil de {user.name}</h1>
+      <Divider/>
       <Card 
         className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2"
         isBlurred>
@@ -51,8 +52,7 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
         </div>
         <div className="mt-4 flex flex-col items-center">
           <span className="font-medium">Bio :</span>
-          <span className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Corporis eaque omnis veritatis odio, maxime repellat?</span>
+          <span className="text-center">{user.biography}</span>
         </div>
       </Card>
     </div>
