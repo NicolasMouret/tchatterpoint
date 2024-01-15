@@ -44,13 +44,23 @@ export default function CommentEditForm({ commentId, postId, originalContent }: 
         <FaEdit className="text-lg" />
       </button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
+        <ModalContent 
+          className="backdrop-blur-lg rounded-lg bg-slate-950 bg-opacity-70
+          border-1 border-slate-400">
           {(onClose: () => void) => (
             <>
               <ModalHeader>Modifier le commentaire</ModalHeader>
               <form onSubmit={onClose} action={action}>
               <ModalBody>
                 <Textarea 
+                  classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
+                  "border border-slate-600 border-opacity-50",
+                  "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
+                  "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
+                  "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
+                  errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+                  base: "box-content"
+                  }}
                   name="content"
                   placeholder="Veuillez entrer votre commentaire"
                   value={content}
@@ -61,7 +71,11 @@ export default function CommentEditForm({ commentId, postId, originalContent }: 
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>Annuler</Button>
-                  <FormButton>Modifier</FormButton>
+                  <FormButton
+                  className="font-medium text-base w-full"
+                  color="primary"
+                  variant="shadow"
+                  >Modifier</FormButton>
                 {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}

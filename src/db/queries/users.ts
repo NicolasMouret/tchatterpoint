@@ -16,6 +16,7 @@ export type UserWithInfos = {
   name: string;
   email?: string;
   image: string | null;
+  biography?: string;
   location: {
     lat: number;
     lng: number;
@@ -54,6 +55,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
       name: true,
       email: true,
       image: true,
+      biography: true,
       latitude: true,
       longitude: true,
     }
@@ -65,6 +67,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
       name: query.name!,
       email: query.email!,
       image: query.image,
+      biography: query.biography!,
       location: null,
     };
   };
@@ -73,6 +76,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
     name: query.name!,
     email: query.email!,
     image: query.image,
+    biography: query.biography!,
     location: {
       lat: query.latitude,
       lng: query.longitude,

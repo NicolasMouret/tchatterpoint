@@ -5,7 +5,7 @@ export { deleteComment } from './delete-comment';
 export { deleteUserLocation } from './delete-user-location';
 export { editAvatar } from './edit-avatar';
 export { editComment } from './edit-comment';
-export { editPseudo } from './edit-pseudo';
+export { editUserInfos } from './edit-user-infos';
 export { search } from './search';
 export { signInGithub, signInGoogle } from './sign-in';
 export { signOut } from './sign-out';
