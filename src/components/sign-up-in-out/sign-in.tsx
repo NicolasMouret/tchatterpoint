@@ -1,7 +1,7 @@
 'use client';
 
-import FormButton from '@/components/common/form-button';
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -19,6 +19,7 @@ export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -27,14 +28,15 @@ export default function SignInForm() {
     e.preventDefault();
 
     try {    
+      setIsLoading(true);
       const res = await signIn("credentials", {
         callbackUrl: "/mon-profil",
         redirect: true,
         email,
         password
       });
-      if (!res) {
-        setError("Une erreur est survenue");
+      if (res) {
+        setIsLoading(false);
       }
 
     } catch (error) {
@@ -99,11 +101,13 @@ export default function SignInForm() {
             {error ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{error}</div> :
             null}
-            <FormButton 
+            <Button 
+              type="submit"
               className="sm:my-1 w-1/2 font-medium text-base" 
               color="primary"
               variant="shadow"
-              >Se connecter</FormButton>
+              isLoading={isLoading}
+              >Se connecter</Button>
           </div>
         </form>
       </CardBody>
