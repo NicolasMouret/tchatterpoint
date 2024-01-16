@@ -23,12 +23,23 @@ export default function HeaderAuth() {
     authContent = (
     <Popover placement="left">
       <PopoverTrigger>
-        <Avatar src={session.data.user.image!} />             
+        <Avatar className="cursor-pointer hover:scale-105" src={session.data.user.image!} />             
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="p-4">
+      <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50 border-1 
+      border-slate-500">
+        <div className="flex flex-col items-center gap-2 p-2">
+          <Link className="w-full" href="/mon-profil">
+            <Button 
+              className="w-full font-medium" 
+              color="primary"
+              >Mon profil</Button>
+          </Link>
           <form action={actions.signOut}>
-            <Button type="submit">Déconnexion</Button>
+            <Button 
+              className="font-medium" 
+              type="submit"
+              variant="ghost"
+              color="warning">Déconnexion</Button>
           </form>
         </div>
       </PopoverContent>

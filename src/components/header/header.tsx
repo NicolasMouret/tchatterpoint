@@ -39,17 +39,17 @@ export default function Header() {
       <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">
         <NavbarItem 
           isActive={pathname === "/carte-des-joueurs"}>
-          <Link color="foreground" href="/carte-des-joueurs">
+          <Link className="hover:border-b-1" color="foreground" href="/carte-des-joueurs">
             Carte des joueurs
           </Link>
         </NavbarItem>
         <NavbarItem isActive={pathname === "/cantina"}>
-          <Link href="/cantina">
+          <Link className="hover:border-b-1" href="/cantina">
             Cantina
           </Link>
         </NavbarItem>
         <NavbarItem isActive={pathname === "/mon-profil"}>
-          <Link color="foreground" href="/mon-profil">
+          <Link className="hover:border-b-1" color="foreground" href="/mon-profil">
             Mon profil
           </Link>
         </NavbarItem>
