@@ -6,6 +6,6 @@ describe('Home', () => {
     render(<Home />);
     const heading = screen.getByRole('heading');
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent('Page accueil');
+    expect(heading).toHaveTextContent('Accueil');
   });
 });
