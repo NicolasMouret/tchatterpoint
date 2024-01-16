@@ -26,6 +26,15 @@ const config: Config = {
         large: '1rem',
       }
     },
+    themes: {
+      dark: {
+        colors: {
+          warning: {
+            DEFAULT: 'rgb(250 204 21)',
+          }
+        }
+      }
+    }
   })],
 }
 export default config
