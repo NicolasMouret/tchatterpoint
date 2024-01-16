@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Link,
-  NavbarItem,
   Popover,
   PopoverContent,
   PopoverTrigger
@@ -48,8 +47,7 @@ export default function HeaderAuth() {
     authContent = (<>
 
     {/* ON DESKTOP */}
-      <div className="hidden sm:flex gap-2">
-        <NavbarItem>          
+      <div className="hidden sm:flex gap-2">          
           <Button 
             className="border-yellow-400 text-yellow-400 font-bold" 
             type="button" 
@@ -57,14 +55,11 @@ export default function HeaderAuth() {
             onClick={() => signIn()}>
             Se Connecter
           </Button>          
-        </NavbarItem>
-        <NavbarItem>
           <Link href="/sign-up">
             <Button className="font-bold"  type="button" variant="ghost" color="primary">
               S&apos;inscrire
             </Button>                   
           </Link>
-        </NavbarItem>
       </div>
 
     {/* ON MOBILE */}

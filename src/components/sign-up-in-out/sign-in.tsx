@@ -55,8 +55,8 @@ export default function SignInForm() {
         <button 
           onClick={() => signIn("google", {callbackUrl: "/mon-profil", redirect: true})}
           className="flex items-center justify-center gap-4 rounded-md border-3 bg-slate-50 my-4 p-4 
-          font-medium text-slate-900 w-[95%] sm:w-2/3 self-center border-slate-400
-         hover:border-slate-50 hover:bg-slate-100">
+          font-medium text-slate-900 w-[95%] sm:w-2/3 self-center border-slate-50
+         hover:border-slate-400 hover:bg-slate-100">
             <FcGoogle className="text-2xl"/> Se connecter avec Google
         </button>
       <Divider/>

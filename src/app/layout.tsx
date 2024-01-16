@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${oswald.className} dark text-foreground bg-background tracking-wider relative`} style={{
         // use the src property of the image object
-        backgroundImage: `url("/Free-Space-Background.png")`,
+        backgroundImage: `url("/star_wars_background.png")`,
         // other styles
         backgroundPosition: "center",
         backgroundSize: "cover",
