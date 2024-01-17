@@ -24,6 +24,7 @@ const messages: Message[] = Array.from({length: 10}, () => ({
   recipientId: faker.string.uuid(),
   recipientName: faker.person.firstName(),
   content: faker.lorem.paragraph({min: 1, max: 4}),
+  chatId: faker.string.uuid(),
   createdAt: faker.date.recent(),
   updatedAt: faker.date.recent(),
 }))
