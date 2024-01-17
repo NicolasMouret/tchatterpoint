@@ -1,37 +1,39 @@
-import { faker } from '@faker-js/faker';
+import { auth } from '@/auth';
+import { fetchChatsForList } from "@/db/queries/chats";
+import { Avatar, Card } from '@nextui-org/react';
+import Link from 'next/link';
 
-interface Message {
-  id: string;
-  authorId: string;
-  authorName: string;
-  recipientId: string;
-  recipientName: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
-interface Chat {
-  id: string;
-  createdAt: Date;
-  messages: Message[];
-}
 
-const messages: Message[] = Array.from({length: 10}, () => ({
-  id: faker.string.uuid(),
-  authorId: faker.string.uuid(),
-  authorName: faker.person.firstName(),
-  recipientId: faker.string.uuid(),
-  recipientName: faker.person.firstName(),
-  content: faker.lorem.paragraph({min: 1, max: 4}),
-  createdAt: faker.date.recent(),
-  updatedAt: faker.date.recent(),
-}))
-
-console.log(messages);
-
-export default function ChatList() {
+export default async function ChatList() {
+  const session = await auth();
+  if (!session) {
+    return (
+      <div>Vous devez être connecté pour accéder à la messagerie</div>
+    )
+  }
+  const chats = await fetchChatsForList(session.user.id);
+  console.log(chats);
   return (
-    <div>chat-list</div>
+    <>
+      {chats.map(chat => (
+        <Link key={chat.id} 
+        className="w-[95%] sm:w-3/5"
+          href={`/messages/conversation/${chat.interlocutor.name}`}>
+          <Card 
+            isBlurred
+            className="flex-row items-center border-1 border-slate-400 p-2 w-full">
+              <Avatar
+                radius="md"
+                src={chat.interlocutor.image}/>
+              <div className="flex flex-col gap-1 ml-2">
+                <span className="font-bold">{chat.interlocutor.name}</span>
+                {chat.lastMessage && 
+                <span className="text-xs text-slate-400">{chat.lastMessage.content.slice(0, 30)}...</span>}
+              </div>
+          </Card>
+        </Link>
+      ))}
+    </>
   )
 }

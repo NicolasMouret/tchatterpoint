@@ -13,6 +13,7 @@ import {
   Tooltip,
   useDisclosure
 } from "@nextui-org/react";
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useFormState } from "react-dom";
 import { MdEdit } from "react-icons/md";
@@ -24,6 +25,7 @@ interface EditUserInfosProps {
 }
 
 export default function EditUserInfos({ originalName, originalBio }: EditUserInfosProps) {
+  const session = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState(originalName);
   const [bio, setBio] = useState(originalBio);
@@ -54,7 +56,8 @@ export default function EditUserInfos({ originalName, originalBio }: EditUserInf
         {(onClose: () => void) => (
           <>
           <ModalHeader>Modifier votre profil</ModalHeader>
-          <form onSubmit={onClose} action={action}>
+          <form onSubmit={onClose} 
+            action={action}>
           <ModalBody>
             <Input 
               classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 

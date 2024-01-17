@@ -3,40 +3,26 @@
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
 import { Button, Textarea } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useFormState } from "react-dom";
 
-interface CommentCreateFormProps {
-  postId: string;
-  parentId?: string;
-  startOpen?: boolean;
+interface SendMessageFormProps {
+  receiverId: string;
 }
 
-export default function CommentCreateForm({
-  postId,
-  parentId,
-  startOpen,
-}: CommentCreateFormProps) {
-  const [open, setOpen] = useState(startOpen);
-  const ref = useRef<HTMLFormElement | null>(null);
+export default function SendMessageForm({
+  receiverId,
+}: SendMessageFormProps) {
+  const [open, setOpen] = useState(false);
   const [formState, action] = useFormState(
-    actions.createComment.bind(null, { postId, parentId }),
+    actions.createMessage.bind(null, { receiverId }),
     { errors: {} }
   );
 
-  useEffect(() => {
-    if (formState.success) {
-      ref.current?.reset();
-
-      if (!startOpen) {
-        setOpen(false);
-      }
-    }
-  }, [formState, startOpen]);
 
   const form = (
-    <form action={action} ref={ref}>
-      <div className={`space-y-2 px-1 mt-1 w-full ${parentId ? "sm:w-4/5" : ""}`}>
+    <form action={action} className="w-full mt-2">
+      <div className={`space-y-2 px-1 mt-1 w-full`}>
         <Textarea
           classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
           "border border-slate-600 border-opacity-50",
@@ -47,8 +33,8 @@ export default function CommentCreateForm({
           base: "box-content"
           }}
           name="content"
-          label="Réponse"
-          placeholder="Votre commentaire..."
+          label="Message"
+          placeholder="Votre message..."
           errorMessage={formState.errors.content?.join(", ")}
         />
 
@@ -60,17 +46,17 @@ export default function CommentCreateForm({
 
         <FormButton
           className="font-medium text-base min-w-[130px] w-2/5 self-center"
-          color="primary">Commenter</FormButton>
+          color="primary">Envoyer</FormButton>
       </div>
     </form>
   );
 
   return (
-    <div>
+    <>
       <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-        Répondre
+        Envoyer un message
       </Button>
       {open && form}
-    </div>
+    </>
   );
 }
