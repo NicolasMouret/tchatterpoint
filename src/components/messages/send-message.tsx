@@ -3,7 +3,6 @@
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
 import { Button, Textarea } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 
@@ -14,7 +13,6 @@ interface SendMessageFormProps {
 export default function SendMessageForm({
   receiverId,
 }: SendMessageFormProps) {
-  const session = useSession();
   const [open, setOpen] = useState(false);
   const [formState, action] = useFormState(
     actions.createMessage.bind(null, { receiverId }),
@@ -23,7 +21,7 @@ export default function SendMessageForm({
 
 
   const form = (
-    <form action={action}>
+    <form action={action} className="w-full mt-2">
       <div className={`space-y-2 px-1 mt-1 w-full`}>
         <Textarea
           classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
@@ -47,18 +45,18 @@ export default function SendMessageForm({
         ) : null}
 
         <FormButton
-          className="font-medium text-base w-1/5 self-center"
+          className="font-medium text-base min-w-[130px] w-2/5 self-center"
           color="primary">Envoyer</FormButton>
       </div>
     </form>
   );
 
   return (
-    <div>
+    <>
       <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
         Envoyer un message
       </Button>
       {open && form}
-    </div>
+    </>
   );
 }

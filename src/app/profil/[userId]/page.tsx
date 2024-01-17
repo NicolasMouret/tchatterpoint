@@ -25,7 +25,7 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
       <h1 className="font-bold text-xl text-yellow-400">Profil de {user.name}</h1>
       <Divider/>
       <Card 
-        className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2"
+        className="border-1 border-slate-500 w-full lg:w-3/4 py-5 px-2 sm:p-6 mb-2"
         isBlurred>
         <div className="flex flex-col md:flex-row items-center justify-start md:justify-center 
         md:items-stretch gap-4">
@@ -58,7 +58,9 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
           <span className="text-center">{user.biography}</span>
         </div>
         {session ? 
-          <SendMessageForm receiverId={userId}/> :
+          <div className="flex flex-col items-center mt-4 w-full">
+            <SendMessageForm receiverId={userId}/>
+          </div> :
           <div>Vous devez être connecté pour envoyer un message à {user.name}</div>}
       </Card>
     </div>
