@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import SendMessageForm from "@/components/messages/send-message";
 import { fetchUserWithInfos } from "@/db/queries/users";
 import { Card, Divider, Image } from "@nextui-org/react";
 
@@ -9,6 +11,7 @@ interface PublicProfilePageProps {
 }
 
 export default async function publicProfilePage({ params }: PublicProfilePageProps) {
+  const session = await auth();
   const userId = params.userId;
   const user = await fetchUserWithInfos(userId);
   if (!user) return (
@@ -54,6 +57,9 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
           <span className="font-medium">Bio :</span>
           <span className="text-center">{user.biography}</span>
         </div>
+        {session ? 
+          <SendMessageForm receiverId={userId}/> :
+          <div>Vous devez être connecté pour envoyer un message à {user.name}</div>}
       </Card>
     </div>
   )
