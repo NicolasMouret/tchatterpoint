@@ -2,17 +2,20 @@
 
 import { editAvatar } from '@/actions';
 import { Button, Tooltip } from '@nextui-org/react';
+import { useSession } from 'next-auth/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { MouseEvent } from 'react';
 import { MdEdit } from "react-icons/md";
 
 export default function CloudinaryUpload() {
+  const session = useSession();
   return (
     <CldUploadWidget 
       uploadPreset="kgxd9epe" 
       onUpload={
         (result: any) => {
           editAvatar(result.info.secure_url);
+          session.update({image: result.info.secure_url});
         }
       }>
       {({ open }) => {
