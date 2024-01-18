@@ -8,7 +8,7 @@ export default function SearchInput() {
   const searchParams = useSearchParams();
   return (
     <form action={actions.search}>
-      <Input classNames={{inputWrapper: "h-[60%]"}} size="sm" placeholder="Search" name="term" defaultValue={searchParams.get('term') || ''}/>
+      <Input classNames={{inputWrapper: "h-[60%]"}} size="sm" placeholder="Search" name="term" defaultValue={searchParams?.get('term') || ''}/>
     </form>
   )
 }
