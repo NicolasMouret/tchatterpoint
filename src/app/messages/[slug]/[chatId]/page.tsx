@@ -1,5 +1,7 @@
 import { auth } from '@/auth';
+import ConversationShow from '@/components/messages/conversation-container';
 import ChatInputForm from '@/components/messages/conversation-input';
+import SocketIndicator from '@/components/socket/socket-indicator';
 import { ChatComplete, fetchChatComplete } from '@/db/queries/chats';
 import { Avatar, Card, Divider, Link } from "@nextui-org/react";
 
@@ -63,21 +65,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
           radius="md"
           src={interlocutorImage}/>
         <span className="font-bold text-yellow-400 text-xl">Conversation avec {interlocutorName}</span>
+        <SocketIndicator/>
       </div>
       <Divider/>
-      <div className="flex flex-col gap-2 p-2 w-full flex-1 overflow-y-auto">
-        {chat.messages.map(message => (
-          <article key={message.id} className={`border-1 border-slate-400 rounded-lg 
-          backdrop-blur-lg bg-opacity-20
-          ${message.sender.name === userName ? "self-end text-right bg-blue-950" : 
-          "bg-yellow-400 bg-opacity-15" }
-           w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
-            <p className="font-bold">{message.sender.name}</p>
-            <Divider/>
-            <p>{message.content}</p>
-          </article>
-        ))}
-      </div>
+      <ConversationShow messages={chat.messages} userName={userName}/>
       <Divider/>
       <ChatInputForm chatId={chatId}/>
     </section>
