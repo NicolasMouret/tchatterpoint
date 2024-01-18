@@ -19,7 +19,7 @@ export default async function ChatList() {
       {chats.map(chat => (
         <Link key={chat.id} 
         className="w-[95%] sm:w-3/5"
-          href={`/messages/conversation/${chat.interlocutor.name}`}>
+          href={`/messages/${chat.interlocutor.name}/${chat.id}`}>
           <Card 
             isBlurred
             className="flex-row items-center border-1 border-slate-400 p-2 w-full">
