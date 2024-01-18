@@ -1,12 +1,23 @@
 import { db } from '@/db';
-import type { Chat } from '@prisma/client';
+import type { Chat, Message, User } from '@prisma/client';
 
-// Define the ChatForList type
 export type ChatForList = 
   Chat & {
     interlocutor: {id: string, name: string, image: string};
     lastMessage: 
       {id: string, content: string, senderId: string, receiverId: string, createdAt: Date} | null;
+  }
+
+export type MessagewithUsersInfos = 
+  Message & {
+    sender: {id: string, name: string, image: string};
+    receiver: {id: string, name: string, image: string};
+  }
+
+export type ChatComplete = 
+  Chat & {
+    users: User[];
+    messages: MessagewithUsersInfos[];
   }
 
 
@@ -57,4 +68,35 @@ export async function fetchChatsForList(userId: string): Promise<ChatForList[]> 
   }));
 
   return formattedChats;
+}
+
+export async function fetchChatComplete(chatId: string): Promise<ChatComplete | null> {
+  const chat = await db.chat.findUnique({
+    where: {
+      id: chatId,
+    },
+    include: {
+      users: true,
+      messages: {
+        include: {
+          sender: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return chat;
 }

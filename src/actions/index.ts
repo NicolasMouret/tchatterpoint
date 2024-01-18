@@ -1,5 +1,5 @@
 export { createComment } from './create-comment';
-export { createMessage } from './create-message';
+export { createMessageChat, createMessageProfile } from './create-message';
 export { createPost } from './create-post';
 export { createTopic } from './create-topic';
 export { deleteComment } from './delete-comment';
