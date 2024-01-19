@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const createMessageSchema = z.object({
@@ -16,12 +17,16 @@ interface CreateMessageFormState {
   success?: boolean;
 }
 
-interface CreateMessageProps {
+interface CreateMessageProfileProps {
   receiverId: string;
 }
 
-export async function createMessage(
-  { receiverId }: CreateMessageProps,
+interface CreateMessageChatProps {
+  chatId: string;
+}
+
+export async function createMessageProfile(
+  { receiverId }: CreateMessageProfileProps,
   formState: CreateMessageFormState,
   formData: FormData
 ): Promise<CreateMessageFormState> {
@@ -127,4 +132,83 @@ export async function createMessage(
     },
   }
   
+}
+
+export async function createMessageChat(
+  { chatId }: CreateMessageChatProps,
+  formState: CreateMessageFormState,
+  formData: FormData,
+): Promise<CreateMessageFormState> {
+  const result = createMessageSchema.safeParse({
+    content: formData.get("content"),
+  });
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
+  }
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      errors: {
+        _form: ["Vous devez être connecté pour envoyer un message"],
+      },
+    };
+  }
+  const senderId = session.user.id;
+  const receiverId = await db.chat.findUnique({
+    where: {
+      id: chatId,
+    },
+    select: {
+      users: {
+        where: {
+          id: {
+            not: senderId,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+  if (!receiverId) {
+    return {
+      errors: {
+        _form: ["La conversation n'existe pas"],
+      },
+    };
+  }
+  
+  try {
+    await db.message.create({
+      data: {
+        content: result.data.content,
+        chatId: chatId,
+        senderId: senderId,
+        receiverId: receiverId.users[0].id,
+      },
+    });
+    revalidatePath(`/messages/${receiverId.users[0].name}/${chatId}`);
+    return {
+      success: true,
+      errors: {},
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        errors: {
+          _form: [error.message],
+        },
+      };
+    } else {
+      return {
+        errors: {
+          _form: ["Le message n'a pas pu être envoyé dans la conversation"],
+        },
+      };
+    }
+  }
 }

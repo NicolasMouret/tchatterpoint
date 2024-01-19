@@ -2,27 +2,25 @@
 
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
-import { Button, Textarea } from "@nextui-org/react";
-import { useState } from "react";
+import { Textarea } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 
 interface SendMessageFormProps {
-  receiverId: string;
+  chatId: string;
 }
 
-export default function SendMessageForm({
-  receiverId,
+export default function ChatInputForm({
+  chatId
 }: SendMessageFormProps) {
-  const [open, setOpen] = useState(false);
   const [formState, action] = useFormState(
-    actions.createMessageProfile.bind(null, { receiverId }),
+    actions.createMessageChat.bind(null, { chatId }),
     { errors: {} }
   );
 
 
-  const form = (
+  return (
     <form action={action} className="w-full mt-2">
-      <div className={`space-y-2 px-1 mt-1 w-full`}>
+      <div className={`space-y-2 px-1 mt-1 w-full flex flex-col`}>
         <Textarea
           classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
           "border border-slate-600 border-opacity-50",
@@ -45,18 +43,10 @@ export default function SendMessageForm({
         ) : null}
 
         <FormButton
-          className="font-medium text-base min-w-[130px] w-2/5 self-center"
-          color="primary">Envoyer</FormButton>
+          className="font-medium text-base min-w-[130px] w-1/5 self-end"
+          color="primary">Envoyer
+        </FormButton>
       </div>
     </form>
-  );
-
-  return (
-    <>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-        Envoyer un message
-      </Button>
-      {open && form}
-    </>
   );
 }
