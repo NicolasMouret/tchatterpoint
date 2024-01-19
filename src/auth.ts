@@ -95,6 +95,9 @@ export const {
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
+      if (trigger === 'update' && session.image) {
+        token.image = session.image
+      }
 
       // WHEN USER SIGN IN WITH GOOGLE OR GITHUB 
       if (account?.provider === 'google' || account?.provider === 'github') {
