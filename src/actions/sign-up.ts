@@ -1,9 +1,8 @@
 'use server';
 
-import { auth } from '@/auth';
+import * as auth from '@/auth';
 import { db } from '@/db';
 import { hash } from 'bcrypt';
-import { signIn } from 'next-auth/react';
 import { z } from 'zod';
 
 const signUpUser = z.object({
@@ -54,21 +53,16 @@ export async function signUp(
         name: result.data.name,
         email: result.data.email,
         pwHash: pwHash,
-        image: "/default-avatar.webp"
+        image: "/default-avatar.webp",
+        biography: "Pas encore de présentation",
       },
     });
 
-    const session = await auth();
-    if (session && session.user) {
-      return {
-        errors: {},
-      };
-    }
   } catch (error: unknown) {
     if (error instanceof Error && error.message.includes('Unique constraint failed')) {
       return {
         errors: {
-          _form: ["Cette email est déjà utilisé"],
+          email: ["Cette email est déjà utilisé"],
         },
       };
     }
@@ -86,7 +80,12 @@ export async function signUp(
       };
     }
   }
-  signIn();
+  await auth.signIn('credentials', {
+    email: result.data.email,
+    password: result.data.password,
+    redirect: true,
+    redirectTo: '/mon-profil',
+  });
   return {
     errors: {},
   };

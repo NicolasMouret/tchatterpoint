@@ -9,9 +9,11 @@ import {
   Divider,
   Input
 } from '@nextui-org/react';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FaUserAlt } from "react-icons/fa";
+import { FcGoogle } from 'react-icons/fc';
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -26,7 +28,15 @@ export default function SignUpForm() {
 
   return (
     <Card isBlurred className="w-full border-1 border-slate-400">
-      <CardHeader className="text-xl flex justify-center">Inscription</CardHeader>
+      <CardHeader className="text-xl flex justify-center font-bold">Inscription</CardHeader>
+      <Divider/>
+        <button 
+          onClick={() => signIn("google", {callbackUrl: "/mon-profil", redirect: true})}
+          className="flex items-center justify-center gap-4 rounded-md border-3 bg-slate-50 my-4 p-4 
+          font-medium text-slate-900 w-[95%] sm:w-2/3 self-center border-slate-50
+         hover:border-slate-400 hover:bg-slate-100">
+            <FcGoogle className="text-2xl"/> Se connecter avec Google
+        </button>
       <Divider/>
       <CardBody>
         <form action={action} autoComplete="off">
@@ -98,10 +108,15 @@ export default function SignUpForm() {
               isInvalid={!!formState.errors.confirmPassword}
               errorMessage={formState.errors.confirmPassword?.join(', ')}
             />
+            <Divider/>
             {formState.errors._form ? 
-            <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
+            <div className="p-2 bg-red-600 border border-red-500 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
-            <FormButton className="sm:mt-2 w-1/2" color="primary">S&apos;inscrire</FormButton>
+            <FormButton 
+              className="sm:my-1 w-1/2 font-medium text-base" 
+              color="primary"
+              variant="shadow"
+              >S&apos;inscrire</FormButton>
           </div>
         </form>
       </CardBody>

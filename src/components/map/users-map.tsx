@@ -2,7 +2,8 @@
 
 
 import { UserWithLocation } from '@/db/queries/users';
-import { Card, Image, Skeleton } from '@nextui-org/react';
+import paths from '@/paths';
+import { Card, Image, Link, Skeleton } from '@nextui-org/react';
 import {
   GoogleMap,
   Marker as GoogleMapMarker,
@@ -20,7 +21,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: API_KEY as string,
   });
-  if (loadError) return <div>Error loading maps</div>;
+  if (loadError) return <div>Erreur au chargement de la carte</div>;
   if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>;
 
   //Create a list of markers from the usersLocationList
@@ -44,6 +45,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
       w-full h-[500px] sm:h-[700px] border-1 border-slate-500"
       isBlurred
       radius="sm"
+      data-testid="map"
       >
       <GoogleMap
         mapContainerClassName="map"
@@ -65,7 +67,11 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
                   src={selectedUser.image || ""}
                   width={40}
                   height={40}/>
-                <h2 className="font-bold text-lg">{selectedUser.name}</h2>
+                <Link 
+                  href={paths.publicProfile(selectedUser.id)} 
+                  className="font-bold text-lg">
+                    {selectedUser.name}
+                </Link>
               </div>   
           </InfoWindow>
         )} 

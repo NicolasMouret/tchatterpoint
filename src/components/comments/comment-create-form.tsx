@@ -47,8 +47,8 @@ export default function CommentCreateForm({
           base: "box-content"
           }}
           name="content"
-          label="Reply"
-          placeholder="Enter your comment"
+          label="Réponse"
+          placeholder="Votre commentaire..."
           errorMessage={formState.errors.content?.join(", ")}
         />
 
@@ -59,7 +59,8 @@ export default function CommentCreateForm({
         ) : null}
 
         <FormButton
-        color="primary">Create Comment</FormButton>
+          className="font-medium text-base min-w-[130px] w-2/5 self-center"
+          color="primary">Commenter</FormButton>
       </div>
     </form>
   );
@@ -67,7 +68,7 @@ export default function CommentCreateForm({
   return (
     <div>
       <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-        Reply
+        Répondre
       </Button>
       {open && form}
     </div>

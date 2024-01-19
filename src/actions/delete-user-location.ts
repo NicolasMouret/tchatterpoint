@@ -18,7 +18,7 @@ export async function deleteUserLocation(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must sign in to do this."],
+        _form: ["Vous devez être connecté pour supprimer votre position"],
       },
     };
   }
@@ -43,7 +43,7 @@ export async function deleteUserLocation(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong..."],
+          _form: ["Une erreur est survenue"],
         },
       };
     }

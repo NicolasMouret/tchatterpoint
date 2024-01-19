@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Link,
-  NavbarItem,
   Popover,
   PopoverContent,
   PopoverTrigger
@@ -23,12 +22,23 @@ export default function HeaderAuth() {
     authContent = (
     <Popover placement="left">
       <PopoverTrigger>
-        <Avatar src={session.data.user.image!} />             
+        <Avatar className="cursor-pointer hover:scale-105" src={session.data.user.image!} />             
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="p-4">
+      <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50 border-1 
+      border-slate-500">
+        <div className="flex flex-col items-center gap-2 p-2">
+          <Link className="w-full" href="/mon-profil">
+            <Button 
+              className="w-full font-medium" 
+              color="primary"
+              >Mon profil</Button>
+          </Link>
           <form action={actions.signOut}>
-            <Button type="submit">Sign Out</Button>
+            <Button 
+              className="font-medium" 
+              type="submit"
+              variant="ghost"
+              color="warning">Déconnexion</Button>
           </form>
         </div>
       </PopoverContent>
@@ -37,8 +47,7 @@ export default function HeaderAuth() {
     authContent = (<>
 
     {/* ON DESKTOP */}
-      <div className="hidden sm:flex gap-2">
-        <NavbarItem>          
+      <div className="hidden sm:flex gap-2">          
           <Button 
             className="border-yellow-400 text-yellow-400 font-bold" 
             type="button" 
@@ -46,14 +55,11 @@ export default function HeaderAuth() {
             onClick={() => signIn()}>
             Se Connecter
           </Button>          
-        </NavbarItem>
-        <NavbarItem>
           <Link href="/sign-up">
             <Button className="font-bold"  type="button" variant="ghost" color="primary">
               S&apos;inscrire
             </Button>                   
           </Link>
-        </NavbarItem>
       </div>
 
     {/* ON MOBILE */}

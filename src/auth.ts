@@ -21,6 +21,9 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     Google({
       clientId: GOOGLE_CLIENT_ID,
@@ -41,7 +44,7 @@ export const {
           role: userRole,
           name: profile.name,
           email: profile.email,
-          image: profile.picture,
+          image: user?.image,
         }
       }
     }),
@@ -54,12 +57,12 @@ export const {
       },
       async authorize(credentials, req) {
         const res = await db.user.findUnique({
-          where: { email: credentials.email as string,
+          where: { email: credentials!.email as string,
            },
         });
 
         if (res && res.pwHash) {
-          const passwordValid = await compare(credentials.password as string, res.pwHash);
+          const passwordValid = await compare(credentials!.password as string, res.pwHash);
           if (passwordValid) {
             return {
               id: res.id,
@@ -92,6 +95,9 @@ export const {
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
+      if (trigger === 'update' && session.image) {
+        token.image = session.image
+      }
 
       // WHEN USER SIGN IN WITH GOOGLE OR GITHUB 
       if (account?.provider === 'google' || account?.provider === 'github') {
@@ -99,6 +105,7 @@ export const {
           ...token,
           id: user.id,
           role: user.role,
+          image: user.image,
           latitude: user.latitude,
           longitude: user.longitude,
         }

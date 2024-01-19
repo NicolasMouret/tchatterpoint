@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { useState } from 'react';
+import AccountNavItems from './account-nav-items';
 import HeaderAuth from './header-auth';
 
 export default function Header() {
@@ -25,7 +26,7 @@ export default function Header() {
     isMenuOpen={isMenuOpen}
     className="mb-3 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md"
     classNames={{item: ["data-[active=true]:text-yellow-400",
-      "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400"]}}
+      "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400", "hover:border-b-1"]}}
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -33,7 +34,8 @@ export default function Header() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link href="/" className="font-bold text-xl">Tchatterpoint</Link>
+          <Link href="/" className={`font-bold text-xl 
+          ${pathname === "/" ? "text-yellow-400" : "text-slate-50" }`}>Tchatterpoint</Link>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">
@@ -47,12 +49,8 @@ export default function Header() {
           <Link href="/cantina">
             Cantina
           </Link>
-        </NavbarItem>
-        <NavbarItem isActive={pathname === "/mon-profil"}>
-          <Link color="foreground" href="/mon-profil">
-            Mon profil
-          </Link>
-        </NavbarItem>
+        </NavbarItem>        
+        <AccountNavItems format="desktop"/>
       </NavbarContent>
       <NavbarContent justify="end">
         <HeaderAuth />        
@@ -65,9 +63,7 @@ export default function Header() {
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
           <Link href="/cantina">Cantina</Link>
         </NavbarMenuItem>
-        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/mon-profil"}>
-          <Link href="/mon-profil">Mon profil</Link>
-        </NavbarMenuItem>
+        <AccountNavItems format="mobile" closeMenu={closeMenu}/>
       </NavbarMenu>
 
     </Navbar>

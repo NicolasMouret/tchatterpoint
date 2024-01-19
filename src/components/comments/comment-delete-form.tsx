@@ -44,7 +44,9 @@ export default function CommentDeleteForm({ commentId, postId }: CommentDeleteFo
         isOpen={isOpen} 
         onOpenChange={onOpenChange}
         className="sm:max-w-lg">
-        <ModalContent>
+        <ModalContent 
+          className="backdrop-blur-lg rounded-lg bg-slate-950 bg-opacity-70
+          border-1 border-slate-400">
           {(onClose: () => void) => (
             <>
               <ModalHeader>Supprimer le commentaire</ModalHeader>
@@ -52,10 +54,14 @@ export default function CommentDeleteForm({ commentId, postId }: CommentDeleteFo
                 <p>Supprimer ce commentaire supprimera les commentaires en réponses à celui ci.</p>
                 <p>Etes-vous sûr de vouloir supprimer ce commentaire ?</p>
               </ModalBody>
-              <ModalFooter className="flex justify-center">
+              <ModalFooter className="flex justify-center ">
                 <Button color="danger" variant="light" onPress={onClose}>Annuler</Button>
-                <form onSubmit={onClose} action={action}>
-                  <FormButton>Supprimer</FormButton>
+                <form onSubmit={onClose} action={action} className="w-2/5">
+                  <FormButton
+                    className="font-medium text-base w-full"
+                    color="danger"
+                    variant="shadow"
+                    >Supprimer</FormButton>
                 </form>
                 {formState.errors._form ? 
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
