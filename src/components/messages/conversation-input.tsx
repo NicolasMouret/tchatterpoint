@@ -3,6 +3,7 @@
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
 import { Textarea } from "@nextui-org/react";
+import { useRef, useState } from "react";
 import { useFormState } from "react-dom";
 
 
@@ -13,16 +14,16 @@ interface SendMessageFormProps {
 export default function ChatInputForm({
   chatId
 }: SendMessageFormProps) {
-
+  const formRef = useRef<HTMLFormElement>(null);
+  const [message, setMessage] = useState("");
   const [formState, action] = useFormState(
     actions.createMessageChat.bind(null, { chatId }),
     { errors: {} }
   );
 
 
-
   return (
-    <form action={action} className="w-full mt-2">
+    <form ref={formRef} action={action} onSubmit={() => setMessage("")} className="w-full mt-2">
       <div className={`space-y-2 px-1 mt-1 w-full flex flex-col`}>
         <Textarea
           classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
@@ -34,6 +35,12 @@ export default function ChatInputForm({
           base: "box-content"
           }}
           name="content"
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          onKeyDown={e => {if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            formRef.current?.requestSubmit();
+          }}}
           label="Message"
           placeholder="Votre message..."
           errorMessage={formState.errors.content?.join(", ")}

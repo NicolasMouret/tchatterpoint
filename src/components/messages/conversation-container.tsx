@@ -1,8 +1,9 @@
 'use client';
 
 import { ChatComplete } from "@/db/queries/chats";
+import { pusherClient } from "@/lib/pusher";
 import { Divider } from "@nextui-org/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ConversationShowProps {
   messages: ChatComplete["messages"];
@@ -12,7 +13,8 @@ interface ConversationShowProps {
 
 export default function ConversationShow({ messages, userName, chatId }: ConversationShowProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const messagesReversed = [...messages].reverse()
+  const [messagesLocal, setMessagesLocal] = useState(messages)
+  const messagesReversed = [...messagesLocal].reverse();
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
@@ -21,7 +23,18 @@ export default function ConversationShow({ messages, userName, chatId }: Convers
   
   useEffect(() => {
     scrollToBottom();
-  }, [messages])
+    pusherClient.subscribe(`chat${chatId}`);
+    pusherClient.bind("new-message", (lastMessage: any) => {
+      console.log("trigger", lastMessage)
+      setMessagesLocal(prevMessages => [...prevMessages, lastMessage])
+      scrollToBottom();
+    });
+
+    return () => {
+      pusherClient.unsubscribe(`chat.${chatId}`);
+      pusherClient.unbind("new-message");
+    }
+  }, [chatId])
   
   return (
     <div

@@ -2,9 +2,12 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { fetchChatReceiver } from "@/db/queries/chats";
+import { fetchChatReceiver, fetchLastMessageWithUsersInfos } from "@/db/queries/chats";
+import { pusherServer } from "@/lib/pusher";
 import { revalidatePath } from "next/cache";
+
 import { z } from "zod";
+
 
 
 
@@ -69,6 +72,8 @@ export async function createMessageProfile(
           receiverId: receiverId,
         },
       });
+      const lastMessage = await fetchLastMessageWithUsersInfos(chat.id);
+      pusherServer.trigger(`chat${chat.id}`, 'new-message', lastMessage);
       return {
         success: true,
         errors: {},
@@ -177,6 +182,8 @@ export async function createMessageChat(
         receiverId: receiver.id,
       },
     });
+    const lastMessage = await fetchLastMessageWithUsersInfos(chatId);
+    pusherServer.trigger(`chat${chatId}`, 'new-message', lastMessage);
     revalidatePath(`/messages/${receiver.name}/${chatId}`);
     return {
       success: true,
