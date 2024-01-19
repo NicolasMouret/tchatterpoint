@@ -2,8 +2,11 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
+import { fetchChatReceiver } from "@/db/queries/chats";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+
+
 
 const createMessageSchema = z.object({
   content: z.string().min(1, { message: "Vous ne pouvez pas envoyer un message vide" }),
@@ -156,25 +159,8 @@ export async function createMessageChat(
     };
   }
   const senderId = session.user.id;
-  const receiverId = await db.chat.findUnique({
-    where: {
-      id: chatId,
-    },
-    select: {
-      users: {
-        where: {
-          id: {
-            not: senderId,
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-  if (!receiverId) {
+  const receiver = await fetchChatReceiver(chatId, senderId);
+  if (!receiver) {
     return {
       errors: {
         _form: ["La conversation n'existe pas"],
@@ -188,10 +174,10 @@ export async function createMessageChat(
         content: result.data.content,
         chatId: chatId,
         senderId: senderId,
-        receiverId: receiverId.users[0].id,
+        receiverId: receiver.id,
       },
     });
-    revalidatePath(`/messages/${receiverId.users[0].name}/${chatId}`);
+    revalidatePath(`/messages/${receiver.name}/${chatId}`);
     return {
       success: true,
       errors: {},

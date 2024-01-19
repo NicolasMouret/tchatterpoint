@@ -1,6 +1,9 @@
 import { db } from '@/db';
 import type { Chat, Message, User } from '@prisma/client';
 
+export type UserIdAndName = 
+  {id: string, name: string};
+
 export type ChatForList = 
   Chat & {
     interlocutor: {id: string, name: string, image: string};
@@ -8,7 +11,7 @@ export type ChatForList =
       {id: string, content: string, senderId: string, receiverId: string, createdAt: Date} | null;
   }
 
-export type MessagewithUsersInfos = 
+export type MessageWithUsersInfos = 
   Message & {
     sender: {id: string, name: string, image: string};
     receiver: {id: string, name: string, image: string};
@@ -17,7 +20,7 @@ export type MessagewithUsersInfos =
 export type ChatComplete = 
   Chat & {
     users: User[];
-    messages: MessagewithUsersInfos[];
+    messages: MessageWithUsersInfos[];
   }
 
 
@@ -99,4 +102,58 @@ export async function fetchChatComplete(chatId: string): Promise<ChatComplete | 
   });
 
   return chat;
+}
+
+export async function fetchChatReceiver(chatId: string, senderId: string): Promise<UserIdAndName | null> {
+  const chatWithReceiver = await db.chat.findUnique({
+    where: {
+      id: chatId,
+    },
+    select: {
+      users: {
+        where: {
+          id: {
+            not: senderId,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+  if (!chatWithReceiver) {
+    return null;
+  }
+  const receiver = chatWithReceiver.users[0];
+  return receiver;
+}
+
+export async function fetchLastMessageWithUsersInfos(chatId: string): Promise<MessageWithUsersInfos | null> {
+  const lastMessage = await db.message.findFirst({
+    where: {
+      chatId: chatId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      sender: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      receiver: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+  return lastMessage;
 }

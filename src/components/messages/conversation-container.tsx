@@ -7,9 +7,10 @@ import { useEffect, useRef } from "react";
 interface ConversationShowProps {
   messages: ChatComplete["messages"];
   userName: string | undefined | null;
+  chatId: string;
 }
 
-export default function ConversationShow({ messages, userName }: ConversationShowProps) {
+export default function ConversationShow({ messages, userName, chatId }: ConversationShowProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const messagesReversed = [...messages].reverse()
   const scrollToBottom = () => {
@@ -19,7 +20,7 @@ export default function ConversationShow({ messages, userName }: ConversationSho
   }
   
   useEffect(() => {
-    scrollToBottom()
+    scrollToBottom();
   }, [messages])
   
   return (

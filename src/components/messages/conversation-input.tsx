@@ -5,6 +5,7 @@ import FormButton from "@/components/common/form-button";
 import { Textarea } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 
+
 interface SendMessageFormProps {
   chatId: string;
 }
@@ -12,10 +13,12 @@ interface SendMessageFormProps {
 export default function ChatInputForm({
   chatId
 }: SendMessageFormProps) {
+
   const [formState, action] = useFormState(
     actions.createMessageChat.bind(null, { chatId }),
     { errors: {} }
   );
+
 
 
   return (
