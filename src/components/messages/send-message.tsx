@@ -14,6 +14,7 @@ export default function SendMessageForm({
   receiverId,
 }: SendMessageFormProps) {
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const [formState, action] = useFormState(
     actions.createMessageProfile.bind(null, { receiverId }),
     { errors: {} }
@@ -21,7 +22,7 @@ export default function SendMessageForm({
 
 
   const form = (
-    <form action={action} className="w-full mt-2">
+    <form action={action} onSubmit={() => {setMessage("")}} className="w-full mt-2">
       <div className={`space-y-2 px-1 mt-1 w-full`}>
         <Textarea
           classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
@@ -33,6 +34,8 @@ export default function SendMessageForm({
           base: "box-content"
           }}
           name="content"
+          value={message}
+          onChange={e => setMessage(e.target.value)}
           label="Message"
           placeholder="Votre message..."
           errorMessage={formState.errors.content?.join(", ")}
