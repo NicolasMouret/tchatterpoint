@@ -67,7 +67,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </div>
       <Divider/>
       <ConversationShow 
-        messages={chat.messages} 
+        InitialMessages={chat.messages} 
         userName={userName}
         chatId={chatId}/>
       <Divider/>
