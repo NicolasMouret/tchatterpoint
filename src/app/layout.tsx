@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { Orbitron } from 'next/font/google'
 import './globals.css'
 
-const oswald = Orbitron({ subsets: ['latin']})
+const orbitron = Orbitron({ subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: 'Tchatterpoint',
@@ -19,7 +19,7 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
-      <body className={`${oswald.className} dark text-foreground bg-background tracking-wider relative`} style={{
+      <body className={`${orbitron.className} dark text-foreground bg-background tracking-wider relative`} style={{
         // use the src property of the image object
         backgroundImage: `url("/star_wars_background.png")`,
         // other styles

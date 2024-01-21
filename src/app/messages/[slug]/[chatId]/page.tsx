@@ -66,7 +66,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
         <span className="font-bold text-yellow-400 text-xl">Conversation avec {interlocutorName}</span>
       </div>
       <Divider/>
-      <ConversationShow messages={chat.messages} userName={userName} chatId={chatId}/>
+      <ConversationShow 
+        InitialMessages={chat.messages} 
+        userName={userName}
+        chatId={chatId}/>
       <Divider/>
       <ChatInputForm chatId={chatId}/>
     </section>
