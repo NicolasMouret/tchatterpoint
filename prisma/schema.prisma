@@ -114,14 +114,16 @@ model Chat {
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  content   String
-  senderId  String
-  sender    User     @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
-  receiverId String
-  receiver  User     @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  chatId    String
-  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  content       String
+  senderId      String
+  senderName    String
+  senderImage   String
+  sender        User     @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId    String
+  receiver      User     @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  chatId        String
+  chat          Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
