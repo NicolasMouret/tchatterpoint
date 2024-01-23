@@ -1,8 +1,8 @@
 import { db } from '@/db';
 import type { Chat, Message, User } from '@prisma/client';
 
-export type UserIdAndName = 
-  {id: string, name: string};
+export type ReceiverBasicInfos = 
+  {id: string, name: string, image: string};
 
 export type ChatForList = 
   Chat & {
@@ -11,16 +11,16 @@ export type ChatForList =
       {id: string, content: string, senderId: string, receiverId: string, createdAt: Date} | null;
   }
 
-export type MessageWithUsersInfos = 
-  Message & {
-    sender: {id: string, name: string, image: string};
-    receiver: {id: string, name: string, image: string};
-  }
+// export type MessageWithUsersInfos = 
+//   Message & {
+//     sender: {id: string, name: string, image: string};
+//     receiver: {id: string, name: string, image: string};
+//   }
 
 export type ChatComplete = 
   Chat & {
     users: User[];
-    messages: MessageWithUsersInfos[];
+    messages: Message[];
   }
 
 
@@ -52,6 +52,8 @@ export async function fetchChatsForList(userId: string): Promise<ChatForList[]> 
           id: true,
           content: true,
           senderId: true,
+          senderName: true,
+          senderImage: true,
           receiverId: true,
           createdAt: true,
         },
@@ -80,31 +82,14 @@ export async function fetchChatComplete(chatId: string): Promise<ChatComplete | 
     },
     include: {
       users: true,
-      messages: {
-        include: {
-          sender: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-          receiver: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-        },
-      },
+      messages: true,
     },
   });
 
   return chat;
 }
 
-export async function fetchChatReceiver(chatId: string, senderId: string): Promise<UserIdAndName | null> {
+export async function fetchChatReceiver(chatId: string, senderId: string): Promise<ReceiverBasicInfos | null> {
   const chatWithReceiver = await db.chat.findUnique({
     where: {
       id: chatId,
@@ -119,6 +104,7 @@ export async function fetchChatReceiver(chatId: string, senderId: string): Promi
         select: {
           id: true,
           name: true,
+          image: true,
         },
       },
     },
@@ -130,29 +116,13 @@ export async function fetchChatReceiver(chatId: string, senderId: string): Promi
   return receiver;
 }
 
-export async function fetchLastMessageWithUsersInfos(chatId: string): Promise<MessageWithUsersInfos | null> {
+export async function fetchLastMessageWithUsersInfos(chatId: string): Promise<Message | null> {
   const lastMessage = await db.message.findFirst({
     where: {
       chatId: chatId,
     },
     orderBy: {
       createdAt: 'desc',
-    },
-    include: {
-      sender: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
-      receiver: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
     },
   });
   return lastMessage;
