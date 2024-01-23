@@ -1,5 +1,6 @@
 import { db } from '@/db';
 import type { Chat, Message, User } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 export type ReceiverBasicInfos = 
   {id: string, name: string, image: string};
@@ -126,4 +127,92 @@ export async function fetchLastMessageWithUsersInfos(chatId: string): Promise<Me
     },
   });
   return lastMessage;
+}
+
+export async function incrementUnreadMessages(chatId: string, receiverId: string): Promise<void> {
+  try {
+    const chatUnreadMessages = await db.userUnreadMessages.findFirst({
+      where: {
+        userId: receiverId,
+        chatId: chatId,
+      }
+    });
+    await db.userUnreadMessages.update({
+      where: {
+        id: chatUnreadMessages!.id,
+      },
+      data: {
+        count: chatUnreadMessages!.count + 1,
+      }
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+}
+
+export async function resetUnreadMessages(chatId: string, userId: string): Promise<void> {
+  try {
+    const chatUnreadMessages = await db.userUnreadMessages.findFirst({
+      where: {
+        userId: userId,
+        chatId: chatId,
+      }
+    });
+    await db.userUnreadMessages.update({
+      where: {
+        id: chatUnreadMessages!.id,
+      },
+      data: {
+        count: 0,
+      }
+    })
+    revalidatePath("/messages")
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+}
+
+export async function fetchChatUnreadMessages(chatId: string, userId: string): Promise<number> {
+  console.log(chatId, userId);
+  try {
+    const chatUnreadMessages = await db.userUnreadMessages.findFirst({
+      where: {
+        userId: userId,
+        chatId: chatId,
+      }
+    });
+    return chatUnreadMessages!.count;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+}
+
+export async function fetchAllUnreadMessages(userId: string): Promise<number> {
+  try {
+    const allUnreadMessages = await db.userUnreadMessages.findMany({
+      where: {
+        userId: userId,
+      }
+    });
+    const unreadMessagesCount = allUnreadMessages.reduce((acc, curr) => acc + curr.count, 0);
+    return unreadMessagesCount;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
 }

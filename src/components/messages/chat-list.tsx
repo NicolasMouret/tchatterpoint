@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import { fetchChatsForList } from "@/db/queries/chats";
 import { Avatar, Card } from '@nextui-org/react';
 import Link from 'next/link';
+import ChatUnreadCount from './chat-unread-count';
 
 
 
@@ -24,11 +25,12 @@ export default async function ChatList() {
             <Avatar
               radius="md"
               src={chat.interlocutor.image}/>
-            <div className="flex flex-col gap-1 ml-2">
+            <div className="flex flex-col flex-1 gap-1 ml-2">
               <span className="font-bold">{chat.interlocutor.name}</span>
               {chat.lastMessage && 
               <span className="text-xs text-slate-400">{chat.lastMessage.content.slice(0, 30)}...</span>}
             </div>
+            <ChatUnreadCount chatId={chat.id}/>
         </Card> 
       </Link>
     )

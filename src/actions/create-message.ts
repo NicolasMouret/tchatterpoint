@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { fetchChatReceiver } from "@/db/queries/chats";
+import { fetchChatReceiver, incrementUnreadMessages } from "@/db/queries/chats";
 
 import { z } from "zod";
 
@@ -72,6 +72,7 @@ export async function createMessageProfile(
           receiverId: receiverId,
         },
       });
+      incrementUnreadMessages(chat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -104,6 +105,18 @@ export async function createMessageProfile(
           },
         },
       });
+      await db.userUnreadMessages.create({
+        data: {
+          userId: receiverId,
+          chatId: newChat.id,
+        }
+      })
+      await db.userUnreadMessages.create({
+        data: {
+          userId: senderId,
+          chatId: newChat.id,
+        }
+      })
       await db.message.create({
         data: {
           content: result.data.content,
@@ -114,6 +127,7 @@ export async function createMessageProfile(
           receiverId: receiverId,
         },
       });
+      incrementUnreadMessages(newChat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -183,6 +197,7 @@ export async function createMessageChat(
         receiverId: receiver.id,
       },
     });
+    incrementUnreadMessages(chatId, receiver.id);
     return {
       success: true,
       errors: {},
