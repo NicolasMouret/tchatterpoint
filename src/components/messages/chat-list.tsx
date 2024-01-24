@@ -17,7 +17,7 @@ export default async function ChatList() {
   const renderedChats = chats.map((chat) => {
     return (
       <Link key={chat.id} 
-      className="w-[95%] sm:w-3/5"
+        className="w-[95%] sm:w-3/5"
         href={`/messages/${chat.interlocutor.name}/${chat.id}`}>
         <Card 
           isBlurred
