@@ -4,6 +4,7 @@ import { supabase } from "@/db";
 import { ChatComplete } from "@/db/queries/chats";
 import { Divider } from "@nextui-org/react";
 import { Message } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 interface ConversationShowProps {
@@ -29,6 +30,7 @@ const MessageCard = ({ message, userName }:
   }
 
 export default function ConversationShow({ initialMessages, userName, chatId }: ConversationShowProps) {
+  const session = useSession();
   const containerRef = useRef<HTMLDivElement>(null)
   const reversedInitialMessages = [...initialMessages].reverse();
   const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
@@ -56,7 +58,7 @@ export default function ConversationShow({ initialMessages, userName, chatId }: 
     return () => {
       channel.unsubscribe();
     }
-  }, [chatId])
+  }, [chatId, session.data])
   
   return (
     <div

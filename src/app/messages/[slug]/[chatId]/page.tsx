@@ -2,7 +2,7 @@ import { auth } from '@/auth';
 import ConversationShow from '@/components/messages/conversation-container';
 import ChatInputForm from '@/components/messages/conversation-input';
 import PresenceIndicator from '@/components/messages/presence-indicator';
-import { ChatComplete, fetchChatComplete } from '@/db/queries/chats';
+import { ChatComplete, fetchChatComplete, resetUnreadMessages } from '@/db/queries/chats';
 import { Avatar, Card, Divider, Link } from "@nextui-org/react";
 
 interface ChatPageProps {
@@ -25,6 +25,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const session = await auth();
   const chatId = params.chatId;
   const interlocutorName = decodeURIComponent(params.slug);
+  resetUnreadMessages(chatId, session!.user.id);
 
   if (!session) {
     return (
