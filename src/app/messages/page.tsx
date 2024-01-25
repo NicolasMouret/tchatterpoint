@@ -1,4 +1,6 @@
-import ChatList from '@/components/messages/chat-list'
+import ChatList from '@/components/messages/chat-list';
+
+export const dynamic = 'force-dynamic';
 
 export default function MessagesPage() {
   return (

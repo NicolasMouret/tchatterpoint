@@ -2,9 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { fetchChatReceiver, fetchLastMessageWithUsersInfos } from "@/db/queries/chats";
-import { pusherServer } from "@/lib/pusher";
-import { revalidatePath } from "next/cache";
+import { fetchChatReceiver, incrementUnreadMessages } from "@/db/queries/chats";
 
 import { z } from "zod";
 
@@ -69,11 +67,12 @@ export async function createMessageProfile(
           content: result.data.content,
           chatId: chat.id,
           senderId: senderId,
+          senderName: session.user.name!,
+          senderImage: session.user.image!,
           receiverId: receiverId,
         },
       });
-      const lastMessage = await fetchLastMessageWithUsersInfos(chat.id);
-      pusherServer.trigger(`chat${chat.id}`, 'new-message', lastMessage);
+      incrementUnreadMessages(chat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -106,14 +105,29 @@ export async function createMessageProfile(
           },
         },
       });
+      await db.userUnreadMessages.create({
+        data: {
+          userId: receiverId,
+          chatId: newChat.id,
+        }
+      })
+      await db.userUnreadMessages.create({
+        data: {
+          userId: senderId,
+          chatId: newChat.id,
+        }
+      })
       await db.message.create({
         data: {
           content: result.data.content,
           chatId: newChat.id,
           senderId: senderId,
+          senderName: session.user.name!,
+          senderImage: session.user.image!,
           receiverId: receiverId,
         },
       });
+      incrementUnreadMessages(newChat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -163,8 +177,7 @@ export async function createMessageChat(
       },
     };
   }
-  const senderId = session.user.id;
-  const receiver = await fetchChatReceiver(chatId, senderId);
+  const receiver = await fetchChatReceiver(chatId, session.user.id);
   if (!receiver) {
     return {
       errors: {
@@ -178,13 +191,13 @@ export async function createMessageChat(
       data: {
         content: result.data.content,
         chatId: chatId,
-        senderId: senderId,
+        senderId: session.user.id,
+        senderName: session.user.name!,
+        senderImage: session.user.image!,
         receiverId: receiver.id,
       },
     });
-    const lastMessage = await fetchLastMessageWithUsersInfos(chatId);
-    pusherServer.trigger(`chat${chatId}`, 'new-message', lastMessage);
-    revalidatePath(`/messages/${receiver.name}/${chatId}`);
+    incrementUnreadMessages(chatId, receiver.id);
     return {
       success: true,
       errors: {},
