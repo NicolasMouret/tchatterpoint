@@ -77,6 +77,7 @@ export async function fetchChatsForList(userId: string): Promise<ChatForList[]> 
 }
 
 export async function fetchChatComplete(chatId: string): Promise<ChatComplete | null> {
+  console.log("fetchchat");
   const chat = await db.chat.findUnique({
     where: {
       id: chatId,
@@ -180,7 +181,7 @@ export async function resetUnreadMessages(chatId: string, userId: string): Promi
   }
 }
 
-export async function fetchChatUnreadMessages(chatId: string, userId: string): Promise<number> {
+export async function fetchChatUnreadMessagesCount(chatId: string, userId: string): Promise<number> {
   console.log(chatId, userId);
   try {
     const chatUnreadMessages = await db.userUnreadMessages.findFirst({
@@ -199,15 +200,39 @@ export async function fetchChatUnreadMessages(chatId: string, userId: string): P
   }
 }
 
-export async function fetchAllUnreadMessages(userId: string): Promise<number> {
+export async function hasUnreadMessages(chatId: string, userId: string): Promise<boolean> {
   try {
+    const chatUnreadMessages = await db.userUnreadMessages.findFirst({
+      where: {
+        userId: userId,
+        chatId: chatId,
+      }
+    });
+    if (!chatUnreadMessages) {
+      return false;
+    }
+    return chatUnreadMessages.count > 0;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+}
+
+export async function hasAnyUnreadMessages(userId: string | undefined): Promise<boolean> {
+  try {
+    if (!userId) {
+      return false;
+    }
     const allUnreadMessages = await db.userUnreadMessages.findMany({
       where: {
         userId: userId,
       }
     });
     const unreadMessagesCount = allUnreadMessages.reduce((acc, curr) => acc + curr.count, 0);
-    return unreadMessagesCount;
+    return unreadMessagesCount > 0;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);

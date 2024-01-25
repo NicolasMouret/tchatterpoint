@@ -5,6 +5,8 @@ import PresenceIndicator from '@/components/messages/presence-indicator';
 import { ChatComplete, fetchChatComplete, resetUnreadMessages } from '@/db/queries/chats';
 import { Avatar, Card, Divider, Link } from "@nextui-org/react";
 
+export const dynamic = 'force-dynamic';
+
 interface ChatPageProps {
   params: {
     slug: string;
@@ -25,7 +27,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const session = await auth();
   const chatId = params.chatId;
   const interlocutorName = decodeURIComponent(params.slug);
-  resetUnreadMessages(chatId, session!.user.id);
 
   if (!session) {
     return (
@@ -35,6 +36,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
     )
   }
   const {name: userName, id: userId} = session.user;
+  resetUnreadMessages(chatId, userId);
 
   const chat = await fetchChatComplete(chatId);
   if (!chat) {
