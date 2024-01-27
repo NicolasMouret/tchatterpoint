@@ -61,7 +61,10 @@ export default function AccountNavItems({closeMenu, format}: NavbarItemProps) {
         </NavbarItem>
         <NavbarItem isActive={pathname === "/messages/"}>
           <Badge color="warning" variant="shadow" isInvisible={!hasUnread} content={"new"} placement="bottom-right">
-            <Link className={`${hasUnread ? "mr-3" : ""}`} href="/messages">
+            <Link 
+              className={`${hasUnread ? "mr-3" : ""}`} 
+              href="/messages"
+              prefetch={false}>
               Mes messages
             </Link>
           </Badge>
@@ -76,7 +79,10 @@ export default function AccountNavItems({closeMenu, format}: NavbarItemProps) {
         </NavbarMenuItem>   
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/messages"}>
         <Badge color="warning" variant="shadow" isInvisible={!hasUnread} content={"new"}>
-          <Link className="pr-3" href="/messages">Mes messages</Link>
+          <Link 
+            className="pr-3" 
+            href="/messages"
+            prefetch={false}>Mes messages</Link>
         </Badge>
         </NavbarMenuItem> 
       </>

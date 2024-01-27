@@ -4,22 +4,22 @@ import { supabase } from "@/db";
 import { ChatComplete } from "@/db/queries/chats";
 import { Divider } from "@nextui-org/react";
 import { Message } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 interface ConversationShowProps {
   initialMessages: ChatComplete["messages"];
-  userName: string | undefined | null;
+  userId: string;
   chatId: string;
 }
 
-const MessageCard = ({ message, userName }: 
+const MessageCard = ({ message, userId }: 
   { message: Message, 
-  userName: string | undefined | null }) => {
+  userId: string | undefined | null }) => {
     return (
       <article key={message.id} className={`border-1 border-slate-400 rounded-lg 
         backdrop-blur-lg bg-opacity-20
-        ${message.senderName === userName ? "self-end text-right bg-blue-950" : 
+        ${message.senderId === userId ? "self-end text-right bg-blue-950" : 
         "bg-yellow-400 bg-opacity-15" }
         w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
         <p className="font-bold">{message.senderName}</p>
@@ -29,11 +29,11 @@ const MessageCard = ({ message, userName }:
     )
   }
 
-export default function ConversationShow({ initialMessages, userName, chatId }: ConversationShowProps) {
-  const session = useSession();
+export default function ConversationShow({ initialMessages, userId, chatId }: ConversationShowProps) {
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null)
   const reversedInitialMessages = [...initialMessages].reverse();
-  const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
+  // const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
@@ -45,30 +45,27 @@ export default function ConversationShow({ initialMessages, userName, chatId }: 
     const channel = supabase.channel(`chatChanges`);
     channel
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
-      payload => {
-        const newMessage = payload.new as Message;
-        if (newMessage.chatId === chatId) {
-          console.log("new message", newMessage);
-          setIncomingMessages(prev => [...prev, newMessage].reverse());
-          scrollToBottom();
-        }           
+      payload => {          
+        if (payload.new.chatId === chatId) {
+          router.refresh();
+        }
       })
       .subscribe();
 
     return () => {
       channel.unsubscribe();
     }
-  }, [chatId, session.data])
+  }, [chatId, initialMessages, userId, router])
   
   return (
     <div
       ref={containerRef}
       className="flex flex-col-reverse gap-2 p-2 w-full flex-1 overflow-y-auto">
-        {incomingMessages.map(message => (
-          <MessageCard key={message.id} message={message} userName={userName}/>
-        ))}
+        {/* {incomingMessages.map(message => (
+          <MessageCard key={message.id} message={message} userId={userId}/>
+        ))} */}
         {reversedInitialMessages.map(message => (
-          <MessageCard key={message.id} message={message} userName={userName}/>
+          <MessageCard key={message.id} message={message} userId={userId}/>
         ))}
       </div>
   )

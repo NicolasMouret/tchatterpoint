@@ -197,7 +197,7 @@ export async function createMessageChat(
         receiverId: receiver.id,
       },
     });
-    incrementUnreadMessages(chatId, receiver.id);
+    await incrementUnreadMessages(chatId, receiver.id);
     return {
       success: true,
       errors: {},

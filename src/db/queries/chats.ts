@@ -1,6 +1,5 @@
 import { db } from '@/db';
 import type { Chat, Message, User } from '@prisma/client';
-import { revalidatePath } from 'next/cache';
 
 export type ReceiverBasicInfos = 
   {id: string, name: string, image: string};
@@ -77,7 +76,6 @@ export async function fetchChatsForList(userId: string): Promise<ChatForList[]> 
 }
 
 export async function fetchChatComplete(chatId: string): Promise<ChatComplete | null> {
-  console.log("fetchchat");
   const chat = await db.chat.findUnique({
     where: {
       id: chatId,
@@ -171,7 +169,7 @@ export async function resetUnreadMessages(chatId: string, userId: string): Promi
         count: 0,
       }
     })
-    revalidatePath("/messages")
+    console.log("revalidated")
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
