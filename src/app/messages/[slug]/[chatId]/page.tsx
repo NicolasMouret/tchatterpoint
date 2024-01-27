@@ -4,8 +4,7 @@ import ChatInputForm from '@/components/messages/conversation-input';
 import PresenceIndicator from '@/components/messages/presence-indicator';
 import { ChatComplete, fetchChatComplete, resetUnreadMessages } from '@/db/queries/chats';
 import { Avatar, Card, Divider, Link } from "@nextui-org/react";
-
-export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface ChatPageProps {
   params: {
@@ -35,8 +34,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </Card>
     )
   }
-  const {name: userName, id: userId} = session.user;
-  resetUnreadMessages(chatId, userId);
+  const userId = session.user.id;
 
   const chat = await fetchChatComplete(chatId);
   if (!chat) {
@@ -55,7 +53,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
     )
   }
   const interlocutorImage = getInterlocutorImage(chat, interlocutorName);
-
+  await resetUnreadMessages(chatId, userId);
   
   return (
     <section className="flex flex-col items-center p-2 w-[95%] sm:w-4/5 h-[88vh] mb-2
@@ -74,10 +72,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
           chatId={chatId}/>
       </div>
       <Divider/>
-      <ConversationShow 
-        initialMessages={chat.messages} 
-        userName={userName}
-        chatId={chatId}/>
+        <ConversationShow 
+          initialMessages={chat.messages} 
+          userId={userId}
+          chatId={chatId}/>
       <Divider/>
       <ChatInputForm chatId={chatId}/>
     </section>
