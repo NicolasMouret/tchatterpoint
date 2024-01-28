@@ -38,6 +38,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
+      console.log("scrolling to bottom")
     }
   }
 
@@ -63,7 +64,9 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
       .update({ count: 0 })
       .eq("chatId", chatId)
       .eq("userId", userId)
-      
+      .then(() => {
+        console.log("updated unread messages")
+      }) 
     const channel = supabase.channel(`chatChanges`);
     channel
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
@@ -81,6 +84,9 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
       .update({ count: 0 })
       .eq("chatId", chatId)
       .eq("userId", userId)
+      .then(() => {
+        console.log("updated unread messages return")
+      })
     }
   }, [chatId, initialMessages, userId, router])
   
