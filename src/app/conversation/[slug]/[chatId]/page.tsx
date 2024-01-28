@@ -2,9 +2,9 @@ import { auth } from '@/auth';
 import ConversationShow from '@/components/messages/conversation-container';
 import ChatInputForm from '@/components/messages/conversation-input';
 import PresenceIndicator from '@/components/messages/presence-indicator';
-import { ChatComplete, fetchChatComplete, resetUnreadMessages } from '@/db/queries/chats';
+import { ChatComplete, fetchChatComplete } from '@/db/queries/chats';
 import { Avatar, Card, Divider, Link } from "@nextui-org/react";
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 interface ChatPageProps {
   params: {
@@ -53,7 +53,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
     )
   }
   const interlocutorImage = getInterlocutorImage(chat, interlocutorName);
-  await resetUnreadMessages(chatId, userId);
   
   return (
     <section className="flex flex-col items-center p-2 w-[95%] sm:w-4/5 h-[88vh] mb-2
@@ -73,7 +72,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </div>
       <Divider/>
         <ConversationShow 
-          initialMessages={chat.messages} 
+          // initialMessages={chat.messages} 
           userId={userId}
           chatId={chatId}/>
       <Divider/>
