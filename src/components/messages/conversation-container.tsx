@@ -58,7 +58,12 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
   useEffect(() => {
 
     scrollToBottom();
-
+    supabase
+      .from("UserUnreadMessages")
+      .update({ count: 0 })
+      .eq("chatId", chatId)
+      .eq("userId", userId)
+      
     const channel = supabase.channel(`chatChanges`);
     channel
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
