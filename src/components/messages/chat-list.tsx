@@ -3,7 +3,7 @@ import { ChatForList, fetchChatsForList } from "@/db/queries/chats";
 import { Avatar, Card } from '@nextui-org/react';
 import Link from 'next/link';
 import ChatUnreadCount from './chat-unread-count';
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 
 export default async function ChatList() {
@@ -19,7 +19,7 @@ export default async function ChatList() {
     return (
           <Link key={chat.id} 
           className="w-[95%] sm:w-3/5"
-          href={`/messages/${chat.interlocutor.name}/${chat.id}`}
+          href={`/conversation/${chat.interlocutor.name}/${chat.id}`}
           prefetch={false}>
             <Card 
               isBlurred

@@ -1,14 +1,14 @@
 'use client';
 
 import { supabase } from "@/db";
-import { ChatComplete } from "@/db/queries/chats";
 import { Divider } from "@nextui-org/react";
 import { Message } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ConversationShowProps {
-  initialMessages: ChatComplete["messages"];
+  // initialMessages: ChatComplete["messages"];
   userId: string;
   chatId: string;
 }
@@ -29,31 +29,53 @@ const MessageCard = ({ message, userId }:
     )
   }
 
-export default function ConversationShow({ initialMessages, userId, chatId }: ConversationShowProps) {
+export default function ConversationShow({ userId, chatId }: ConversationShowProps) {
   const router = useRouter();
+  const session = useSession();
   const containerRef = useRef<HTMLDivElement>(null)
-  const reversedInitialMessages = [...initialMessages].reverse();
-  // const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
+  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
+  const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
   }
+
+  useEffect(() => {
+    if (session.data?.user?.id) {
+      supabase
+        .from("Message")
+        .select("*")
+        .eq("chatId", chatId)
+        .order("createdAt", { ascending: true })
+        .then(({ data: messages }) => {
+          setInitialMessages(messages?.reverse() as Message[]);
+          scrollToBottom();
+        })
+    }
+  }, [chatId, session])
   
   useEffect(() => {
+
     scrollToBottom();
+
     const channel = supabase.channel(`chatChanges`);
     channel
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
       payload => {          
         if (payload.new.chatId === chatId) {
-          router.refresh();
+          setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
         }
       })
       .subscribe();
 
     return () => {
       channel.unsubscribe();
+      supabase
+      .from("UserUnreadMessages")
+      .update({ count: 0 })
+      .eq("chatId", chatId)
+      .eq("userId", userId)
     }
   }, [chatId, initialMessages, userId, router])
   
@@ -61,12 +83,13 @@ export default function ConversationShow({ initialMessages, userId, chatId }: Co
     <div
       ref={containerRef}
       className="flex flex-col-reverse gap-2 p-2 w-full flex-1 overflow-y-auto">
-        {/* {incomingMessages.map(message => (
-          <MessageCard key={message.id} message={message} userId={userId}/>
-        ))} */}
-        {reversedInitialMessages.map(message => (
+        {incomingMessages.map(message => (
           <MessageCard key={message.id} message={message} userId={userId}/>
         ))}
+        {initialMessages ? initialMessages.map(message => (
+          <MessageCard key={message.id} message={message} userId={userId}/>
+        )) :
+        null}
       </div>
   )
 }
