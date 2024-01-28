@@ -16,6 +16,7 @@
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.1",
     "@react-google-maps/api": "^2.19.2",
+    "@supabase/supabase-js": "^2.39.3",
     "@types/google.maps": "^3.54.10",
     "@uidotdev/usehooks": "^2.4.1",
     "bcrypt": "^5.1.1",

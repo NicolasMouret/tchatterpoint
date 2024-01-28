@@ -21,6 +21,7 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  trustHost: true,
   pages: {
     signIn: "/sign-in",
   },
@@ -125,7 +126,16 @@ export const {
       
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token, user }: any) {
+      const unreads = await db.userUnreadMessages.findMany({
+        where: {
+          userId: token.id,
+        },
+        select: {
+          chatId: true,
+          count: true,
+        }
+      })
 
       // SET THE SESSION FROM THE JWT
       return {
@@ -137,6 +147,7 @@ export const {
           role: token.role,
           latitude: token.latitude,
           longitude: token.longitude,
+          unreadMessages: unreads,
         }
       }
     },

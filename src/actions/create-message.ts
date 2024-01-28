@@ -2,8 +2,12 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { revalidatePath } from "next/cache";
+import { fetchChatReceiver, incrementUnreadMessages } from "@/db/queries/chats";
+
 import { z } from "zod";
+
+
+
 
 const createMessageSchema = z.object({
   content: z.string().min(1, { message: "Vous ne pouvez pas envoyer un message vide" }),
@@ -63,9 +67,12 @@ export async function createMessageProfile(
           content: result.data.content,
           chatId: chat.id,
           senderId: senderId,
+          senderName: session.user.name!,
+          senderImage: session.user.image!,
           receiverId: receiverId,
         },
       });
+      incrementUnreadMessages(chat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -98,14 +105,29 @@ export async function createMessageProfile(
           },
         },
       });
+      await db.userUnreadMessages.create({
+        data: {
+          userId: receiverId,
+          chatId: newChat.id,
+        }
+      })
+      await db.userUnreadMessages.create({
+        data: {
+          userId: senderId,
+          chatId: newChat.id,
+        }
+      })
       await db.message.create({
         data: {
           content: result.data.content,
           chatId: newChat.id,
           senderId: senderId,
+          senderName: session.user.name!,
+          senderImage: session.user.image!,
           receiverId: receiverId,
         },
       });
+      incrementUnreadMessages(newChat.id, receiverId);
       return {
         success: true,
         errors: {},
@@ -155,26 +177,8 @@ export async function createMessageChat(
       },
     };
   }
-  const senderId = session.user.id;
-  const receiverId = await db.chat.findUnique({
-    where: {
-      id: chatId,
-    },
-    select: {
-      users: {
-        where: {
-          id: {
-            not: senderId,
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-  if (!receiverId) {
+  const receiver = await fetchChatReceiver(chatId, session.user.id);
+  if (!receiver) {
     return {
       errors: {
         _form: ["La conversation n'existe pas"],
@@ -187,11 +191,13 @@ export async function createMessageChat(
       data: {
         content: result.data.content,
         chatId: chatId,
-        senderId: senderId,
-        receiverId: receiverId.users[0].id,
+        senderId: session.user.id,
+        senderName: session.user.name!,
+        senderImage: session.user.image!,
+        receiverId: receiver.id,
       },
     });
-    revalidatePath(`/messages/${receiverId.users[0].name}/${chatId}`);
+    await incrementUnreadMessages(chatId, receiver.id);
     return {
       success: true,
       errors: {},
