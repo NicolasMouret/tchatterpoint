@@ -6,15 +6,15 @@ import { hash } from 'bcrypt';
 import { z } from 'zod';
 
 const signUpUser = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3, { message: "Minimum 3 caractères" }),
   email: z.string().email(),
-  password: z.string().min(12),
-  confirmPassword: z.string().min(12),
+  password: z.string().min(12, { message: "Minimum 12 caractères" }),
+  confirmPassword: z.string().min(12, { message: "Minimum 12 caractères" }),
 }).refine((values) => {
   return values.password === values.confirmPassword;
 },
 {
-  message: "Passwords must match!",
+  message: "Les mots de passe ne correspondent pas",
   path: ["confirmPassword"],
 })
 

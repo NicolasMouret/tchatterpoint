@@ -14,7 +14,7 @@ export default function TopicShowPage({ params }: TopicShowPageProps) {
   return (
     <div className="flex flex-col items gap-4 px-4 w-screen sm:w-3/5 relative z-10">
       <Link className="underline decoration-solid" href="/cantina">
-        {"< "}Back to Cantina
+        {"< "}Retour à la Cantina
       </Link>
       <div className="flex flex-col mt-2">
         <PostCreateform slug={slug}/>

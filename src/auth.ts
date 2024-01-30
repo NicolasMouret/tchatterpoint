@@ -39,7 +39,7 @@ export const {
         } else if (profile.email === ADMIN_EMAIL) {
           userRole = 'admin';
         }
-
+        // return the 
         return {
           id: profile.sub,
           role: userRole,
@@ -51,7 +51,6 @@ export const {
     }),
     CredentialsProvider({
       name: 'email et mot de passe',
-
       credentials: {
         email: { label: "Email", type: "email" },
         password: {  label: "Mot de passe", type: "password" }
@@ -61,7 +60,6 @@ export const {
           where: { email: credentials!.email as string,
            },
         });
-
         if (res && res.pwHash) {
           const passwordValid = await compare(credentials!.password as string, res.pwHash);
           if (passwordValid) {
@@ -100,20 +98,7 @@ export const {
         token.image = session.image
       }
 
-      // WHEN USER SIGN IN WITH GOOGLE OR GITHUB 
-      if (account?.provider === 'google' || account?.provider === 'github') {
-        return {
-          ...token,
-          id: user.id,
-          role: user.role,
-          image: user.image,
-          latitude: user.latitude,
-          longitude: user.longitude,
-        }
-      }
-
-      // WHEN USER SIGN IN WITH EMAIL AND PASSWORD
-      if (user) {
+      if (account?.provider === 'google' || user) {
         return {
           ...token,
           id: user.id,
@@ -147,7 +132,6 @@ export const {
           role: token.role,
           latitude: token.latitude,
           longitude: token.longitude,
-          unreadMessages: unreads,
         }
       }
     },

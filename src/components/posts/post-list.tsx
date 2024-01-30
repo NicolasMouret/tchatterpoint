@@ -20,7 +20,7 @@ export default async function PostList({ fetchData }: PostListProps) {
         <Link href={paths.postShow(topicSlug, post.id)}>
           <h3 className="text-lg font-bold">{post.title}</h3>
           <div className="flex flex-row gap-8">
-            <p className="text-xs text-gray-300">By {post.user.name}</p>
+            <p className="text-xs text-gray-300">Par {post.user.name}</p>
             <p className="text-xs text-gray-300">
               {post._count.comments} commentaires
             </p>

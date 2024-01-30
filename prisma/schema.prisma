@@ -53,6 +53,7 @@ model User {
   sentMessages     Message[] @relation("sender")
   receivedMessages Message[] @relation("receiver")
   unreadMessages   UserUnreadMessages[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model VerificationToken {
@@ -143,3 +144,14 @@ model UserUnreadMessages {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  createdAt DateTime @default(now())
+  resetAt   DateTime?
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+}
+
