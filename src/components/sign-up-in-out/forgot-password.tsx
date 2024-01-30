@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
                 startContent={<GiConfirmed className="text-lg mr-1"/>}
                 color="warning"
                 variant="flat">
-                Email envoyé.
+                  {formState.successMessage}
               </Chip>}
             <Button 
               type="submit"

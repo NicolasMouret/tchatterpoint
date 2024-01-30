@@ -1,23 +1,30 @@
 'use client';
 
+import paths from '@/paths';
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   Divider,
   Input,
   Link
 } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { BiErrorAlt } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
+const PATH_ON_SIGNIN = paths.privateProfile();
+
 export default function SignInForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,16 +39,16 @@ export default function SignInForm() {
     try {    
       setIsLoading(true);
       const res = await signIn("credentials", {
-        callbackUrl: "/mon-profil",
-        redirect: true,
+        redirect: false,
         email,
         password
       });
       if (res) {
         setIsLoading(false);
+        router.push(PATH_ON_SIGNIN);
       }
-
     } catch (error) {
+      setIsLoading(false);
       if(error instanceof Error) {
         setError(error.message);
       } else {
@@ -55,7 +62,7 @@ export default function SignInForm() {
       <CardHeader className="text-xl flex justify-center font-bold">Connexion</CardHeader>
       <Divider/>
         <button 
-          onClick={() => signIn("google", {callbackUrl: "/mon-profil", redirect: true})}
+          onClick={() => signIn("google", {callbackUrl: PATH_ON_SIGNIN, redirect: true})}
           className="flex items-center justify-center gap-4 rounded-md border-3 bg-slate-50 my-4 p-4 
           font-medium text-slate-900 w-[95%] sm:w-2/3 self-center border-slate-50
          hover:border-slate-400 hover:bg-slate-100">
@@ -99,10 +106,15 @@ export default function SignInForm() {
               }
               type={isVisible ? "text" : "password"}
             />
-            <Divider/>
-            {error ? 
-            <div className="p-2 bg-red-200 border border-red-400 rounded">{error}</div> :
-            null}
+            <Divider/> 
+              {error ? 
+                <Chip 
+                  startContent={<BiErrorAlt className="text-lg mr-1"/>}
+                  color="danger"
+                  variant="flat">
+                    Email ou mot de passe incorrect
+                </Chip>
+              : null}
             <Button 
               type="submit"
               className="sm:my-1 w-1/2 font-medium text-base" 

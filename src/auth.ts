@@ -5,8 +5,6 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
@@ -36,10 +34,7 @@ export const {
         })
         if (user) {
           userRole = user.role;
-        } else if (profile.email === ADMIN_EMAIL) {
-          userRole = 'admin';
         }
-        // return the 
         return {
           id: profile.sub,
           role: userRole,
@@ -50,11 +45,6 @@ export const {
       }
     }),
     CredentialsProvider({
-      name: 'email et mot de passe',
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: {  label: "Mot de passe", type: "password" }
-      },
       async authorize(credentials, req) {
         const res = await db.user.findUnique({
           where: { email: credentials!.email as string,

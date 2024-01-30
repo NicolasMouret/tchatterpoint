@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { revalidatePath } from "next/cache";
 
-interface UpdateUserLocationResult {
+interface EditUserLocationResult {
   errors: {
     _form?: string[];
   };
@@ -15,11 +15,11 @@ interface UpdateUserLocationResult {
   } | null;
 }
 
-export async function updateUserLocation(
+export async function editUserLocation(
   location : google.maps.LatLngLiteral | null,
-  formState: UpdateUserLocationResult,
+  formState: EditUserLocationResult,
   formData: FormData
-): Promise<UpdateUserLocationResult> {
+): Promise<EditUserLocationResult> {
   const session = await auth();
   if (!session || !session.user) {
     return {
