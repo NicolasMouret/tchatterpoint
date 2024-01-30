@@ -80,7 +80,7 @@ export default function SignInForm() {
               } 
               /> 
             <Input
-              classNames={{input: `placeholder:font-normal ${isVisible ? "font-normal" : "font-extrabold"}`,
+              classNames={{input: `${isVisible ? "font-normal" : "font-extrabold"}`,
               inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
               label: "p-0.5"}}
               name="password"
