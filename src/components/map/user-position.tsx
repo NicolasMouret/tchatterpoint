@@ -25,7 +25,7 @@ export default function MapUserPosition({initialLocation}:
   const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>
   (initialLocation || null);
 
-  const [updateFormState, updateAction] = useFormState(actions.updateUserLocation.bind(null, location), {
+  const [updateFormState, updateAction] = useFormState(actions.editUserLocation.bind(null, location), {
     errors: {}
   });
   const [deleteFormState, deleteAction] = useFormState(actions.deleteUserLocation, {
