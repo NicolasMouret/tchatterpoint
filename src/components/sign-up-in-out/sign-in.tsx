@@ -4,9 +4,11 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Divider,
-  Input
+  Input,
+  Link
 } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
@@ -78,7 +80,7 @@ export default function SignInForm() {
               } 
               /> 
             <Input
-              classNames={{input: `placeholder:font-normal ${isVisible ? "font-normal" : "font-extrabold"}`,
+              classNames={{input: `${isVisible ? "font-normal" : "font-extrabold"}`,
               inputWrapper: "bg-slate-800 bg-opacity-50 backdrop-blur-sm",
               label: "p-0.5"}}
               name="password"
@@ -111,6 +113,11 @@ export default function SignInForm() {
           </div>
         </form>
       </CardBody>
+      <CardFooter className="flex justify-center">
+        <Link href="/forgot-password" className="text-yellow-400">
+          Mot de passe oublié ?
+        </Link>
+      </CardFooter>
     </Card>
   )
 }
