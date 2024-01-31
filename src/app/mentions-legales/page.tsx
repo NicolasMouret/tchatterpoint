@@ -11,12 +11,13 @@ export default function LegalsPage() {
 
   const styles = {
     title: "font-bold text-2xl my-6 text-center",
-    link: "text-yellow-400 font-semibold",
+    link: "text-yellow-400 font-semibold hover:underline hover:text-yellow-500",
     part: "flex flex-col gap-3"
   }
 
     return (
-      <section className="w-[95%] lg:w-full px-8 py-4 border-1 border-slate-500 bg-slate-950 bg-opacity-60 backdrop-blur-sm rounded">
+      <section className="w-[95%] lg:w-full px-8 py-4 border-1 border-slate-500 bg-slate-950 
+      bg-opacity-60 backdrop-blur-sm rounded">
         <h2 className={`${styles.title}`}>1 - &Eacute;dition du site</h2>
           <p className="">
             En vertu de l&apos;article 6 de la loi n&deg; 2004-575 du 21 juin 2004 
@@ -81,7 +82,7 @@ export default function LegalsPage() {
             <p>
             Pour plus d&apos;informations sur la fa&ccedil;on dont nous traitons vos donn&eacute;es 
             (type de donn&eacute;es, finalit&eacute;, destinataire...), 
-            lisez notre <Link className={`${styles.link}`} href={BASE_URL!}>{BASE_URL}/politique-confidentialite</Link>.
+            lisez notre <Link className={`${styles.link}`} href={`${BASE_URL!}/politique-confidentialite`}>politique de confidentialité</Link>.
             </p> 
           </div>
         <h2 className={`${styles.title}`}>5 - Liens hypertextes et cookies</h2>
@@ -102,7 +103,7 @@ export default function LegalsPage() {
             les param&egrave;tres de votre navigateur. Aucun cookie ne sera d&eacute;pos&eacute; sans votre consentement.
             Les cookies sont enregistr&eacute;s pour une dur&eacute;e maximale de 13 mois.
             Pour plus d&apos;informations sur la fa&ccedil;on dont nous faisons usage des cookies, 
-            lisez notre <Link className={`${styles.link}`} href={BASE_URL!}>{BASE_URL}/politique-confidentialite</Link>.
+            lisez notre <Link className={`${styles.link}`} href={`${BASE_URL!}/politique-confidentialite`}>politique de confidentialité</Link>.
             </p>
           </div> 
         <h2 className={`${styles.title}`}>6 - Droit applicable et attribution de juridiction.</h2>
