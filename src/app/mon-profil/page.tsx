@@ -26,7 +26,7 @@ export default async function myProfilePage() {
   )
     
     return (
-      <div className="flex flex-col items-center gap-4 p-3 w-full sm:w-4/5">
+      <div className="flex flex-1 flex-col items-center gap-4 p-3 w-full sm:w-4/5">
         <h1 className="font-bold text-2xl text-yellow-400">Mon profil</h1>
         <Divider/>
         <h2 className="font-bold text-lg text-yellow-400">Mes infos</h2>
