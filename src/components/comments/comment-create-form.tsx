@@ -60,14 +60,19 @@ export default function CommentCreateForm({
 
         <FormButton
           className="font-medium text-base min-w-[130px] w-2/5 self-center"
-          color="primary">Commenter</FormButton>
+          color="warning">Commenter</FormButton>
       </div>
     </form>
   );
 
   return (
     <div>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+      <Button 
+        className="my-2 border-1 font-semibold"
+        size="sm" 
+        variant="ghost" 
+        color="warning"
+        onClick={() => setOpen(!open)}>
         Répondre
       </Button>
       {open && form}

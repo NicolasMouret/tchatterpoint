@@ -12,17 +12,17 @@ interface TopicShowPageProps {
 export default function TopicShowPage({ params }: TopicShowPageProps) {
   const slug = decodeURIComponent(params.slug);
   return (
-    <div className="flex flex-1 flex-col items gap-4 px-4 w-screen sm:w-3/5 relative z-10">
-      <Link className="underline decoration-solid" href="/cantina">
+    <main className="flex flex-1 flex-col items gap-4 px-4 w-screen sm:w-3/5 relative z-10">
+      <Link className="underline decoration-solid font-semibold hover:text-yellow-400" href="/cantina">
         {"< "}Retour à la Cantina
       </Link>
       <div className="flex flex-col mt-2">
         <PostCreateform slug={slug}/>
       </div>
-      <div className="">
+      <section>
         <h1 className="text-2xl font-bold mb-2">{slug}</h1>
         <PostList fetchData={() => fetchPostsByTopicSlug(slug)} />
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }

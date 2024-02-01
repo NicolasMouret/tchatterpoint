@@ -22,12 +22,11 @@ export default async function CommentList({ postId }: CommentListProps) {
   });
 
   return (
-    <div>
-      <div className="rounded 
-    bg-black bg-opacity-70 backdrop-blur-sm w-fit px-2">
+    <section>
+      <div className="rounded bg-black bg-opacity-70 backdrop-blur-sm w-fit px-2">
         <h1 className="text-lg font-bold">{comments.length} commentaires</h1>
       </div>
       {renderedComments}
-    </div>
+    </section>
   );
 }

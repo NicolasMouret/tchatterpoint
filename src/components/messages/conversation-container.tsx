@@ -38,35 +38,36 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
-      console.log("scrolling to bottom")
     }
   }
 
+  // WAY TO GET UP TO DATE MESSAGES ON EVERY RENDER
+  // AS A WORKAROUND TO THE NEXT 30sec ROUTER CACHE
   useEffect(() => {
     if (session.data?.user?.id) {
       supabase
         .from("Message")
         .select("*")
         .eq("chatId", chatId)
-        .order("createdAt", { ascending: true })
+        .order("createdAt", { ascending: false })
         .then(({ data: messages }) => {
-          setIncomingMessages([]);
-          setInitialMessages(messages?.reverse() as Message[]);
+          setIncomingMessages([]); //reset local state to avoid any duplicates
+          setInitialMessages(messages as Message[]);
         })
     }
   }, [chatId, session])
   
   useEffect(() => {
-
     scrollToBottom();
     supabase
       .from("UserUnreadMessages")
       .update({ count: 0 })
       .eq("chatId", chatId)
       .eq("userId", userId)
-      .then(() => {
-        console.log("updated unread messages")
-      }) 
+      .then() 
+
+    // REALTIME LISTENING TO INSERTS WITH chatId IN MESSAGE TABLE
+    // ADD THEM TO LOCAL TEMP STATE
     const channel = supabase.channel(`chatChanges`);
     channel
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
@@ -80,14 +81,6 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
 
     return () => {
       channel.unsubscribe();
-      supabase
-      .from("UserUnreadMessages")
-      .update({ count: 0 })
-      .eq("chatId", chatId)
-      .eq("userId", userId)
-      .then(() => {
-        console.log("updated unread messages return")
-      })
     }
   }, [chatId, initialMessages, userId, router])
   
