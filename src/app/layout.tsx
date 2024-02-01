@@ -3,9 +3,18 @@ import Footer from '@/components/footer/footer'
 import Header from '@/components/header/header'
 import type { Metadata } from 'next'
 import { Orbitron } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
-const orbitron = Orbitron({ subsets: ['latin']})
+const swFont = localFont({
+  src: './font/Starjedi.ttf',
+  variable: '--swFont',
+})
+
+const orbitron = Orbitron({ 
+  subsets: ['latin'],
+  variable: '--orbitronFont',
+})
 
 export const metadata: Metadata = {
   title: 'Tchatterpoint',
@@ -19,10 +28,10 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="fr">
-      <body className={`${orbitron.className} dark text-foreground bg-background tracking-wider relative`} style={{
+    <html lang="fr" className={`${orbitron.variable} ${swFont.variable}`}>
+      <body className={`dark text-foreground bg-background tracking-wider relative font-stdFont`} style={{
         // use the src property of the image object
-        backgroundImage: `url("/star_wars_background.png")`,
+        backgroundImage: `url("/bg-space-empty.jpeg")`,
         // other styles
         backgroundPosition: "center",
         backgroundSize: "cover",

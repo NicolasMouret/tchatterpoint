@@ -42,21 +42,30 @@ export default function SendMessageForm({
         />
 
         {formState.errors._form ? (
-          <div className="p-2 bg-red-200 border rounded border-red-400">
+          <div className="p-2 bg-red-800 text-red-50 border rounded border-red-400">
             {formState.errors._form?.join(", ")}
           </div>
         ) : null}
 
         <FormButton
           className="font-medium text-base min-w-[130px] w-2/5 self-center"
-          color="primary">Envoyer</FormButton>
+          color="primary"
+          variant="shadow"
+          >
+            Envoyer
+        </FormButton>
       </div>
     </form>
   );
 
   return (
     <>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+      <Button 
+        className="font-semibold"
+        size="sm" 
+        variant="shadow" 
+        color="warning" 
+        onClick={() => setOpen(!open)}>
         Envoyer un message
       </Button>
       {open && form}

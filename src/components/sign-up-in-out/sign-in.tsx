@@ -52,17 +52,32 @@ export default function SignInForm() {
 
   return (
     <Card isBlurred className="w-full border-1 border-slate-400">
-      <CardHeader className="text-xl flex justify-center font-bold">Connexion</CardHeader>
+      <CardHeader className="text-3xl flex justify-center font-bold font-swFont text-yellow-400">Connexion</CardHeader>
+      <h2 className="self-center font-bold text-lg mt-3">Pas encore de compte ?</h2>
       <Divider/>
+      <div className="flex flex-col items-center mb-3">
         <button 
           onClick={() => signIn("google", {callbackUrl: PATH_ON_SIGNIN, redirect: true})}
           className="flex items-center justify-center gap-4 rounded-md border-3 bg-slate-50 my-4 p-4 
           font-medium text-slate-900 w-[95%] sm:w-2/3 self-center border-slate-50
-         hover:border-slate-400 hover:bg-slate-100">
+          hover:border-slate-400 hover:bg-slate-100">
             <FcGoogle className="text-2xl"/> Se connecter avec Google
         </button>
+        <Link 
+          className="sm:my-1 w-2/3"
+          href="/sign-up" >
+        <Button 
+          type="button"
+          className="w-full font-semibold text-base" 
+          color="warning"
+          variant="shadow"
+          isLoading={isLoading}
+          > Inscription
+        </Button>
+        </Link>
+      </div>
       <Divider/>
-      <h1 className="self-center font-bold text-lg mt-3">Connexion avec identifiants</h1>
+      <h2 className="self-center font-bold text-lg mt-3">Se connecter avec identifiants</h2>
       <CardBody>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center gap-4 sm:gap-6 p-2 sm:px-12 w-[90vw] sm:w-[550px]">
@@ -118,7 +133,7 @@ export default function SignInForm() {
         </form>
       </CardBody>
       <CardFooter className="flex justify-center">
-        <Link href="/forgot-password" className="text-yellow-400">
+        <Link href="/forgot-password" className="text-yellow-400 hover:underline">
           Mot de passe oublié ?
         </Link>
       </CardFooter>

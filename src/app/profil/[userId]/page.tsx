@@ -21,8 +21,8 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
   )
 
   return (
-    <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">
-      <h1 className="font-bold text-xl text-yellow-400">Profil de {user.name}</h1>
+    <div className="flex flex-1 flex-col items-center gap-4 px-3 w-full sm:w-4/5">
+      <h1 className="font-bold text-2xl sm:text-3xl font-swFont text-yellow-400">Profil de {user.name}</h1>
       <Divider/>
       <Card 
         className="border-1 border-slate-500 w-full lg:w-3/4 py-5 px-2 sm:p-6 mb-2"
