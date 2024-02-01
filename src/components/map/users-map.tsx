@@ -24,7 +24,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
   if (loadError) return <div>Erreur au chargement de la carte</div>;
   if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>;
 
-  //Create a list of markers from the usersLocationList
+  //CREATE MARKERS LIST FROM ALL USERS WITH LOCATION
   const MarkerList = usersLocationList.map((user) => {
     return (
       <GoogleMapMarker

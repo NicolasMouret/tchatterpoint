@@ -45,7 +45,7 @@ export default function Header() {
             Carte des joueurs
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathname === "/cantina"}>
+        <NavbarItem isActive={pathname.includes("cantina")}>
           <Link href="/cantina">
             Cantina
           </Link>
@@ -60,7 +60,7 @@ export default function Header() {
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/carte-des-joueurs"}>
           <Link href="/carte-des-joueurs">Carte des joueurs</Link>
         </NavbarMenuItem>
-        <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/cantina"}>
+        <NavbarMenuItem onClick={closeMenu} isActive={pathname.includes("cantina")}>
           <Link href="/cantina">Cantina</Link>
         </NavbarMenuItem>
         <AccountNavItems format="mobile" closeMenu={closeMenu}/>

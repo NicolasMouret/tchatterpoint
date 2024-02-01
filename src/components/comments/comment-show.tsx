@@ -31,9 +31,9 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
   });
 
   return (
-    <div className={`p-2 my-2 text-small border border-slate-400 rounded 
+    <article className={`p-2 my-2 text-small border border-slate-400 rounded 
     ${isChild ? "bg-opacity-0" : "bg-black bg-opacity-85 backdrop-blur-sm"}`}>
-      <div className="flex gap-3 mb-2">
+      <article className="flex gap-3 mb-2">
         <Avatar
           src={comment.user.image || ""}
           size="sm"
@@ -60,8 +60,8 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
           <p className="">{comment.content}</p>
           <CommentCreateForm postId={postId} parentId={commentId} />
         </div>
-      </div>
+      </article>
       {renderedChildren}
-    </div>
+    </article>
   );
 }

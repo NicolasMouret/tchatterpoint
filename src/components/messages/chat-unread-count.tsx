@@ -11,8 +11,9 @@ interface ChatUnreadCountProps {
 export default function ChatUnreadCount({ chatId }: ChatUnreadCountProps) {
   const session = useSession(); 
   const [hasUnread, setHasUnread] = useState<boolean>();
-  console.log("rendering chat unread count");
 
+  // WORKAROUND THE NEXT 30sec ROUTER CACHE
+  // TO GET UP TO DATE UNREAD COUNT ON EVERY RENDER
   useEffect(() => {
     if (session?.data?.user.id) {
       supabase
@@ -27,6 +28,7 @@ export default function ChatUnreadCount({ chatId }: ChatUnreadCountProps) {
     }
   })
 
+  // REALTIME LISTENING TO UPDATES ON USERUNREADMESSAGES TABLE
   useEffect(() => {
     const channel = supabase.channel(`unread_messages:${chatId}`);
     channel
