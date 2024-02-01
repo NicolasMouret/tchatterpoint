@@ -30,7 +30,7 @@ export default function LegalsPage() {
             <p><strong>Contact :</strong> contact@tchatterpoint.fr - Adresse : 28 rue Morel Ladeuil Clermont-ferrand 63000.</p> 
             <p><strong>Adresse postale :</strong> 28 rue Morel Ladeuil Clermont-ferrand 63000.</p>          
             <p><strong>Directeur de la publication :</strong> Mouret Nicolas - Contact : contact@tchatterpoint.fr.</p>
-            <p><strong>H&eacute;bergeur :</strong> AutreVercel Inc. 440 N Barranca Ave #4133 Covina, CA 91723 privacy@vercel.com</p>
+            <p><strong>H&eacute;bergeur :</strong> Vercel Inc. 440 N Barranca Ave #4133 Covina, CA 91723 privacy@vercel.com</p>
             <p><strong>D&eacute;l&eacute;gu&eacute; &agrave; la protection des donn&eacute;es :</strong> Mouret Nicolas - contact@tchatterpoint.fr</p>
           </div>
         <h2 className={`${styles.title}`}>2 - Propri&eacute;t&eacute; intellectuelle et contrefa&ccedil;ons.</h2>
