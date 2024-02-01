@@ -27,9 +27,9 @@ export default async function myProfilePage() {
     
     return (
       <main className="flex flex-1 flex-col items-center gap-4 p-3 w-full sm:w-4/5">
-        <h1 className="font-bold text-2xl text-yellow-400">Mon profil</h1>
+        <h1 className="font-bold text-3xl text-yellow-400 font-swFont">mon profil</h1>
         <Divider/>
-        <h2 className="font-bold text-lg text-yellow-400">Mes infos</h2>
+        <h2 className="font-bold text-lg text-yellow-400 font-swFont">mes infos</h2>
         <Card 
           className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 relative"
           isBlurred>
@@ -69,7 +69,7 @@ export default async function myProfilePage() {
             <span className="text-center">{user.biography}</span>
           </div>
         </Card>
-        <h2 className="font-bold text-lg text-yellow-400">Ma position</h2>
+        <h2 className="font-bold text-lg text-yellow-400 font-swFont">ma position</h2>
         {user?.location ? 
           <MapUserPosition initialLocation={user.location} /> :
           <MapUserPosition initialLocation={null} />

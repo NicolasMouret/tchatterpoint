@@ -28,7 +28,7 @@ export default function SignUpForm() {
 
   return (
     <Card isBlurred className="w-full border-1 border-slate-400">
-      <CardHeader className="text-xl flex justify-center font-bold">Inscription</CardHeader>
+      <CardHeader className="text-3xl flex justify-center font-bold font-swFont text-yellow-400">inscription</CardHeader>
       <Divider/>
         <button 
           onClick={() => signIn("google", {callbackUrl: "/mon-profil", redirect: true})}
@@ -38,6 +38,7 @@ export default function SignUpForm() {
             <FcGoogle className="text-2xl"/> Se connecter avec Google
         </button>
       <Divider/>
+      <h1 className="self-center font-bold text-lg mt-3">Créer un compte</h1>
       <CardBody>
         <form action={action} autoComplete="off">
           <div className="flex flex-col items-center gap-4 sm:gap-6 p-2 sm:px-12 w-[90vw] sm:w-[550px]">

@@ -40,7 +40,7 @@ export default async function ChatList() {
   
   return (
     <>
-      <h1 className="font-bold text-2xl text-yellow-400">Conversations</h1>
+      <h1 className="font-bold text-3xl text-yellow-400 font-swFont">Conversations</h1>
       {chats.map(chatCard)}
     </>
   )

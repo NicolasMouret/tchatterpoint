@@ -9,8 +9,8 @@ interface ForgotPasswordPageProps {
 export default function ForgotPasswordPage({params}: ForgotPasswordPageProps) {
   const token = params.token;
   return (
-    <div className="flex flex-col items-center justify-start pt-12">
+    <main className="flex flex-1 flex-col items-center justify-start pt-12">
       <ResetPasswordForm token={token}/>
-    </div>
+    </main>
   )
 }

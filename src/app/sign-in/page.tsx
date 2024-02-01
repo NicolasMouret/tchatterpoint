@@ -2,8 +2,8 @@ import SignInForm from "@/components/sign-up-in-out/sign-in"
 
 export default function SignInPage() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-start pt-12">
+    <main className="flex flex-1 flex-col items-center justify-start">
       <SignInForm />
-    </div>
+    </main>
   )
 }

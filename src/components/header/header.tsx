@@ -24,7 +24,7 @@ export default function Header() {
     <Navbar 
     onMenuOpenChange={setIsMenuOpen} 
     isMenuOpen={isMenuOpen}
-    className="mb-3 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md"
+    className="mb-6 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md font-swFont"
     classNames={{item: ["data-[active=true]:text-yellow-400",
       "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400", "hover:border-b-1"]}}
     >
@@ -34,7 +34,7 @@ export default function Header() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link href="/" className={`font-bold text-xl 
+          <Link href="/" className={`font-bold text-xl
           ${pathname === "/" ? "text-yellow-400" : "text-slate-50" }`}>Tchatterpoint</Link>
         </NavbarBrand>
       </NavbarContent>
@@ -56,7 +56,7 @@ export default function Header() {
         <HeaderAuth />        
       </NavbarContent>
 
-      <NavbarMenu>
+      <NavbarMenu className="font-swFont">
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/carte-des-joueurs"}>
           <Link href="/carte-des-joueurs">Carte des joueurs</Link>
         </NavbarMenuItem>
