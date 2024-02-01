@@ -13,7 +13,7 @@ import {
   Link
 } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { BiErrorAlt } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -25,9 +25,10 @@ const PATH_ON_SIGNIN = paths.privateProfile();
 
 export default function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(searchParams.get("error") || null)
   const [isLoading, setIsLoading] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -38,22 +39,14 @@ export default function SignInForm() {
 
     try {    
       setIsLoading(true);
-      const res = await signIn("credentials", {
-        redirect: false,
+      await signIn("credentials", {
+        redirect: true,
+        callbackUrl: PATH_ON_SIGNIN,
         email,
         password
       });
-      if (res) {
-        setIsLoading(false);
-        router.push(PATH_ON_SIGNIN);
-      }
     } catch (error) {
-      setIsLoading(false);
-      if(error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("Une erreur inconnue est survenue");
-      }      
+      setIsLoading(false);     
     }
   }
 
@@ -106,15 +99,14 @@ export default function SignInForm() {
               }
               type={isVisible ? "text" : "password"}
             />
-            <Divider/> 
+            <Divider/>               
               {error ? 
                 <Chip 
                   startContent={<BiErrorAlt className="text-lg mr-1"/>}
                   color="danger"
                   variant="flat">
                     Email ou mot de passe incorrect
-                </Chip>
-              : null}
+                </Chip> : null}
             <Button 
               type="submit"
               className="sm:my-1 w-1/2 font-medium text-base" 

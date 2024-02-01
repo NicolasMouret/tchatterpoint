@@ -50,8 +50,8 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
         .eq("chatId", chatId)
         .order("createdAt", { ascending: true })
         .then(({ data: messages }) => {
+          setIncomingMessages([]);
           setInitialMessages(messages?.reverse() as Message[]);
-          scrollToBottom();
         })
     }
   }, [chatId, session])
@@ -73,6 +73,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
       payload => {          
         if (payload.new.chatId === chatId) {
           setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
+          scrollToBottom();
         }
       })
       .subscribe();

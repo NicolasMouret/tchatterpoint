@@ -8,10 +8,11 @@ import CommentEditForm from './comment-edit-form';
 interface CommentShowProps {
   commentId: string;
   postId: string;
+  isChild?: boolean;
 }
 
 
-export default async function CommentShow({ commentId, postId }: CommentShowProps) {
+export default async function CommentShow({ commentId, postId, isChild }: CommentShowProps) {
   const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
   const session = await auth();
@@ -25,13 +26,13 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   const children = comments.filter((c) => c.parentId === commentId);
   const renderedChildren = children.map((child) => {
     return (
-      <CommentShow key={child.id} commentId={child.id} postId={postId} />
+      <CommentShow key={child.id} commentId={child.id} postId={postId} isChild/>
     );
   });
 
   return (
-    <div className="p-2 my-2 text-small border border-slate-400 rounded 
-    bg-black bg-opacity-70 backdrop-blur-sm">
+    <div className={`p-2 my-2 text-small border border-slate-400 rounded 
+    ${isChild ? "bg-opacity-0" : "bg-black bg-opacity-85 backdrop-blur-sm"}`}>
       <div className="flex gap-3 mb-2">
         <Avatar
           src={comment.user.image || ""}
