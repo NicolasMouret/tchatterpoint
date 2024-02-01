@@ -1,4 +1,5 @@
 import Providers from '@/app/providers'
+import Footer from '@/components/footer/footer'
 import Header from '@/components/header/header'
 import type { Metadata } from 'next'
 import { Orbitron } from 'next/font/google'
@@ -28,9 +29,10 @@ export default function RootLayout({
         backgroundRepeat: "no-repeat",
       }}>
         <Providers>
-          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl">
+          <div className="min-h-dvh flex flex-col items-center container mx-auto max-w-6xl">
             <Header/>
             {children}
+            <Footer/>
           </div>
         </Providers>
       </body>
