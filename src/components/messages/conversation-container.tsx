@@ -74,7 +74,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
       payload => {          
         if (payload.new.chatId === chatId) {
           setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
-          scrollToBottom();
+          requestAnimationFrame(scrollToBottom);
         }
       })
       .subscribe();
