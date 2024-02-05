@@ -26,7 +26,9 @@ const MessageCard = ({ message, userId }:
         "bg-yellow-500 bg-opacity-30" }
         w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
         <Link href={`/profil/${message.senderId}`}>
-          <p className="font-extrabold text-slate-300">{message.senderName}</p>
+          <p className="font-extrabold text-slate-300 hover:underline hover:text-yellow-400">
+            {message.senderName}
+          </p>
         </Link>
         <p>{date}</p>
         <Divider className="my-1"/>

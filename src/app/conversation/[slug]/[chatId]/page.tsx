@@ -1,9 +1,8 @@
 import { auth } from '@/auth';
 import ConversationShow from '@/components/messages/conversation-container';
 import ChatInputForm from '@/components/messages/conversation-input';
-import PresenceIndicator from '@/components/messages/presence-indicator';
 import { ChatComplete, fetchChatComplete } from '@/db/queries/chats';
-import { Avatar, Card, Divider, Link } from "@nextui-org/react";
+import { Avatar, Card, Divider, Link, Tooltip } from "@nextui-org/react";
 export const dynamic = 'force-dynamic';
 
 interface ChatPageProps {
@@ -25,7 +24,6 @@ const isUserInChat = (chat: ChatComplete, userId: string) => {
 export default async function ChatPage({ params }: ChatPageProps) {
   const session = await auth();
   const chatId = params.chatId;
-  const interlocutorName = decodeURIComponent(params.slug);
 
   if (!session) {
     return (
@@ -52,7 +50,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </Card>
     )
   }
-  const interlocutorImage = getInterlocutorImage(chat, interlocutorName);
+  const interlocutor = chat.users.find(user => user.id !== userId);
   
   return (
     <section className="flex flex-col items-center p-2 w-[95%] sm:w-4/5 h-[88vh] mb-2
@@ -62,13 +60,23 @@ export default async function ChatPage({ params }: ChatPageProps) {
         <Link href="/messages" className="absolute left-4 top-2 text-yellow-400 hover:underline">
           Retour
         </Link>
-        <Avatar 
-          radius="md"
-          src={interlocutorImage}/>
-        <span className="font-bold text-yellow-400 text-xl">Conversation avec {interlocutorName}</span>
-        <PresenceIndicator 
-          interlocutorName={interlocutorName}
-          chatId={chatId}/>
+        <Tooltip
+          content="Voir le profil"
+          placement="left"
+          color="warning"
+          className="font-medium"
+          showArrow>
+          <Link 
+            className="group flex flex-col sm:flex-row gap-2" 
+            href={`/profil/${interlocutor?.id}`}>
+            <Avatar 
+              radius="md"
+              src={interlocutor?.image}/>
+            <span className="font-bold text-yellow-400 text-xl group-hover:underline">
+              Conversation avec {interlocutor?.name}
+            </span>
+          </Link>
+        </Tooltip>
       </div>
       <Divider/>
         <ConversationShow 
