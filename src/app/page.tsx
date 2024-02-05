@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 
 export default function Home() {
   return (  
-    <main className="flex-1 flex flex-col items-center gap-4 p-3 w-full sm:w-4/5">
+    <main className="flex-1 flex flex-col items-center gap-4 p-3 w-full">
       <Card 
         isBlurred 
         className="border-1 border-slate-400 w-full"
