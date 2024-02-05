@@ -66,7 +66,8 @@ export default function HeaderAuth() {
       <Popover placement="bottom">
         <PopoverTrigger>           
           <Button 
-            className="border-yellow-400 text-yellow-400 font-bold sm:hidden font-stdFont"
+            className="font-bold sm:hidden font-stdFont"
+            color="warning"
             variant="ghost"
             type="button"
             size="sm">
