@@ -34,8 +34,7 @@ export default function Header() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link href="/" className={`font-bold text-xl
-          ${pathname === "/" ? "text-yellow-400" : "text-slate-50" }`}>Tchatterpoint</Link>
+          <Link href="/" className="font-bold text-xl text-slate-50">Tchatterpoint</Link>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">

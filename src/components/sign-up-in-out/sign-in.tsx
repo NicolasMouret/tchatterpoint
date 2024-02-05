@@ -71,7 +71,6 @@ export default function SignInForm() {
           className="w-full font-semibold text-base" 
           color="warning"
           variant="shadow"
-          isLoading={isLoading}
           > Inscription
         </Button>
         </Link>
