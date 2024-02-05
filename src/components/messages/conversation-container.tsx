@@ -1,7 +1,8 @@
 'use client';
 
 import { supabase } from "@/db";
-import { Divider } from "@nextui-org/react";
+import { setDateComment } from "@/libs/utils";
+import { Divider, Link } from "@nextui-org/react";
 import { Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -16,15 +17,22 @@ interface ConversationShowProps {
 const MessageCard = ({ message, userId }: 
   { message: Message, 
   userId: string | undefined | null }) => {
+    const date = setDateComment(message.createdAt);
     return (
-      <article key={message.id} className={`border-1 border-slate-400 rounded-lg 
-        backdrop-blur-lg bg-opacity-20
+      <article key={message.id} className={`border-1 
+        ${message.senderId === userId ? "border-slate-500" : "border-yellow-100"} 
+        rounded-lg backdrop-blur-lg bg-opacity-20
         ${message.senderId === userId ? "self-end text-right bg-blue-950" : 
-        "bg-yellow-400 bg-opacity-15" }
+        "bg-yellow-500 bg-opacity-30" }
         w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
-        <p className="font-bold">{message.senderName}</p>
-        <Divider/>
-        <p>{message.content}</p>
+        <Link href={`/profil/${message.senderId}`}>
+          <p className="font-extrabold text-slate-300 hover:underline hover:text-yellow-400">
+            {message.senderName}
+          </p>
+        </Link>
+        <p>{date}</p>
+        <Divider className="my-1"/>
+        <p className="text-slate-300">{message.content}</p>
       </article>
     )
   }
@@ -32,9 +40,11 @@ const MessageCard = ({ message, userId }:
 export default function ConversationShow({ userId, chatId }: ConversationShowProps) {
   const router = useRouter();
   const session = useSession();
+
   const containerRef = useRef<HTMLDivElement>(null)
   const [initialMessages, setInitialMessages] = useState<Message[]>([]);
-  const [incomingMessages, setIncomingMessages] = useState<Message[]>([])
+  const [incomingMessages, setIncomingMessages] = useState<Message[]>([]);
+
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
