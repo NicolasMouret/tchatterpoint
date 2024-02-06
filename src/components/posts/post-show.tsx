@@ -1,17 +1,17 @@
 import { db } from '@/db';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import PostImage from './post-image';
 
 interface PostShowProps {
   postId: string;
 }
 
 const mockImagesList: string[] = [
-  'https://picsum.photos/500/800',
-  'https://picsum.photos/400/600',
-  'https://picsum.photos/300/400',
-  'https://picsum.photos/200/300',
-  'https://picsum.photos/100/200',
+  'https://picsum.photos/1500/1100',
+  'https://picsum.photos/940/620',
+  'https://picsum.photos/341/621',
+  'https://picsum.photos/342/623',
+  'https://picsum.photos/643/925',
 ];
 
 export default async function PostShow({ postId }: PostShowProps) {
@@ -33,17 +33,7 @@ export default async function PostShow({ postId }: PostShowProps) {
         {mockImagesList.length > 0 ? 
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {mockImagesList.map((src, i) => (
-          <Image
-          key={i}
-          src={src}
-          alt={`${post.title} images`}
-          height={200}
-          width={200} 
-          style={{
-            height: 200,
-            width: 200,
-            objectFit: 'cover',
-          }}
+          <PostImage key={i} imageUrl={src} alt={`${post.title} related images`}
         />
         ))}
       </div> : null}

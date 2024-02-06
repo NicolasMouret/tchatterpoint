@@ -3,8 +3,8 @@ import CommentCreateForm from "@/components/comments/comment-create-form";
 import CommentDeleteForm from "@/components/comments/comment-delete-form";
 import { fetchCommentsByPostId } from "@/db/queries/comments";
 import { Avatar } from '@nextui-org/react';
-import Image from 'next/image';
 import CommentEditForm from './comment-edit-form';
+import CommentImage from './comment-image';
 
 interface CommentShowProps {
   commentId: string;
@@ -66,18 +66,7 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
           {mockImagesList.length > 0 ?
            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
            {mockImagesList.map((src, i) => (
-             <Image
-               key={i}
-               src={src}
-               alt={`comment related images`}
-               height={200}
-               width={200} 
-               style={{
-                 height: 200,
-                 maxWidth: '95%',
-                 objectFit: 'cover',
-               }}
-             />
+            <CommentImage key={i} imageUrl={src} />
            ))}
          </div> : null}
           <CommentCreateForm postId={postId} parentId={commentId} />
