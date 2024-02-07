@@ -1,41 +1,44 @@
 'use client';
 
-import { editAvatar } from '@/actions';
 import { Button, Tooltip } from '@nextui-org/react';
-import { useSession } from 'next-auth/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { MouseEvent } from 'react';
-import { MdEdit } from "react-icons/md";
+import { SlPicture } from "react-icons/sl";
 
-export default function CloudinaryUpload() {
-  const session = useSession();
+interface AddImagesButtonProps {
+  setImagesAdded: (images: string[]) => void;
+  imagesAdded: string[];
+}
+
+export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImagesButtonProps) {
   return (
     <CldUploadWidget 
       uploadPreset="kgxd9epe" 
       onUpload={
         (result: any) => {
-          editAvatar(result.info.secure_url);
-          session.update({image: result.info.secure_url});
+          const newImagesAdded = [...imagesAdded, result.info.secure_url];
+          setImagesAdded(newImagesAdded);
         }
       }>
       {({ open }) => {
         function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
           e.preventDefault();
+          e.stopPropagation();
           open();
         }
         return (
           <Tooltip 
-            content="Changer de photo de profil" 
-            placement="top" 
+            content="Ajouter des images" 
+            placement="bottom" 
             color="warning"
             className="font-medium"
             showArrow>
             <Button 
               color="warning"
-              className="absolute top-0 right-0 z-10 rounded-lg text-md min-w-0 p-1 h-6"
               variant="ghost"
+              className="min-w-0 w-12 px-2 h-10 rounded-md"
               onClick={handleOnClick}>
-                <MdEdit />
+                <SlPicture className="text-2xl"/>
             </Button>
           </Tooltip>
         );
