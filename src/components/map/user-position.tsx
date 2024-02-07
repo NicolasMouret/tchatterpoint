@@ -49,6 +49,14 @@ export default function MapUserPosition({initialLocation}:
     className="flex flex-col items-center justify-center gap-3 w-full h-[500px] sm:h-[700px]
     px-3 py-5 sm:p-6 border-1 border-slate-500"
     isBlurred>
+      <p>
+        Pour être visible sur la carte des joueurs, 
+        placez un marqueur sur la carte et enregistrez la position.
+      </p>
+      <p>
+        Vous pouvez à tout moment déplacer le marqueur et enregistrer une 
+        nouvelle position ou la retirer de la carte.
+      </p>
       <GoogleMap
         mapContainerClassName="map"
         mapContainerStyle={{ height: "100%", width: "100%" }}
