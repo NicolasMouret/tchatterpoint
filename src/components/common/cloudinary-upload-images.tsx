@@ -14,12 +14,16 @@ export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImag
   return (
     <CldUploadWidget 
       uploadPreset="kgxd9epe" 
-      onUpload={
+      options={{
+        multiple: false,
+        theme: "minimal",}}
+      onSuccess={
         (result: any) => {
           const newImagesAdded = [...imagesAdded, result.info.secure_url];
           setImagesAdded(newImagesAdded);
         }
-      }>
+      }
+      >
       {({ open }) => {
         function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
           e.preventDefault();
@@ -28,7 +32,7 @@ export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImag
         return (
           <Tooltip 
             content="Ajouter des images" 
-            placement="bottom" 
+            placement="right" 
             color="warning"
             className="font-medium"
             showArrow>

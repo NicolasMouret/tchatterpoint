@@ -63,7 +63,7 @@ export default function TopicCreateForm() {
             null}
             <FormButton
               className="font-medium text-base w-2/5 self-center" 
-              color="primary">Enregistrer</FormButton>
+              color="primary">Créer le sujet</FormButton>
           </div>
         </form>
       </PopoverContent>
