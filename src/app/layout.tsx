@@ -38,7 +38,7 @@ export default function RootLayout({
         backgroundRepeat: "no-repeat",
       }}>
         <Providers>
-          <div className="min-h-dvh flex flex-col items-center container mx-auto max-w-6xl">
+          <div className="min-h-screen flex flex-col items-center container mx-auto max-w-6xl">
             <Header/>
             {children}
             <Footer/>
