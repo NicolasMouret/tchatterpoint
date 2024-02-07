@@ -23,7 +23,6 @@ export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImag
       {({ open }) => {
         function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
           e.preventDefault();
-          e.stopPropagation();
           open();
         }
         return (
