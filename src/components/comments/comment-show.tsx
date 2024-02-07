@@ -12,11 +12,6 @@ interface CommentShowProps {
   isChild?: boolean;
 }
 
-const mockImagesList: string[] = [
-  'https://picsum.photos/500/800',
-  'https://picsum.photos/400/600',
-];
-
 export default async function CommentShow({ commentId, postId, isChild }: CommentShowProps) {
   const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
@@ -63,9 +58,9 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
               )}
           </div>
           <p className="">{comment.content}</p>
-          {mockImagesList.length > 0 ?
-           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-           {mockImagesList.map((src, i) => (
+          {comment.images.length > 0 ?
+           <div className="flex flex-wrap gap-2">
+           {comment.images.map((src, i) => (
             <CommentImage key={i} imageUrl={src} />
            ))}
          </div> : null}

@@ -18,11 +18,11 @@ export default function CommentImage({imageUrl}: CommentImageProps) {
         onClick={onOpen}
         src={imageUrl}
         alt={`comment related images`}
-        height={200}
-        width={200} 
+        height={100}
+        width={100} 
         style={{
-          height: 200,
-          width: 200,
+          height: 100,
+          width: 100,
           objectFit: 'cover',
         }}
       />
