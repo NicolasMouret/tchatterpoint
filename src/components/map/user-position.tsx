@@ -46,7 +46,7 @@ export default function MapUserPosition({initialLocation}:
 
   return (
     <Card 
-    className="flex flex-col items-center justify-center gap-3 w-full h-[500px] sm:h-[700px]
+    className="flex flex-col items-center justify-center gap-3 w-full h-[700px] sm:h-[850px]
     px-3 py-5 sm:p-6 border-1 border-slate-500"
     isBlurred>
       <p>

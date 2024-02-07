@@ -30,7 +30,7 @@ export default async function myProfilePage() {
         text-yellow-400 text-center">
         <h1 className="font-bold text-3xl font-swFont">mon profil</h1>
         <Divider/>
-        <h2 className="font-bold text-lg font-swFont">mes infos</h2>
+        <h2 className="font-bold text-xl font-swFont">mes infos</h2>
         <Card 
           className="relative border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 "
           isBlurred>
@@ -70,7 +70,7 @@ export default async function myProfilePage() {
             <span className="text-center">{user.biography}</span>
           </div>
         </Card>
-        <h2 className="font-bold text-lg font-swFont">ma position</h2>
+        <h2 className="font-bold text-xl font-swFont">ma position</h2>
         {user?.location ? 
           <MapUserPosition initialLocation={user.location} /> :
           <MapUserPosition initialLocation={null} />
