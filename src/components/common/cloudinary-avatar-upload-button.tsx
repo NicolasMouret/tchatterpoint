@@ -12,7 +12,11 @@ export default function EditAvatarUpload() {
   return (
     <CldUploadWidget 
       uploadPreset="kgxd9epe" 
-      onUpload={
+      options={{
+        multiple: false,
+        cropping: true,
+        }}
+      onSuccess={
         (result: any) => {
           editAvatar(result.info.secure_url);
           session.update({image: result.info.secure_url});
