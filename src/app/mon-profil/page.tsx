@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import CloudinaryUpload from "@/components/common/cloudinary-upload-button";
+import EditAvatarUpload from "@/components/common/cloudinary-avatar-upload-button";
 import MapUserPosition from "@/components/map/user-position";
 import EditUserInfo from "@/components/user/user-edit-modal";
 import { fetchUserWithInfos } from "@/db/queries/users";
@@ -51,7 +51,7 @@ export default async function myProfilePage() {
                   height: "80px",
                   objectFit: "cover",}}
                 />
-                <CloudinaryUpload/>
+                <EditAvatarUpload/>
             </div>          
             <div className="flex flex-col items-center sm:items-start justify-start pt-2 gap-4">
               <div className="flex flex-col sm:flex-row sm:gap-2 items-center">

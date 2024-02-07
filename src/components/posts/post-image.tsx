@@ -19,11 +19,11 @@ export default function PostImage({imageUrl, alt}: PostImageProps) {
         onClick={onOpen}
         src={imageUrl}
         alt={alt}
-        height={200}
-        width={200} 
+        height={100}
+        width={100} 
         style={{
-          height: 200,
-          width: 200,
+          height: 100,
+          width: 100,
           objectFit: 'cover',
         }}
       />
