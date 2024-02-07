@@ -78,6 +78,7 @@ model Post {
   id      String @id @default(cuid())
   title   String
   content String
+  images  String[]
   userId  String
   topicId String
 
@@ -92,6 +93,7 @@ model Post {
 model Comment {
   id       String  @id @default(cuid())
   content  String
+  images   String[]
   postId   String
   userId   String
   parentId String?
