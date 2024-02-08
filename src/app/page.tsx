@@ -24,40 +24,11 @@ export default async function Home() {
           expériences, vos astuces, vos créations, et surtout trouver des joueurs
           autour de chez vous !
         </p>
-        <p className={`text-center font-bold text-lg mb-2`}>
-          Pour se trouver
-        </p>
-        <Link 
-          className="w-4/5 sm:w-1/3 mb-8"
-          href="/carte-des-joueurs" >
-          <Button 
-            type="button"
-            className="w-full font-semibold text-base" 
-            color="primary"
-            variant="solid"
-            > 
-            Voir la carte des joueurs
-          </Button>
-        </Link>
-        <p className={`text-center font-bold text-lg mb-2`}>
-          Pour échanger
-        </p>
-        <Link 
-          className="w-4/5 sm:w-1/3 mb-8"
-          href="/carte-des-joueurs" >
-          <Button 
-            type="button"
-            className="w-full font-semibold text-base" 
-            color="warning"
-            variant="solid"
-            > 
-            Vers la cantina
-          </Button>
-        </Link>
         {!session?.user ? 
         <>
         <p className={`font-semibold text-center mb-4 sm:mb-6`}>
-        Pour vous rendre visible sur la carte, il vous suffit de vous inscrire
+        Pour vous rendre visible sur la carte, contacter d&apos;autres joueurs et 
+        participer au forum, il vous suffit de vous inscrire ou de vous connecter.
       </p>
       <Link 
         className="w-2/3 sm:w-1/3 mb-4"
@@ -82,7 +53,39 @@ export default async function Home() {
           > 
           Se connecter
         </Button>
-      </Link></> : null}
+      </Link></> : 
+      <>
+      <p className={`text-center font-bold text-lg mb-2`}>
+          Pour se trouver
+        </p>
+        <Link 
+          className="w-4/5 sm:w-1/3 mb-8"
+          href="/carte-des-joueurs" >
+          <Button 
+            type="button"
+            className="w-full font-semibold text-base" 
+            color="primary"
+            variant="solid"
+            > 
+            Voir la carte des joueurs
+          </Button>
+        </Link>
+        <p className={`text-center font-bold text-lg mb-2`}>
+          Pour échanger
+        </p>
+        <Link 
+          className="w-4/5 sm:w-1/3 mb-8"
+          href="/cantina" >
+          <Button 
+            type="button"
+            className="w-full font-semibold text-base" 
+            color="warning"
+            variant="solid"
+            > 
+            Vers la cantina
+          </Button>
+        </Link>
+      </>}
       </div>
     </main>
   )
