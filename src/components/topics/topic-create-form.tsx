@@ -62,7 +62,7 @@ export default function TopicCreateForm() {
             <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
             null}
             <FormButton
-              className="font-medium text-base w-2/5 self-center" 
+              className="font-medium text-base w-3/5 sm:w-2/5 self-center" 
               color="primary">Créer le sujet</FormButton>
           </div>
         </form>

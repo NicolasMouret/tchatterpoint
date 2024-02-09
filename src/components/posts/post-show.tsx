@@ -18,7 +18,7 @@ export default async function PostShow({ postId }: PostShowProps) {
   return (
     <div>
       <h1 className="text-2xl font-bold my-2 font-swFont
-      rounded bg-black bg-opacity-70 backdrop-blur-sm w-fit p-2">{post.title}</h1>
+      rounded bg-black bg-opacity-70 backdrop-blur-sm w-fit px-3 pb-1">{post.title}</h1>
       <div className="p-4 border flex flex-col gap-4
         border-slate-400 rounded bg-black bg-opacity-70 backdrop-blur-sm">
         <p>{post.content}</p>

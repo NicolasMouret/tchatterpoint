@@ -85,7 +85,7 @@ export default function CommentCreateForm({
       <Button 
         className="my-2 font-semibold"
         size="sm" 
-        variant="solid" 
+        variant="ghost" 
         color="warning"
         onClick={() => setOpen(!open)}>
         Répondre

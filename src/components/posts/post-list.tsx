@@ -22,12 +22,7 @@ export default async function PostList({ fetchData }: PostListProps) {
         <Link href={paths.postShow(topicSlug, post.id)}>
           <h3 className="text-lg font-bold group-hover:text-yellow-400">{post.title}</h3>
           <div className="flex flex-row gap-1 text-xs text-gray-300">
-            <span>Par</span>
-            <Link 
-              href={`/profil/${post.userId}`} 
-              className="font-semibold hover:text-yellow-400 hover:underline">
-              {post.user.name}
-            </Link>
+            <p>Par <strong>{post.user.name}</strong></p>
             <p className="ml-6">
               {post._count.comments} commentaires
             </p>
