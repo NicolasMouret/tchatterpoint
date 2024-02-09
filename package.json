@@ -7,13 +7,14 @@
     "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
     "@auth/core": "^0.18.1",
     "@auth/prisma-adapter": "^1.0.6",
     "@nextui-org/react": "^2.2.9",
+    "@parvineyvazov/json-translator": "^2.2.1",
     "@prisma/client": "^5.7.1",
     "@react-google-maps/api": "^2.19.2",
     "@sendgrid/mail": "^8.1.0",

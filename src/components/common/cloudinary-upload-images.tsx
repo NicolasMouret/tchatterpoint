@@ -1,5 +1,5 @@
 'use client';
-
+import { frTranslation } from '@/cloudinary-fr-translation';
 import { Button, Tooltip } from '@nextui-org/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { MouseEvent } from 'react';
@@ -16,7 +16,9 @@ export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImag
       uploadPreset="kgxd9epe" 
       options={{
         multiple: false,
-        theme: "minimal",}}
+        theme: "minimal",
+        text: frTranslation,
+        language: "fr"}}
       onSuccess={
         (result: any) => {
           const newImagesAdded = [...imagesAdded, result.info.secure_url];
