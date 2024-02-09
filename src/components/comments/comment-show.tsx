@@ -31,7 +31,7 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
   });
 
   return (
-    <article className={`px-2 pt-2 my-2 text-small border border-slate-400 rounded 
+    <article className={`pl-2 pt-2 my-2 text-small border border-slate-400 rounded 
     ${isChild ? "bg-opacity-0" : "bg-black bg-opacity-85 backdrop-blur-sm"}`}>
       <article className="flex gap-3 mb-2">
         <Avatar

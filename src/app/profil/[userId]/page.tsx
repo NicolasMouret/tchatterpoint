@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import SendMessageForm from "@/components/messages/send-message";
 import { fetchUserWithInfos } from "@/db/queries/users";
 import { Card, Divider, Image } from "@nextui-org/react";
+import { redirect } from 'next/navigation';
+
 
 
 interface PublicProfilePageProps {
@@ -19,6 +21,10 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
       <h1>Utilisateur introuvable</h1>
     </div>
   )
+
+  if (userId === session?.user?.id) {
+    redirect("/mon-profil");
+  }
 
   return (
     <div className="flex flex-1 flex-col items-center gap-4 px-3 w-full sm:w-4/5">
