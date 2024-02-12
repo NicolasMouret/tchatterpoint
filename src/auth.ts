@@ -9,7 +9,7 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
-  throw new Error('Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET');
+  throw new Error('Missing google client credentials');
 }
 
 export const {
@@ -21,7 +21,7 @@ export const {
   adapter: PrismaAdapter(db),
   trustHost: true,
   pages: {
-    signIn: "/sign-in",
+    signIn: "/sign-in", // Set URL for Sign in page
   },
   providers: [
     Google({
@@ -32,7 +32,7 @@ export const {
         const user = await db.user.findUnique({
           where: { email: profile?.email },
         })
-        if (user) {
+        if (user) { 
           userRole = user.role;
         }
         return {
@@ -76,7 +76,9 @@ export const {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {   
-    async jwt({ token, user, account, session, trigger }: any) {
+
+    // JWT CALLBACK IS CALLED WHEN - SIGNIN | UPDATE TRIGGER | SESSION IS ACCESSED 
+    async jwt({ token, user, account, session, trigger }: any) {     
 
       // WHEN USER UPDATE HIS LOCATION WE UPDATE THE JWT 
       // session.update([newValues]) => trigger jwt update => update token => update session
@@ -87,8 +89,11 @@ export const {
       if (trigger === 'update' && session.image) {
         token.image = session.image
       }
-
+      
+      // THIS IS EXECUTED AT SIGNIN TO ADD DATA TO THE TOKEN
+      // AFTER THAT IT WILL DIRECTLY RETURN THE TOKEN
       if (account?.provider === 'google' || user) {
+        console.log("user", user)
         return {
           ...token,
           id: user.id,
@@ -101,17 +106,11 @@ export const {
       
       return token;
     },
-    async session({ session, token, user }: any) {
-      const unreads = await db.userUnreadMessages.findMany({
-        where: {
-          userId: token.id,
-        },
-        select: {
-          chatId: true,
-          count: true,
-        }
-      })
-
+    
+    // SESSION CALLBACK IS CALLED WHEN SESSION IS CHECKED
+    // JWT CALLBACK IS CALLED BEFORE EVERY SESSION CALL
+    async session({ session, token }: any) {
+      
       // SET THE SESSION FROM THE JWT
       return {
         ...session,

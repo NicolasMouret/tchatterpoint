@@ -30,7 +30,7 @@ const MessageCard = ({ message, userId }:
             {message.senderName}
           </p>
         </Link>
-        <p>{date}</p>
+        <p className="text-small">{date}</p>
         <Divider className="my-1"/>
         <p className="text-slate-300">{message.content}</p>
       </article>
@@ -69,7 +69,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
   
   useEffect(() => {
     scrollToBottom();
-    supabase
+    supabase // reset unread messages count 
       .from("UserUnreadMessages")
       .update({ count: 0 })
       .eq("chatId", chatId)
