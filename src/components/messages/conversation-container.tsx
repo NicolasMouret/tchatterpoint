@@ -15,8 +15,7 @@ interface ConversationShowProps {
 }
 
 const MessageCard = ({ message, userId }: 
-  { message: Message, 
-  userId: string | undefined | null }) => {
+  { message: Message, userId: string | undefined | null }) => {
     const date = setDateComment(message.createdAt);
     return (
       <article key={message.id} className={`border-1 
@@ -80,12 +79,15 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
     // ADD THEM TO LOCAL TEMP STATE
     const channel = supabase.channel(`chatChanges`);
     channel
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
+      .on("postgres_changes", { 
+        event: "INSERT", 
+        schema: "public", 
+        table: "Message", 
+        filter: `chatId=eq.${chatId}`
+       }, 
       payload => {          
-        if (payload.new.chatId === chatId) {
           setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
           requestAnimationFrame(scrollToBottom);
-        }
       })
       .subscribe();
 
