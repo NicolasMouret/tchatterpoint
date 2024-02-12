@@ -15,8 +15,7 @@ interface ConversationShowProps {
 }
 
 const MessageCard = ({ message, userId }: 
-  { message: Message, 
-  userId: string | undefined | null }) => {
+  { message: Message, userId: string | undefined | null }) => {
     const date = setDateComment(message.createdAt);
     return (
       <article key={message.id} className={`border-1 
@@ -30,7 +29,7 @@ const MessageCard = ({ message, userId }:
             {message.senderName}
           </p>
         </Link>
-        <p>{date}</p>
+        <p className="text-small">{date}</p>
         <Divider className="my-1"/>
         <p className="text-slate-300">{message.content}</p>
       </article>
@@ -69,7 +68,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
   
   useEffect(() => {
     scrollToBottom();
-    supabase
+    supabase // reset unread messages count 
       .from("UserUnreadMessages")
       .update({ count: 0 })
       .eq("chatId", chatId)
@@ -80,12 +79,15 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
     // ADD THEM TO LOCAL TEMP STATE
     const channel = supabase.channel(`chatChanges`);
     channel
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "Message" }, 
+      .on("postgres_changes", { 
+        event: "INSERT", 
+        schema: "public", 
+        table: "Message", 
+        filter: `chatId=eq.${chatId}`
+       }, 
       payload => {          
-        if (payload.new.chatId === chatId) {
           setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
           requestAnimationFrame(scrollToBottom);
-        }
       })
       .subscribe();
 
