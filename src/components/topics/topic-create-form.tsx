@@ -1,5 +1,6 @@
 'use client';
 import * as actions from '@/actions';
+import { formStyles } from '@/libs/styles';
 import {
   Button,
   Input,
@@ -10,13 +11,16 @@ import {
 } from '@nextui-org/react';
 import { useFormState } from 'react-dom';
 import FormButton from '../common/form-button';
+import FormErrorDisplay from '../common/form-error-warning';
 
 export default function TopicCreateForm() {
   const [formState, action] = useFormState(actions.createTopic, {
     errors: {}
   });
   return (
-    <Popover placement="bottom">
+    <Popover 
+      placement="bottom" 
+      backdrop="opaque">
       <PopoverTrigger>
         <Button className="self-center font-medium text-base" 
           color="primary" 
@@ -28,13 +32,10 @@ export default function TopicCreateForm() {
           <div className="flex flex-col gap-4 p-4 w-[85vw] sm:max-w-2xl">
             <h3 className="text-lg">Créer un sujet</h3>
             <Input 
-              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-60 backdrop-blur-md", 
-              "border border-slate-600 border-opacity-50",
-              "dark:hover:bg-opacity-80 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-              base: "box-content"
+              classNames={{ 
+                inputWrapper: formStyles.input,        
+                errorMessage: formStyles.error,
+                base: "box-content"
               }}
               name="name" 
               label="Nom du sujet" 
@@ -43,13 +44,10 @@ export default function TopicCreateForm() {
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/> 
             <Textarea
-              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-60 backdrop-blur-md", 
-              "border border-slate-600 border-opacity-50",
-              "dark:hover:bg-opacity-80 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-              base: "box-content"
+              classNames={{ 
+                inputWrapper: formStyles.input,        
+                errorMessage: formStyles.error,
+                base: "box-content"
               }}
               name="description"
               label="Description" 
@@ -59,8 +57,7 @@ export default function TopicCreateForm() {
               errorMessage={formState.errors.description?.join(', ')}
             />
             {formState.errors._form ? 
-            <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
-            null}
+            <FormErrorDisplay errors={formState.errors._form} /> : null}
             <FormButton
               className="font-medium text-base w-3/5 sm:w-2/5 self-center" 
               color="primary">Créer le sujet</FormButton>
