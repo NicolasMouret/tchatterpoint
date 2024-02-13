@@ -19,7 +19,11 @@ interface EditCommentFormState {
 }
 
 export async function editComment(
-  { commentId, postId }: { commentId: string, postId: string }, 
+  { commentId, postId, images }: { 
+    commentId: string, 
+    postId: string,
+    images: string[]
+  }, 
   formState: EditCommentFormState,
   formData: FormData
   ): Promise<EditCommentFormState> {
@@ -49,6 +53,7 @@ export async function editComment(
       },
       data: {
         content: result.data.content,
+        images: images,
       },
     });
   } catch (err) {
@@ -80,6 +85,7 @@ export async function editComment(
   }
 
   revalidatePath(paths.postShow(topic.slug, postId));
+  
   return {
     errors: {},
     success: true,
