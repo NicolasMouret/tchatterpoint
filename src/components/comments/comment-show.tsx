@@ -51,6 +51,7 @@ export default async function CommentShow({ commentId, postId, isChild }: Commen
                       postId={postId}
                       commentId={commentId}
                       originalContent={comment.content}
+                      originalImages={comment.images}
                     />
                   )}
                   <CommentDeleteForm postId={postId} commentId={commentId} />
