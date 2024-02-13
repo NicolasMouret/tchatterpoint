@@ -12,11 +12,6 @@ interface ChatPageProps {
   };
 }
 
-const getInterlocutorImage = (chat: ChatComplete, interlocutorName: string) => {
-  const interlocutor = chat.users.find(user => user.name === interlocutorName);
-    return interlocutor!.image;
-}
-
 const isUserInChat = (chat: ChatComplete, userId: string) => {
   return chat.users.some(user => user.id === userId);
 }

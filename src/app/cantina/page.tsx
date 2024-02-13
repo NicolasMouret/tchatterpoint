@@ -2,7 +2,7 @@ import PostList from "@/components/posts/post-list";
 import TopicCreateForm from "@/components/topics/topic-create-form";
 import TopicList from "@/components/topics/topic-list";
 import { fetchTopPosts } from "@/db/queries/posts";
-import { Divider } from "@nextui-org/react";
+import { Divider } from '@nextui-org/react';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,8 +17,8 @@ export default function CantinaPage() {
         <TopicList />
       </section>
       <section>
-        <h1 className="text-xl font-medium m-2">Top posts</h1>
-        <PostList fetchData={fetchTopPosts} />
+        <h1 className="text-xl font-medium m-2">Top posts</h1>   
+          <PostList fetchData={fetchTopPosts} />
       </section>
     </main>
   )

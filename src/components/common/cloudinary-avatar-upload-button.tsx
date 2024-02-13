@@ -1,6 +1,7 @@
 'use client';
 
 import { editAvatar } from '@/actions';
+import { frTranslation } from '@/cloudinary-fr-translation';
 import { Button, Tooltip } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
 import { CldUploadWidget } from 'next-cloudinary';
@@ -15,6 +16,9 @@ export default function EditAvatarUpload() {
       options={{
         multiple: false,
         cropping: true,
+        theme: "minimal",
+        text: frTranslation,
+        language: "fr"
         }}
       onSuccess={
         (result: any) => {
