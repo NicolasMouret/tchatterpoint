@@ -60,18 +60,18 @@ export default async function ChatPage({ params }: ChatPageProps) {
         <Link href="/messages" className="absolute left-4 top-2 text-yellow-400 hover:underline">
           Retour
         </Link>
+        <Avatar 
+          radius="md"
+          src={interlocutor?.image}/>
         <Tooltip
           content="Voir le profil"
-          placement="left"
+          placement="right"
           color="warning"
           className="font-medium"
           showArrow>
           <Link 
             className="group flex flex-col sm:flex-row gap-2" 
             href={`/profil/${interlocutor?.id}`}>
-            <Avatar 
-              radius="md"
-              src={interlocutor?.image}/>
             <span className="font-bold text-yellow-400 text-xl group-hover:underline">
               Conversation avec {interlocutor?.name}
             </span>
