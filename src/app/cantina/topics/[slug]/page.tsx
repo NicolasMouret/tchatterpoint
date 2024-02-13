@@ -18,6 +18,7 @@ export default async function TopicShowPage({ params }: TopicShowPageProps) {
   if (!topic) {
     notFound();
   }
+  
 
   return (
     <main className="flex flex-1 flex-col items gap-4 px-4 w-screen sm:w-3/5 relative z-10">

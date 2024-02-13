@@ -11,6 +11,7 @@ import {
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import AddImagesButton from '../common/cloudinary-upload-images';
+import FormErrorDisplay from '../common/form-error-warning';
 import ImageMiniature from '../common/form-image-mini';
 
 interface PostCreateformProps {
@@ -74,10 +75,7 @@ export default function PostCreateform({ slug }: PostCreateformProps) {
               ))}
             </div>
             {formState.errors._form ? 
-            <div className="p-2 bg-red-900 border border-red-400 rounded">
-              {formState.errors._form?.join(', ')}
-            </div> :
-            null}
+              <FormErrorDisplay errors={formState.errors._form} /> : null}
             <FormButton
               className="font-medium text-base w-3/5 sm:w-2/5 self-center" 
               color="primary">Créer le post</FormButton>

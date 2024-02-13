@@ -7,6 +7,7 @@ import { Button, Textarea } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import AddImagesButton from "../common/cloudinary-upload-images";
+import FormErrorDisplay from "../common/form-error-warning";
 import ImageMiniature from "../common/form-image-mini";
 
 interface CommentCreateFormProps {
@@ -65,12 +66,8 @@ export default function CommentCreateForm({
               />
           ))}
         </div>
-        {formState.errors._form ? (
-          <div className="p-2 bg-red-200 border rounded border-red-400">
-            {formState.errors._form?.join(", ")}
-          </div>
-        ) : null}
-
+        {formState.errors._form ? 
+          <FormErrorDisplay errors={formState.errors._form} /> : null}
         <FormButton
           className="font-medium text-base min-w-[130px] w-2/5 self-center"
           color="warning">Commenter</FormButton>

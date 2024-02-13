@@ -7,10 +7,10 @@ export default function NotFound() {
       <h1 className="font-bold text-2xl sm:text-4xl text-yellow-400 text-center mb-6 font-swFont">
         il n&apos;y a rien ici
       </h1>
-      <p className="font-bold text-yellow-400 sm:text-xl text-center">
+      <p className="font-bold text-yellow-400 sm:text-lg text-center">
         Une erreur de calcul, une route d&apos;hyperespace mal programm&eacute;e ?
       </p>
-      <p className="font-bold text-yellow-400 sm:text-xl text-center mb-3">
+      <p className="font-bold text-yellow-400 sm:text-lg text-center mb-3">
         Il semble que vous vous soyez perdu dans la bordure extérieure de notre site.
       </p>
       <Link 
