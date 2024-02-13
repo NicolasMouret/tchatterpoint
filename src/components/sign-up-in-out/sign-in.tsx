@@ -13,7 +13,7 @@ import {
   Link
 } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { BiErrorAlt } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -24,7 +24,6 @@ import { RiLockPasswordFill } from "react-icons/ri";
 const PATH_ON_SIGNIN = paths.privateProfile();
 
 export default function SignInForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,8 +53,19 @@ export default function SignInForm() {
     <Card isBlurred className="w-full border-1 border-slate-400">
       <CardHeader className="text-3xl flex justify-center font-bold font-swFont text-yellow-400">Connexion</CardHeader>
       <h2 className="self-center font-bold text-lg mt-3">Pas encore de compte ?</h2>
-      <Divider/>
-      <div className="flex flex-col items-center mb-3">
+      <CardBody className="flex flex-col items-center gap-2">
+        <Link 
+          className="mb-3 w-2/3"
+          href="/sign-up" >
+          <Button 
+            type="button"
+            className="w-full font-semibold text-base" 
+            color="warning"
+            variant="shadow"
+            > Inscription
+          </Button>
+        </Link>
+        <Divider/>
         <button 
           onClick={() => signIn("google", {callbackUrl: PATH_ON_SIGNIN, redirect: true})}
           className="flex items-center justify-center gap-4 rounded-md border-3 bg-slate-50 my-4 p-4 
@@ -63,21 +73,8 @@ export default function SignInForm() {
           hover:border-slate-400 hover:bg-slate-100">
             <FcGoogle className="text-2xl"/> Se connecter avec Google
         </button>
-        <Link 
-          className="sm:my-1 w-2/3"
-          href="/sign-up" >
-        <Button 
-          type="button"
-          className="w-full font-semibold text-base" 
-          color="warning"
-          variant="shadow"
-          > Inscription
-        </Button>
-        </Link>
-      </div>
-      <Divider/>
-      <h2 className="self-center font-bold text-lg mt-3">Se connecter avec identifiants</h2>
-      <CardBody>
+        <Divider/>
+        <h2 className="self-center font-bold text-lg mt-3">Se connecter avec identifiants</h2>     
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center gap-4 sm:gap-6 p-2 sm:px-12 w-[90vw] sm:w-[550px]">
             <Input
