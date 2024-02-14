@@ -19,6 +19,7 @@ export default function MessageCard({ message, userId }: MessageCardProps) {
         w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2">
         <div className="flex gap-2 flex-row-reverse">
         <Image 
+          radius="sm"
           alt="user profile picture" 
           src={message.senderImage || ""}
           width={40}
@@ -47,8 +48,9 @@ export default function MessageCard({ message, userId }: MessageCardProps) {
       className="border-1 border-yellow-100 rounded-lg 
         backdrop-blur-lg bg-yellow-500 bg-opacity-30
         w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2">
-      <div className="flex gap-1">
+      <div className="flex gap-2">
       <Image 
+        radius="sm"
         alt="user profile picture" 
         src={message.senderImage || ""}
         width={40}

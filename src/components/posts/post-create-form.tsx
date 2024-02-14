@@ -3,15 +3,14 @@ import * as actions from '@/actions';
 import FormButton from '@/components/common/form-button';
 import {
   Button,
-  Card,
-  Input,
-  Textarea
+  Card
 } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import AddImagesButton from '../common/cloudinary-upload-images';
 import FormErrorDisplay from '../common/form-error-warning';
 import ImageMiniature from '../common/form-image-mini';
+import { FormInput, FormTextarea } from '../common/form-inputs';
 
 interface PostCreateformProps {
   slug: string;
@@ -35,36 +34,14 @@ export default function PostCreateform({ slug }: PostCreateformProps) {
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-full">
             <h3 className="text-lg font-semibold">Créer un post</h3>
-            <Input 
-              classNames={{ 
-                inputWrapper: 
-                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
-                border border-slate-600 border-opacity-50 
-                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
-                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
-                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
-                errorMessage: 
-                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                base: "box-content"
-              }}
+            <FormInput 
               name="title" 
               label="Titre" 
               labelPlacement="outside" 
               placeholder="Titre"
               isInvalid={!!formState.errors.title}
               errorMessage={formState.errors.title?.join(', ')}/> 
-            <Textarea 
-              classNames={{ 
-                inputWrapper: 
-                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
-                border border-slate-600 border-opacity-50 
-                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
-                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
-                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
-                errorMessage: 
-                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                base: "box-content"
-              }}
+            <FormTextarea 
               name="content"
               label="Contenu" 
               labelPlacement="outside" 
