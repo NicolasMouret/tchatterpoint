@@ -1,40 +1,17 @@
 'use client';
 
 import { supabase } from "@/db";
-import { setDateComment } from "@/libs/utils";
-import { Divider, Link } from "@nextui-org/react";
 import { Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import MessageCard from "./message-card";
 
 interface ConversationShowProps {
   // initialMessages: ChatComplete["messages"];
   userId: string;
   chatId: string;
 }
-
-const MessageCard = ({ message, userId }: 
-  { message: Message, userId: string | undefined | null }) => {
-    const date = setDateComment(message.createdAt);
-    return (
-      <article key={message.id} className={`border-1 
-        ${message.senderId === userId ? "border-slate-500" : "border-yellow-100"} 
-        rounded-lg backdrop-blur-lg bg-opacity-20
-        ${message.senderId === userId ? "self-end text-right bg-blue-950" : 
-        "bg-yellow-500 bg-opacity-30" }
-        w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
-        <Link href={`/profil/${message.senderId}`}>
-          <p className="font-extrabold text-slate-300 hover:underline hover:text-yellow-400">
-            {message.senderName}
-          </p>
-        </Link>
-        <p className="text-small">{date}</p>
-        <Divider className="my-1"/>
-        <p className="text-slate-300">{message.content}</p>
-      </article>
-    )
-  }
 
 export default function ConversationShow({ userId, chatId }: ConversationShowProps) {
   const router = useRouter();
