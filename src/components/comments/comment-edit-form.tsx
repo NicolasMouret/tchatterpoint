@@ -2,6 +2,7 @@
 
 import * as actions from '@/actions';
 import FormButton from "@/components/common/form-button";
+import { supabase } from "@/db";
 import {
   Button,
   Modal,
@@ -12,7 +13,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@nextui-org/react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FaEdit } from "react-icons/fa";
 import AddImagesButton from '../common/cloudinary-upload-images';
@@ -29,11 +30,22 @@ interface CommentEditFormProps {
 export default function CommentEditForm({ commentId, postId, originalContent, originalImages }: CommentEditFormProps) {
   const [content, setContent] = useState(originalContent);
   const [images, setImages] = useState(originalImages);
-  const [isSuccess, setIsSuccess] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formState, action] = useFormState(actions.editComment.bind(null, { commentId, postId, images }), {
     errors: {},
   });
+
+  //CLOSE MODAL ON CONFIRMATION BROACAST
+  useEffect(() => {
+    const channel = supabase.channel(`confirmEdit-${commentId}`);
+    channel.on(
+      "broadcast",
+      { event: "confirmEdit" },
+      () => {
+        onOpenChange();
+      }
+    ).subscribe();
+  })
 
   return (
     <>
@@ -56,7 +68,7 @@ export default function CommentEditForm({ commentId, postId, originalContent, or
           {(onClose: () => void) => (
             <>
               <ModalHeader>Modifier le commentaire</ModalHeader>
-              <form onSubmit={onClose} action={action}>
+              <form action={action}>
               <ModalBody>
                 <Textarea 
                   classNames={{ 

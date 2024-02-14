@@ -34,7 +34,7 @@ export default function AddImagesButton({ setImagesAdded, imagesAdded }: AddImag
         return (
           <Tooltip 
             content="Ajouter des images" 
-            placement="right" 
+            placement="top" 
             color="warning"
             className="font-medium"
             showArrow>
