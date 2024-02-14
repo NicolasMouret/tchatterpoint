@@ -10,8 +10,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Textarea,
-  useDisclosure,
+  useDisclosure
 } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
@@ -19,6 +18,7 @@ import { FaEdit } from "react-icons/fa";
 import AddImagesButton from '../common/cloudinary-upload-images';
 import FormErrorDisplay from '../common/form-error-warning';
 import ImageMiniature from '../common/form-image-mini';
+import { FormTextarea } from '../common/form-inputs';
 
 interface CommentEditFormProps {
   commentId: string;
@@ -35,7 +35,8 @@ export default function CommentEditForm({ commentId, postId, originalContent, or
     errors: {},
   });
 
-  //CLOSE MODAL ON CONFIRMATION BROACAST
+  // CLOSE MODAL ON CONFIRMATION BROACAST 
+  // SENT FROM THE EDIT COMMENT SERVER ACTION
   useEffect(() => {
     const channel = supabase.channel(`confirmEdit-${commentId}`);
     channel.on(
@@ -70,18 +71,7 @@ export default function CommentEditForm({ commentId, postId, originalContent, or
               <ModalHeader>Modifier le commentaire</ModalHeader>
               <form action={action}>
               <ModalBody>
-                <Textarea 
-                  classNames={{ 
-                    inputWrapper: 
-                    `bg-slate-950 bg-opacity-60 backdrop-blur-md 
-                    border border-slate-600 border-opacity-50 
-                    dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
-                    group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
-                    group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
-                    errorMessage: 
-                    "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                    base: "box-content"
-                  }}
+                <FormTextarea 
                   name="content"
                   placeholder="Veuillez entrer votre commentaire"
                   value={content}

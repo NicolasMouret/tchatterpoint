@@ -85,6 +85,7 @@ export async function editComment(
   }
 
   revalidatePath(paths.postShow(topic.slug, postId));
+  
   const channel = supabase.channel(`confirmEdit-${commentId}`);
   channel.subscribe(() => {
     channel.send({

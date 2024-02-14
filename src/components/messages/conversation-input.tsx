@@ -2,9 +2,9 @@
 
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
-import { Textarea } from "@nextui-org/react";
 import { useRef, useState } from "react";
 import { useFormState } from "react-dom";
+import { FormTextarea } from "../common/form-inputs";
 
 
 interface SendMessageFormProps {
@@ -25,15 +25,7 @@ export default function ChatInputForm({
   return (
     <form ref={formRef} action={action} onSubmit={() => setMessage("")} className="w-full mt-2">
       <div className={`space-y-2 px-1 mt-1 w-full flex flex-col`}>
-        <Textarea
-          classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
-          "border border-slate-600 border-opacity-50",
-          "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-          "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-          "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-          errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-          base: "box-content"
-          }}
+        <FormTextarea
           name="content"
           value={message}
           onChange={e => setMessage(e.target.value)}
