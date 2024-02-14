@@ -13,7 +13,6 @@ import {
   Tooltip,
   useDisclosure
 } from "@nextui-org/react";
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useFormState } from "react-dom";
 import { MdEdit } from "react-icons/md";
@@ -25,7 +24,6 @@ interface EditUserInfosProps {
 }
 
 export default function EditUserInfos({ originalName, originalBio }: EditUserInfosProps) {
-  const session = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState(originalName);
   const [bio, setBio] = useState(originalBio);
@@ -60,13 +58,16 @@ export default function EditUserInfos({ originalName, originalBio }: EditUserInf
             action={action}>
           <ModalBody>
             <Input 
-              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
-              "border border-slate-600 border-opacity-50",
-              "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-              base: "box-content"
+              classNames={{ 
+                inputWrapper: 
+                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
+                border border-slate-600 border-opacity-50 
+                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
+                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
+                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
+                errorMessage: 
+                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+                base: "box-content"
               }}
               name="name" 
               onChange={(e) => setName(e.target.value)}
@@ -77,13 +78,16 @@ export default function EditUserInfos({ originalName, originalBio }: EditUserInf
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/> 
             <Textarea 
-              classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
-              "border border-slate-600 border-opacity-50",
-              "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-              "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-              "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-              errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-              base: "box-content"
+              classNames={{ 
+                inputWrapper: 
+                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
+                border border-slate-600 border-opacity-50 
+                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
+                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
+                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
+                errorMessage: 
+                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
+                base: "box-content"
               }}
               name="biography"
               onChange={(e) => setBio(e.target.value)}
