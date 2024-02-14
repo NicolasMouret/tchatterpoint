@@ -63,6 +63,7 @@ export default function MapUserPosition({initialLocation}:
         center={initialCenter}
         zoom={5.4}
         onClick={handleMapClick}
+        options={{ streetViewControl: false }}
       >
         {markerPosition && (
           <GoogleMapMarker

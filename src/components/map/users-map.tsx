@@ -52,6 +52,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
         mapContainerStyle={{ height: "100%", width: "100%" }}
         center={initialCenter}
         zoom={5.4}
+        options={{ streetViewControl: false }}
       >
       <>
         {MarkerList} 
