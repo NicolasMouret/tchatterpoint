@@ -1,6 +1,5 @@
 'use client';
 import * as actions from '@/actions';
-import { formStyles } from '@/libs/styles';
 import {
   Button,
   Input,
@@ -33,8 +32,14 @@ export default function TopicCreateForm() {
             <h3 className="text-lg">Créer un sujet</h3>
             <Input 
               classNames={{ 
-                inputWrapper: formStyles.input,        
-                errorMessage: formStyles.error,
+                inputWrapper: 
+                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
+                border border-slate-600 border-opacity-50 
+                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
+                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
+                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
+                errorMessage: 
+                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
                 base: "box-content"
               }}
               name="name" 
@@ -45,8 +50,14 @@ export default function TopicCreateForm() {
               errorMessage={formState.errors.name?.join(', ')}/> 
             <Textarea
               classNames={{ 
-                inputWrapper: formStyles.input,        
-                errorMessage: formStyles.error,
+                inputWrapper: 
+                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
+                border border-slate-600 border-opacity-50 
+                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
+                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
+                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
+                errorMessage: 
+                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
                 base: "box-content"
               }}
               name="description"
