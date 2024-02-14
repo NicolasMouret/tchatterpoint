@@ -40,7 +40,7 @@ export const {
           role: userRole,
           name: profile.name,
           email: profile.email,
-          image: user?.image,
+          image: user?.image || profile.picture,
         }
       }
     }),
