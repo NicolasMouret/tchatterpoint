@@ -1,35 +1,51 @@
 'use client';
 
 import * as actions from '@/actions';
+import { supabase } from '@/db';
 import {
   Button,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Textarea,
   Tooltip,
   useDisclosure
 } from "@nextui-org/react";
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { useFormState } from "react-dom";
 import { MdEdit } from "react-icons/md";
 import FormButton from "../common/form-button";
+import { FormInput, FormTextarea } from '../common/form-inputs';
 
 interface EditUserInfosProps {
   originalName: string;
   originalBio: string;
+  userId: string;
 }
 
-export default function EditUserInfos({ originalName, originalBio }: EditUserInfosProps) {
+export default function EditUserInfos({ originalName, originalBio, userId }: EditUserInfosProps) {
+  const session = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState(originalName);
   const [bio, setBio] = useState(originalBio);
   const [formState, action] = useFormState(actions.editUserInfos, {
     errors: {}
   });
+
+  // CLOSE MODAL ON CONFIRMATION BROACAST 
+  // SENT FROM THE EDIT COMMENT SERVER ACTION
+  useEffect(() => {
+    const channel = supabase.channel(`confirmEdit-${userId}`);
+    channel.on(
+      "broadcast",
+      { event: "confirmEdit" },
+      () => {
+        onOpenChange();
+      }
+    ).subscribe();
+  })
   
   return (
     <>
@@ -54,21 +70,13 @@ export default function EditUserInfos({ originalName, originalBio }: EditUserInf
         {(onClose: () => void) => (
           <>
           <ModalHeader>Modifier votre profil</ModalHeader>
-          <form onSubmit={onClose} 
-            action={action}>
+          <form 
+            action={action}
+            onSubmit={() => session.update({
+              name: name, biography: bio
+              })}>
           <ModalBody>
-            <Input 
-              classNames={{ 
-                inputWrapper: 
-                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
-                border border-slate-600 border-opacity-50 
-                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
-                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
-                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
-                errorMessage: 
-                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                base: "box-content"
-              }}
+            <FormInput
               name="name" 
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -77,18 +85,7 @@ export default function EditUserInfos({ originalName, originalBio }: EditUserInf
               placeholder="Votre pseudo"
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}/> 
-            <Textarea 
-              classNames={{ 
-                inputWrapper: 
-                `bg-slate-950 bg-opacity-60 backdrop-blur-md 
-                border border-slate-600 border-opacity-50 
-                dark:hover:bg-slate-950 dark:hover:bg-opacity-75 dark:hover:backdrop-blur-md 
-                group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg 
-                group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100`,        
-                errorMessage: 
-                "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                base: "box-content"
-              }}
+            <FormTextarea
               name="biography"
               onChange={(e) => setBio(e.target.value)}
               label="Bio" 
