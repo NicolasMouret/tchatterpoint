@@ -66,6 +66,7 @@ export default function HeaderAuth() {
       <Popover placement="bottom">
         <PopoverTrigger>           
           <Button 
+            aria-label='Connexion'
             className="font-bold sm:hidden font-stdFont"
             color="warning"
             variant="ghost"
