@@ -80,14 +80,22 @@ export const {
     // JWT CALLBACK IS CALLED WHEN - SIGNIN | UPDATE TRIGGER | SESSION IS ACCESSED 
     async jwt({ token, user, account, session, trigger }: any) {     
 
-      // WHEN USER UPDATE HIS LOCATION WE UPDATE THE JWT 
+      // WHEN USER UPDATE AN INFO WE UPDATE THE JWT 
       // session.update([newValues]) => trigger jwt update => update token => update session
+
+      // LOCATION 
       if (trigger === 'update' && session?.latitude && session?.longitude) {
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
+      // AVATAR
       if (trigger === 'update' && session.image) {
         token.image = session.image
+      }
+      // NAME AND BIOGRAPHY
+      if (trigger === 'update' && session.name && session.biography) {
+        token.name = session.name
+        token.biography = session.biography
       }
       
       // THIS IS EXECUTED AT SIGNIN TO ADD DATA TO THE TOKEN

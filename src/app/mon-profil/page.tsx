@@ -37,6 +37,7 @@ export default async function myProfilePage() {
             <EditUserInfo // <== ABSOLUTE POSITION
               originalName={user.name}
               originalBio={user.biography!}
+              userId={user.id}
               />
           <div className="flex flex-col md:flex-row items-center justify-start md:justify-center 
           md:items-stretch gap-4">

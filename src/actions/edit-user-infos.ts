@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from "@/auth";
-import { db } from "@/db";
+import { db, supabase } from "@/db";
 import { revalidatePath } from "next/cache";
 import { z } from 'zod';
 
@@ -65,6 +65,13 @@ export async function editUserInfos(
   }
 
   revalidatePath(`/mon-profil`);
+  const channel = supabase.channel(`confirmEdit-${session.user.id}`);
+  channel.subscribe(() => {
+    channel.send({
+      type: "broadcast",
+      event: "confirmEdit",
+    })
+  })
   return {
     errors: {},
   }
