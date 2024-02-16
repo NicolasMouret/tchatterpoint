@@ -41,6 +41,8 @@ export default async function ChatList() {
   return (
     <>
       <h1 className="font-bold text-3xl text-yellow-400 font-swFont">Conversations</h1>
+      {chats.length === 0 && 
+      <p className="text-center">Vous n&apos;avez pas encore de conversation engagée</p>}
       {chats.map(chatCard)}
     </>
   )
