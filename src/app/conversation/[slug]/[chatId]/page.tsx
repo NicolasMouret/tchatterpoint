@@ -2,7 +2,8 @@ import { auth } from '@/auth';
 import ConversationShow from '@/components/messages/conversation-container';
 import ChatInputForm from '@/components/messages/conversation-input';
 import { ChatComplete, fetchChatComplete } from '@/db/queries/chats';
-import { Avatar, Card, Divider, Link } from "@nextui-org/react";
+import { Avatar, Card, Divider, Link, Tooltip } from "@nextui-org/react";
+export const dynamic = 'force-dynamic';
 
 interface ChatPageProps {
   params: {
@@ -11,17 +12,14 @@ interface ChatPageProps {
   };
 }
 
-const getInterlocutorImage = (chat: ChatComplete, interlocutorName: string) => {
-  const interlocutor = chat.users.find(user => user.name === interlocutorName);
-    return interlocutor!.image;
-}
-
 const isUserInChat = (chat: ChatComplete, userId: string) => {
   return chat.users.some(user => user.id === userId);
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
   const session = await auth();
+  const chatId = params.chatId;
+
   if (!session) {
     return (
       <Card isBlurred className="flex flex-col items-center gap-4 p-3 w-full sm:w-4/5">
@@ -29,9 +27,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </Card>
     )
   }
-
-  const {name: userName, id: userId} = session.user;
-  const chatId = params.chatId;
+  const userId = session.user.id;
 
   const chat = await fetchChatComplete(chatId);
   if (!chat) {
@@ -49,8 +45,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
       </Card>
     )
   }
-  const interlocutorName = decodeURIComponent(params.slug);
-  const interlocutorImage = getInterlocutorImage(chat, interlocutorName);
+  const interlocutor = chat.users.find(user => user.id !== userId);
   
   return (
     <section className="flex flex-col items-center p-2 w-[95%] sm:w-4/5 h-[88vh] mb-2
@@ -62,11 +57,26 @@ export default async function ChatPage({ params }: ChatPageProps) {
         </Link>
         <Avatar 
           radius="md"
-          src={interlocutorImage}/>
-        <span className="font-bold text-yellow-400 text-xl">Conversation avec {interlocutorName}</span>
+          src={interlocutor?.image}/>
+        <Tooltip
+          content="Voir le profil"
+          placement="right"
+          color="warning"
+          className="font-medium"
+          showArrow>
+          <Link 
+            className="group flex flex-col sm:flex-row gap-2" 
+            href={`/profil/${interlocutor?.id}`}>
+            <span className="font-bold text-yellow-400 text-xl group-hover:underline">
+              Conversation avec {interlocutor?.name}
+            </span>
+          </Link>
+        </Tooltip>
       </div>
       <Divider/>
-      <ConversationShow messages={chat.messages} userName={userName} chatId={chatId}/>
+        <ConversationShow 
+          userId={userId}
+          chatId={chatId}/>
       <Divider/>
       <ChatInputForm chatId={chatId}/>
     </section>

@@ -6,6 +6,6 @@ describe('Home', () => {
     render(<Home />);
     const heading = screen.getByRole('heading');
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent('Accueil');
+    expect(heading).toHaveTextContent('Bienvenue sur Tchatterpoint');
   });
 });

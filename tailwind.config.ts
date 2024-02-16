@@ -10,11 +10,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      keyframes: {
+        fadeInFromBottom: {
+         '0%': { opacity: "0", transform: 'translateY(300px) rotateX(70deg) scale(1.6)' },
+          '100%': { opacity: "1", transform: 'translateY(0) rotateX(0) scale(1)' },
+        },
       },
+      animation: {
+        fadeInFromBottom: 'fadeInFromBottom 0.8s ease-in-out',
+      },
+      fontFamily: {
+        swFont: ['var(--swFont)'],
+        stdFont: ['var(--orbitronFont)'],
+      }
     },
   },
   darkMode: 'class',

@@ -10,7 +10,12 @@ export default async function TopicList() {
     return (
       <div key={topic.id}>
         <Link href={paths.topicShow(topic.slug)}>
-          <Chip color="warning" variant="shadow">{topic.slug}</Chip> 
+          <Chip 
+            className="hover:scale-[1.04]" 
+            color="warning" 
+            variant="shadow">
+              {topic.slug}
+          </Chip> 
         </Link>
       </div>
     )

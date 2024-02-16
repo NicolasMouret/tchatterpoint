@@ -1,56 +1,89 @@
 'use client';
 
-import { ChatComplete } from "@/db/queries/chats";
-import { pusherClient } from "@/lib/pusher";
-import { Divider } from "@nextui-org/react";
+import { supabase } from "@/db";
+import { Message } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import MessageCard from "./message-card";
 
 interface ConversationShowProps {
-  messages: ChatComplete["messages"];
-  userName: string | undefined | null;
+  // initialMessages: ChatComplete["messages"];
+  userId: string;
   chatId: string;
 }
 
-export default function ConversationShow({ messages, userName, chatId }: ConversationShowProps) {
+export default function ConversationShow({ userId, chatId }: ConversationShowProps) {
+  const router = useRouter();
+  const session = useSession();
+
   const containerRef = useRef<HTMLDivElement>(null)
-  const [messagesLocal, setMessagesLocal] = useState(messages)
-  const messagesReversed = [...messagesLocal].reverse();
+  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
+  const [incomingMessages, setIncomingMessages] = useState<Message[]>([]);
+
   const scrollToBottom = () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
   }
+
+  // WAY TO GET UP TO DATE MESSAGES ON EVERY RENDER
+  // AS A WORKAROUND TO THE NEXT 30sec ROUTER CACHE
+  useEffect(() => {
+    if (session.data?.user?.id) {
+      supabase
+        .from("Message")
+        .select("*")
+        .eq("chatId", chatId)
+        .order("createdAt", { ascending: false })
+        .then(({ data: messages }) => {
+          setIncomingMessages([]); //reset local state to avoid any duplicates
+          setInitialMessages(messages as Message[]);
+        })
+    }
+  }, [chatId, session])
   
   useEffect(() => {
     scrollToBottom();
-    pusherClient.subscribe(`chat${chatId}`);
-    pusherClient.bind("new-message", (lastMessage: any) => {
-      console.log("trigger", lastMessage)
-      setMessagesLocal(prevMessages => [...prevMessages, lastMessage])
-      scrollToBottom();
-    });
+    supabase // reset unread messages count 
+      .from("UserUnreadMessages")
+      .update({ count: 0 })
+      .eq("chatId", chatId)
+      .eq("userId", userId)
+      .then() 
+
+    // REALTIME LISTENING TO INSERTS WITH chatId IN MESSAGE TABLE
+    // ADD THEM TO LOCAL TEMP STATE
+    const channel = supabase.channel(`chatChanges`);
+    channel
+      .on("postgres_changes", { 
+        event: "INSERT", 
+        schema: "public", 
+        table: "Message", 
+        filter: `chatId=eq.${chatId}`
+       }, 
+      payload => {          
+          setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
+          requestAnimationFrame(scrollToBottom);
+      })
+      .subscribe();
 
     return () => {
-      pusherClient.unsubscribe(`chat.${chatId}`);
-      pusherClient.unbind("new-message");
+      channel.unsubscribe();
     }
-  }, [chatId])
+  }, [chatId, initialMessages, userId, router])
   
   return (
     <div
       ref={containerRef}
       className="flex flex-col-reverse gap-2 p-2 w-full flex-1 overflow-y-auto">
-        {messagesReversed.map(message => (
-          <article key={message.id} className={`border-1 border-slate-400 rounded-lg 
-          backdrop-blur-lg bg-opacity-20
-          ${message.sender.name === userName ? "self-end text-right bg-blue-950" : 
-          "bg-yellow-400 bg-opacity-15" }
-           w-fit max-w-[90%] sm:max-w-[70%] min-h-fit p-2`}>
-            <p className="font-bold">{message.sender.name}</p>
-            <Divider/>
-            <p>{message.content}</p>
-          </article>
+        {incomingMessages.map(message => (
+          <MessageCard key={message.id} message={message} userId={userId}/>
         ))}
+        {initialMessages ? initialMessages.map(message => (
+          <MessageCard key={message.id} message={message} userId={userId}/>
+        )) :
+        null}
       </div>
   )
 }

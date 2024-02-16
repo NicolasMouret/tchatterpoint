@@ -2,6 +2,7 @@
 
 import * as actions from '@/actions';
 import FormButton from "@/components/common/form-button";
+import { supabase } from "@/db";
 import {
   Button,
   Modal,
@@ -9,25 +10,43 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Textarea,
-  useDisclosure,
+  useDisclosure
 } from "@nextui-org/react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FaEdit } from "react-icons/fa";
+import AddImagesButton from '../common/cloudinary-upload-images';
+import FormErrorDisplay from '../common/form-error-warning';
+import ImageMiniature from '../common/form-image-mini';
+import { FormTextarea } from '../common/form-inputs';
 
 interface CommentEditFormProps {
   commentId: string;
   postId: string;
   originalContent: string;
+  originalImages: string[];
 }
 
-export default function CommentEditForm({ commentId, postId, originalContent }: CommentEditFormProps) {
+export default function CommentEditForm({ commentId, postId, originalContent, originalImages }: CommentEditFormProps) {
   const [content, setContent] = useState(originalContent);
+  const [images, setImages] = useState(originalImages);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [formState, action] = useFormState(actions.editComment.bind(null, { commentId, postId }), {
-    errors: {}
+  const [formState, action] = useFormState(actions.editComment.bind(null, { commentId, postId, images }), {
+    errors: {},
   });
+
+  // CLOSE MODAL ON CONFIRMATION BROACAST 
+  // SENT FROM THE EDIT COMMENT SERVER ACTION
+  useEffect(() => {
+    const channel = supabase.channel(`confirmEdit-${commentId}`);
+    channel.on(
+      "broadcast",
+      { event: "confirmEdit" },
+      () => {
+        onOpenChange();
+      }
+    ).subscribe();
+  })
 
   return (
     <>
@@ -50,17 +69,9 @@ export default function CommentEditForm({ commentId, postId, originalContent }: 
           {(onClose: () => void) => (
             <>
               <ModalHeader>Modifier le commentaire</ModalHeader>
-              <form onSubmit={onClose} action={action}>
+              <form action={action}>
               <ModalBody>
-                <Textarea 
-                  classNames={{ inputWrapper: ["bg-slate-950 bg-opacity-80 backdrop-blur-md", 
-                  "border border-slate-600 border-opacity-50",
-                  "dark:hover:bg-opacity-60 dark:hover:backdrop-blur-md dark:hover:bg-slate-950",
-                  "group-data-[focus=true]:bg-opacity-85 group-data-[focus=true]:backdrop-blur-lg", 
-                  "group-data-[focus=true]:bg-slate-950 group-data-[focus=true]:border-opacity-100"],        
-                  errorMessage: "text-red-200 bg-rose-950 p-1 pl-2 rounded bg-opacity-90 backdrop-blur-sm",
-                  base: "box-content"
-                  }}
+                <FormTextarea 
                   name="content"
                   placeholder="Veuillez entrer votre commentaire"
                   value={content}
@@ -68,17 +79,30 @@ export default function CommentEditForm({ commentId, postId, originalContent }: 
                   isInvalid={!!formState.errors.content}
                   errorMessage={formState.errors.content?.join(', ')}
                 />
+                <div className="flex flex-wrap gap-2 px-auto">
+                  <AddImagesButton
+                    imagesAdded={images}
+                    setImagesAdded={setImages} />
+                  {images.map((src, i) => (
+                    <ImageMiniature 
+                      key={i} 
+                      src={src}
+                      images={images}
+                      setImages={setImages}
+                      />
+                  ))}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>Annuler</Button>
-                  <FormButton
-                  className="font-medium text-base w-full"
-                  color="primary"
-                  variant="shadow"
-                  >Modifier</FormButton>
-                {formState.errors._form ? 
-            <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
-            null}
+                <FormButton
+                className="font-medium text-base w-full"
+                color="primary">
+                  Modifier
+                </FormButton>
+
+                {formState.errors._form ?
+                  <FormErrorDisplay errors={formState.errors._form} /> : null}
               </ModalFooter>
             </form>
             </>

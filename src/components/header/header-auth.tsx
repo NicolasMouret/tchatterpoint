@@ -10,7 +10,7 @@ import {
   PopoverTrigger
 } from '@nextui-org/react';
 import { signIn, useSession } from 'next-auth/react';
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaUserLarge } from "react-icons/fa6";
 
 export default function HeaderAuth() {
   const session = useSession();
@@ -47,7 +47,7 @@ export default function HeaderAuth() {
     authContent = (<>
 
     {/* ON DESKTOP */}
-      <div className="hidden sm:flex gap-2">          
+      <div className="hidden sm:flex gap-2 font-stdFont">          
           <Button 
             className="border-yellow-400 text-yellow-400 font-bold" 
             type="button" 
@@ -56,7 +56,7 @@ export default function HeaderAuth() {
             Se Connecter
           </Button>          
           <Link href="/sign-up">
-            <Button className="font-bold"  type="button" variant="ghost" color="primary">
+            <Button className="font-bold"  type="button" variant="solid" color="primary">
               S&apos;inscrire
             </Button>                   
           </Link>
@@ -66,11 +66,13 @@ export default function HeaderAuth() {
       <Popover placement="bottom">
         <PopoverTrigger>           
           <Button 
-            className="border-yellow-400 text-yellow-400 font-bold sm:hidden"
+            aria-label='Connexion'
+            className="font-bold sm:hidden font-stdFont"
+            color="warning"
             variant="ghost"
             type="button"
             size="sm">
-          <FaSignInAlt className="text-base" /> Connexion
+          <FaUserLarge className="text-xl"/>
           </Button>      
         </PopoverTrigger>
         <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50

@@ -21,7 +21,9 @@ export default function AccountNavItems({closeMenu, format}: NavbarItemProps) {
           </Link>
         </NavbarItem>
         <NavbarItem isActive={pathname === "/messages"}>
-          <Link href="/messages">
+          <Link  
+            href="/messages"
+            prefetch={false}>
             Mes messages
           </Link>
         </NavbarItem>   
@@ -34,7 +36,9 @@ export default function AccountNavItems({closeMenu, format}: NavbarItemProps) {
           <Link href="/mon-profil">Mon profil</Link>
         </NavbarMenuItem>   
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/messages"}>
-          <Link href="/messages">Mes messages</Link>
+          <Link
+            href="/messages"
+            prefetch={false}>Mes messages</Link>
         </NavbarMenuItem> 
       </>
     )

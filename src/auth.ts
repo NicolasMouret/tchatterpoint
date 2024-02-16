@@ -5,13 +5,11 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
-  throw new Error('Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET');
+  throw new Error('Missing google client credentials');
 }
 
 export const {
@@ -21,8 +19,9 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  trustHost: true,
   pages: {
-    signIn: "/sign-in",
+    signIn: "/sign-in", // Set URL for Sign in page
   },
   providers: [
     Google({
@@ -33,34 +32,24 @@ export const {
         const user = await db.user.findUnique({
           where: { email: profile?.email },
         })
-        if (user) {
+        if (user) { 
           userRole = user.role;
-        } else if (profile.email === ADMIN_EMAIL) {
-          userRole = 'admin';
         }
-
         return {
           id: profile.sub,
           role: userRole,
           name: profile.name,
           email: profile.email,
-          image: user?.image,
+          image: user?.image || profile.picture,
         }
       }
     }),
     CredentialsProvider({
-      name: 'email et mot de passe',
-
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: {  label: "Mot de passe", type: "password" }
-      },
       async authorize(credentials, req) {
         const res = await db.user.findUnique({
           where: { email: credentials!.email as string,
            },
         });
-
         if (res && res.pwHash) {
           const passwordValid = await compare(credentials!.password as string, res.pwHash);
           if (passwordValid) {
@@ -87,32 +76,32 @@ export const {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {   
-    async jwt({ token, user, account, session, trigger }: any) {
 
-      // WHEN USER UPDATE HIS LOCATION WE UPDATE THE JWT 
+    // JWT CALLBACK IS CALLED WHEN - SIGNIN | UPDATE TRIGGER | SESSION IS ACCESSED 
+    async jwt({ token, user, account, session, trigger }: any) {     
+
+      // WHEN USER UPDATE AN INFO WE UPDATE THE JWT 
       // session.update([newValues]) => trigger jwt update => update token => update session
+
+      // LOCATION 
       if (trigger === 'update' && session?.latitude && session?.longitude) {
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
+      // AVATAR
       if (trigger === 'update' && session.image) {
         token.image = session.image
       }
-
-      // WHEN USER SIGN IN WITH GOOGLE OR GITHUB 
-      if (account?.provider === 'google' || account?.provider === 'github') {
-        return {
-          ...token,
-          id: user.id,
-          role: user.role,
-          image: user.image,
-          latitude: user.latitude,
-          longitude: user.longitude,
-        }
+      // NAME AND BIOGRAPHY
+      if (trigger === 'update' && session.name && session.biography) {
+        token.name = session.name
+        token.biography = session.biography
       }
-
-      // WHEN USER SIGN IN WITH EMAIL AND PASSWORD
-      if (user) {
+      
+      // THIS IS EXECUTED AT SIGNIN TO ADD DATA TO THE TOKEN
+      // AFTER THAT IT WILL DIRECTLY RETURN THE TOKEN
+      if (account?.provider === 'google' || user) {
+        console.log("user", user)
         return {
           ...token,
           id: user.id,
@@ -125,8 +114,11 @@ export const {
       
       return token;
     },
+    
+    // SESSION CALLBACK IS CALLED WHEN SESSION IS CHECKED
+    // JWT CALLBACK IS CALLED BEFORE EVERY SESSION CALL
     async session({ session, token }: any) {
-
+      
       // SET THE SESSION FROM THE JWT
       return {
         ...session,

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import CloudinaryUpload from "@/components/common/cloudinary-upload-button";
+import EditAvatarUpload from "@/components/common/cloudinary-avatar-upload-button";
 import MapUserPosition from "@/components/map/user-position";
 import EditUserInfo from "@/components/user/user-edit-modal";
 import { fetchUserWithInfos } from "@/db/queries/users";
@@ -26,16 +26,18 @@ export default async function myProfilePage() {
   )
     
     return (
-      <div className="flex flex-col items-center gap-4 p-3 w-full sm:w-4/5">
-        <h1 className="font-bold text-2xl text-yellow-400">Mon profil</h1>
+      <main className="flex flex-1 flex-col items-center gap-4 p-3 w-full sm:w-4/5 
+        text-yellow-400 text-center">
+        <h1 className="font-bold text-3xl font-swFont">mon profil</h1>
         <Divider/>
-        <h2 className="font-bold text-lg text-yellow-400">Mes infos</h2>
+        <h2 className="font-bold text-xl font-swFont">mes infos</h2>
         <Card 
-          className="border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 relative"
+          className="relative border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 "
           isBlurred>
             <EditUserInfo // <== ABSOLUTE POSITION
               originalName={user.name}
               originalBio={user.biography!}
+              userId={user.id}
               />
           <div className="flex flex-col md:flex-row items-center justify-start md:justify-center 
           md:items-stretch gap-4">
@@ -51,7 +53,7 @@ export default async function myProfilePage() {
                   height: "80px",
                   objectFit: "cover",}}
                 />
-                <CloudinaryUpload/>
+                <EditAvatarUpload/>
             </div>          
             <div className="flex flex-col items-center sm:items-start justify-start pt-2 gap-4">
               <div className="flex flex-col sm:flex-row sm:gap-2 items-center">
@@ -69,11 +71,11 @@ export default async function myProfilePage() {
             <span className="text-center">{user.biography}</span>
           </div>
         </Card>
-        <h2 className="font-bold text-lg text-yellow-400">Ma position</h2>
+        <h2 className="font-bold text-xl font-swFont">ma position</h2>
         {user?.location ? 
           <MapUserPosition initialLocation={user.location} /> :
           <MapUserPosition initialLocation={null} />
         }
-      </div>
+      </main>
     )
 }

@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from "@/auth";
-import { db } from "@/db";
+import { db, supabase } from "@/db";
 import paths from "@/paths";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -19,7 +19,11 @@ interface EditCommentFormState {
 }
 
 export async function editComment(
-  { commentId, postId }: { commentId: string, postId: string }, 
+  { commentId, postId, images }: { 
+    commentId: string, 
+    postId: string,
+    images: string[]
+  }, 
   formState: EditCommentFormState,
   formData: FormData
   ): Promise<EditCommentFormState> {
@@ -49,6 +53,7 @@ export async function editComment(
       },
       data: {
         content: result.data.content,
+        images: images,
       },
     });
   } catch (err) {
@@ -80,6 +85,15 @@ export async function editComment(
   }
 
   revalidatePath(paths.postShow(topic.slug, postId));
+  
+  const channel = supabase.channel(`confirmEdit-${commentId}`);
+  channel.subscribe(() => {
+    channel.send({
+      type: "broadcast",
+      event: "confirmEdit",
+    })
+  })
+  
   return {
     errors: {},
     success: true,

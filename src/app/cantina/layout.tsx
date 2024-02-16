@@ -7,10 +7,9 @@ export default function CantinaLayout({
   return (
     <>
     <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="fixed inset-0 bg-cover bg-no-repeat bg-center h-lvh"
         style={{ 
-          backgroundImage: 'url("/cantina-bg.jpeg")',
-          backgroundRepeat: "no-repeat",         
+          backgroundImage: 'url("/cantina-bg.jpeg")',        
           }}
       ></div>
       {children}

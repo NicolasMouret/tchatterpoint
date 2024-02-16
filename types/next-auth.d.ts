@@ -1,4 +1,9 @@
 import { DefaultSession } from "next-auth"
+
+type UnreadMessages = {
+  chatId: string
+  count: number
+}
  
 declare module "next-auth" {
   /**
@@ -9,6 +14,7 @@ declare module "next-auth" {
       role: string | undefined | null
       latitude: number | undefined | null
       longitude: number | undefined | null
+      unreadMessages: UnreadMessages[]
     } & DefaultSession["user"]
   }
 }

@@ -10,10 +10,7 @@ import { z } from 'zod';
 
 const createTopicSchema = z.object({
   name: z
-  .string().min(3, {message: "Minimum 3 caractères"})
-  .regex(/[a-z-]/, { 
-    message: "Doit contenir uniquement des lettres minuscules et des tirets"
-  }),
+  .string().min(3, {message: "Minimum 3 caractères"}),
   description: z
   .string()
   .min(10, {message: "Minimum 10 caractères"}),
@@ -26,8 +23,6 @@ interface CreateTopicFormState {
     _form?: string[];
   };
 }
-
-
 
 export async function createTopic(
   formState: CreateTopicFormState, 
@@ -62,6 +57,13 @@ export async function createTopic(
     })
   } catch (err:unknown) {
     if (err instanceof Error) {
+      if (err.message.includes('Unique constraint failed on the fields: (`slug`)')) {
+        return {
+          errors: {
+            _form: ["Ce nom de topic existe déjà, veuillez en choisir un autre"],
+          }
+        }
+      }
       return {
         errors: {
           _form: [err.message],

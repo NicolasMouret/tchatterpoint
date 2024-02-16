@@ -1,6 +1,6 @@
 const paths = {
   home() {
-
+    return `/`
   },
   topicShow(topicSlug: string) {
     return `/cantina/topics/${topicSlug}`
@@ -13,7 +13,10 @@ const paths = {
   },
   publicProfile(userId: string) {
     return `/profil/${userId}`
-  }
+  },
+  privateProfile() {
+    return `/mon-profil`
+  },
 }
 
 export default paths

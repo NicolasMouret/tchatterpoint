@@ -4,14 +4,15 @@ import CommentDeleteForm from "@/components/comments/comment-delete-form";
 import { fetchCommentsByPostId } from "@/db/queries/comments";
 import { Avatar } from '@nextui-org/react';
 import CommentEditForm from './comment-edit-form';
+import CommentImage from './comment-image';
 
 interface CommentShowProps {
   commentId: string;
   postId: string;
+  isChild?: boolean;
 }
 
-
-export default async function CommentShow({ commentId, postId }: CommentShowProps) {
+export default async function CommentShow({ commentId, postId, isChild }: CommentShowProps) {
   const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
   const session = await auth();
@@ -25,14 +26,14 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   const children = comments.filter((c) => c.parentId === commentId);
   const renderedChildren = children.map((child) => {
     return (
-      <CommentShow key={child.id} commentId={child.id} postId={postId} />
+      <CommentShow key={child.id} commentId={child.id} postId={postId} isChild/>
     );
   });
 
   return (
-    <div className="p-2 my-2 text-small border border-slate-400 rounded 
-    bg-black bg-opacity-70 backdrop-blur-sm">
-      <div className="flex gap-3 mb-2">
+    <article className={`pl-2 pt-2 my-2 text-small border border-slate-400 rounded 
+    ${isChild ? "bg-opacity-0" : "bg-black bg-opacity-85 backdrop-blur-sm"}`}>
+      <article className="flex gap-3 mb-2">
         <Avatar
           src={comment.user.image || ""}
           size="sm"
@@ -50,6 +51,7 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
                       postId={postId}
                       commentId={commentId}
                       originalContent={comment.content}
+                      originalImages={comment.images}
                     />
                   )}
                   <CommentDeleteForm postId={postId} commentId={commentId} />
@@ -57,10 +59,16 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
               )}
           </div>
           <p className="">{comment.content}</p>
+          {comment.images.length > 0 ?
+           <div className="flex flex-wrap gap-2">
+           {comment.images.map((src, i) => (
+            <CommentImage key={i} imageUrl={src} />
+           ))}
+         </div> : null}
           <CommentCreateForm postId={postId} parentId={commentId} />
         </div>
-      </div>
+      </article>
       {renderedChildren}
-    </div>
+    </article>
   );
 }

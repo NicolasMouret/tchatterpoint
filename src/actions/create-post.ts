@@ -22,11 +22,11 @@ interface CreatePostFormState {
     content?: string[];
     _form?: string[];
   };
-
 }
 
 export async function createPost(
   slug: string,
+  postImages: string[],
   formState: CreatePostFormState, 
   formData: FormData): 
   Promise<CreatePostFormState> {
@@ -68,6 +68,7 @@ export async function createPost(
       data: {
         title: result.data.title,
         content: result.data.content,
+        images: postImages,
         userId: session.user.id,
         topicId: topic.id,
       }

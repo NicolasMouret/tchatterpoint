@@ -24,7 +24,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
   if (loadError) return <div>Erreur au chargement de la carte</div>;
   if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>;
 
-  //Create a list of markers from the usersLocationList
+  //CREATE MARKERS LIST FROM ALL USERS WITH LOCATION
   const MarkerList = usersLocationList.map((user) => {
     return (
       <GoogleMapMarker
@@ -52,6 +52,7 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
         mapContainerStyle={{ height: "100%", width: "100%" }}
         center={initialCenter}
         zoom={5.4}
+        options={{ streetViewControl: false }}
       >
       <>
         {MarkerList} 
@@ -61,15 +62,21 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
             setSelectedUser(null);
           }}     
             position={selectedUser.location}>
-              <div className="w-fit h-fit text-black flex items-center gap-2">
-                <Image 
-                  alt="user profile picture" 
-                  src={selectedUser.image || ""}
-                  width={40}
-                  height={40}/>
+              <div className="w-fit h-fit text-black flex items-center gap-4">
+                <Link href={paths.publicProfile(selectedUser.id)}>
+                  <Image 
+                    alt="user profile picture" 
+                    src={selectedUser.image || ""}
+                    width={40}
+                    height={40}
+                    style={{
+                      width: "45px",
+                      height: "45px",
+                      objectFit: "cover",}}/>
+                </Link>
                 <Link 
                   href={paths.publicProfile(selectedUser.id)} 
-                  className="font-bold text-lg">
+                  className="font-extrabold text-lg hover:underline font-stdFont">
                     {selectedUser.name}
                 </Link>
               </div>   
