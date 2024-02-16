@@ -1,6 +1,7 @@
 'use client';
 
 import * as actions from '@/actions';
+import { supabase } from '@/db';
 import {
   Avatar,
   Button,
@@ -10,10 +11,37 @@ import {
   PopoverTrigger
 } from '@nextui-org/react';
 import { signIn, useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { FaUserLarge } from "react-icons/fa6";
 
 export default function HeaderAuth() {
   const session = useSession();
+  const [avatar, setAvatar] = useState<string>();
+
+  // WORKAROUND THE AUTHJS SESSION UPDATE NOT TRIGGERING
+  // GET USER IMAGE FROM DB DIRECTLY
+  useEffect(() => {
+    if (session.data?.user) {
+      supabase
+      .from('User')
+      .select('image')
+      .eq('id', session.data?.user?.id)
+      .then(({ data }) => {
+        if (data) setAvatar(data[0].image);
+      })
+    }
+  })
+  // REALTIME LISTENING TO UPDATES OF USER IMAGE
+  useEffect(() => {
+    const channel = supabase.channel(`confirmEditAvatar-${session.data?.user?.id}`);
+    channel.on(
+      "broadcast",
+      { event: "confirmEditAvatar" },
+      (payload) => {
+        setAvatar(payload.payload.newAvatar);
+      }
+    ).subscribe();
+  })
 
   let authContent: React.ReactNode;
   if (session.status === 'loading') {
@@ -22,7 +50,7 @@ export default function HeaderAuth() {
     authContent = (
     <Popover placement="left">
       <PopoverTrigger>
-        <Avatar className="cursor-pointer hover:scale-105" src={session.data.user.image!} />             
+        <Avatar className="cursor-pointer hover:scale-105" src={avatar} />             
       </PopoverTrigger>
       <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50 border-1 
       border-slate-500">

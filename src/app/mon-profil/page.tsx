@@ -16,6 +16,7 @@ export default async function myProfilePage() {
     </div>
   )
   const user = await fetchUserWithInfos(session.user.id);
+  console.log(session.user);
 
   if(!user) return (
     <div className="flex flex-col items-center gap-4 px-3 w-full sm:w-4/5">

@@ -40,7 +40,7 @@ export const {
           role: userRole,
           name: profile.name,
           email: profile.email,
-          image: user?.image || profile.picture,
+          image: user?.image || "/default-avatar.webp",
         }
       }
     }),
@@ -88,10 +88,6 @@ export const {
         token.latitude = session.latitude
         token.longitude = session.longitude      
       }
-      // AVATAR
-      if (trigger === 'update' && session.image) {
-        token.image = session.image
-      }
       // NAME AND BIOGRAPHY
       if (trigger === 'update' && session.name && session.biography) {
         token.name = session.name
@@ -101,7 +97,6 @@ export const {
       // THIS IS EXECUTED AT SIGNIN TO ADD DATA TO THE TOKEN
       // AFTER THAT IT WILL DIRECTLY RETURN THE TOKEN
       if (account?.provider === 'google' || user) {
-        console.log("user", user)
         return {
           ...token,
           id: user.id,
