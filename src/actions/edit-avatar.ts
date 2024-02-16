@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from "@/auth";
-import { db } from "@/db";
+import { db, supabase } from "@/db";
 import { revalidatePath } from "next/cache";
 
 
@@ -31,6 +31,14 @@ export async function editAvatar(
   }
 
   revalidatePath(`/mon-profil`);
+  const channel = supabase.channel(`confirmEditAvatar-${session.user.id}`);
+  channel.subscribe(() => {
+    channel.send({
+      payload: { newAvatar: avatar},
+      type: "broadcast",
+      event: "confirmEditAvatar",
+    })
+  })
   return {
     success: true,
   }

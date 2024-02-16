@@ -3,13 +3,11 @@
 import { editAvatar } from '@/actions';
 import { frTranslation } from '@/cloudinary-fr-translation';
 import { Button, Tooltip } from '@nextui-org/react';
-import { useSession } from 'next-auth/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { MouseEvent } from 'react';
 import { MdEdit } from "react-icons/md";
 
 export default function EditAvatarUpload() {
-  const session = useSession();
   return (
     <CldUploadWidget 
       uploadPreset="kgxd9epe" 
@@ -23,7 +21,6 @@ export default function EditAvatarUpload() {
       onSuccess={
         (result: any) => {
           editAvatar(result.info.secure_url);
-          session.update({image: result.info.secure_url});
         }
       }>
       {({ open }) => {
