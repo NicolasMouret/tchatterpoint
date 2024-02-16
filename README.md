@@ -9,7 +9,7 @@ players can easily communicate with each other.
 
 Additionally, Tchatterpoint provides a forum-like section where players can engage in discussions on various topics related to the game.
 
-## Build with
+## Built with
 
 - React ([Docs](https://reactjs.org/))
 - Next.js  ([Docs](https://nextjs.org/))
