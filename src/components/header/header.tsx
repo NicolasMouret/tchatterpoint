@@ -30,11 +30,14 @@ export default function Header() {
     >
       <NavbarContent>
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir menu"}
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link href="/" className="font-bold text-xl text-slate-50">Tchatterpoint</Link>
+          <Link 
+            href="/" 
+            className="font-bold text-xl text-slate-50"
+            aria-label="Vers la page d'accueil">Tchatterpoint</Link>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">
