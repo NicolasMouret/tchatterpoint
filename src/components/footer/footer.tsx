@@ -12,14 +12,14 @@ export default function Footer() {
         <p>Fait avec <span className="text-red-500">♥</span> par Nicolas Mouret </p>
         <p>2024 Tchatterpoint</p>
       </div>
-      <div className="flex flex-col lg:flex-row gap-1 lg:gap-6 items-center justify-center text-sm">
+      <div className="flex flex-col lg:flex-row lg:gap-6 items-center justify-center text-sm">
         <Link 
-          className="font-semibold hover:underline hover:text-yellow-400" 
+          className="font-semibold hover:underline p-[14px] hover:text-yellow-400" 
           href="/mentions-legales">
             Mentions légales
         </Link>
         <Link 
-          className="font-semibold hover:underline hover:text-yellow-400" 
+          className="font-semibold hover:underline p-[14px] hover:text-yellow-400" 
           href="/politique-confidentialite">
             Politique de confidentialité
         </Link>

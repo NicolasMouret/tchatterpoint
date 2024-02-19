@@ -6,6 +6,7 @@ import {
   Avatar,
   Button,
   Link,
+  NavbarContent,
   Popover,
   PopoverContent,
   PopoverTrigger
@@ -49,9 +50,15 @@ export default function HeaderAuth() {
   } else if (session.data?.user) {
     authContent = (
     <Popover placement="left">
-      <PopoverTrigger>
-        <Avatar className="cursor-pointer hover:scale-105" src={avatar} />             
-      </PopoverTrigger>
+      <NavbarContent 
+        justify="center"
+        className="max-w-20" >
+        <li>
+          <PopoverTrigger>
+            <Avatar className="cursor-pointer hover:scale-105" src={avatar} />             
+          </PopoverTrigger>
+        </li>
+      </NavbarContent>
       <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50 border-1 
       border-slate-500">
         <div className="flex flex-col items-center gap-2 p-2">
@@ -75,34 +82,42 @@ export default function HeaderAuth() {
     authContent = (<>
 
     {/* ON DESKTOP */}
-      <div className="hidden sm:flex gap-2 font-stdFont">          
+      <NavbarContent justify="center" className="hidden sm:flex gap-2 font-stdFont">          
+        <li>
           <Button 
             className="border-yellow-400 text-yellow-400 font-bold" 
             type="button" 
             variant="ghost" 
             onClick={() => signIn()}>
             Se Connecter
-          </Button>          
+          </Button>   
+        </li>         
+        <li>
           <Link href="/sign-up">
             <Button className="font-bold"  type="button" variant="solid" color="primary">
               S&apos;inscrire
             </Button>                   
           </Link>
-      </div>
+        </li>
+      </NavbarContent>
 
     {/* ON MOBILE */}
       <Popover placement="bottom">
-        <PopoverTrigger>           
-          <Button 
-            aria-label='Connexion'
-            className="font-bold sm:hidden font-stdFont"
-            color="warning"
-            variant="ghost"
-            type="button"
-            size="sm">
-          <FaUserLarge className="text-xl"/>
-          </Button>      
-        </PopoverTrigger>
+        <NavbarContent justify="center" className="sm:hidden">
+          <li>
+            <PopoverTrigger>           
+              <Button 
+                aria-label='Connexion'
+                className="font-bold font-stdFont"
+                color="warning"
+                variant="ghost"
+                type="button"
+                size="sm">
+                <FaUserLarge className="text-xl"/>
+              </Button>      
+            </PopoverTrigger>
+          </li>
+        </NavbarContent>
         <PopoverContent className="backdrop-blur-md bg-slate-950 bg-opacity-50
           border-1 border-slate-500">
           <div className="flex flex-col justify-center items-center gap-3 p-3">
