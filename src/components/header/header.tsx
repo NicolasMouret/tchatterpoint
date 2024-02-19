@@ -28,19 +28,24 @@ export default function Header() {
     classNames={{item: ["data-[active=true]:text-yellow-400",
       "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400", "hover:border-b-1"]}}
     >
-      <NavbarContent>
+      <NavbarContent justify="center">
+        <li>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        </li>
+        <li>
+          <NavbarBrand>
           <Link 
             href="/" 
             className="font-bold text-xl text-slate-50"
-            aria-label="Vers la page d'accueil">Tchatterpoint</Link>
+            aria-label="Vers la page d'accueil">Tchatterpoint
+          </Link>
         </NavbarBrand>
+        </li>
       </NavbarContent>
-      <NavbarContent className="hidden font-medium sm:flex gap-4" justify="start">
+      <NavbarContent className="hidden font-medium sm:flex gap-4" justify="center">
         <NavbarItem 
           isActive={pathname === "/carte-des-joueurs"}>
           <Link color="foreground" href="/carte-des-joueurs">
@@ -53,10 +58,8 @@ export default function Header() {
           </Link>
         </NavbarItem>        
         <AccountNavItems format="desktop"/>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <HeaderAuth />        
-      </NavbarContent>
+      </NavbarContent>      
+      <HeaderAuth />        
 
       <NavbarMenu className="font-swFont">
         <NavbarMenuItem onClick={closeMenu} isActive={pathname === "/carte-des-joueurs"}>
