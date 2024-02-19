@@ -55,7 +55,8 @@ export default async function publicProfilePage({ params }: PublicProfilePagePro
             </div>
             <div className="flex flex-col sm:flex-row sm:gap-2 items-center break-all">
               <span className="font-medium">Email :</span>
-              <span>{user?.email}</span>
+              <span>{user.mailIsPublic ? 
+              user.email : "Email privé"}</span>
             </div>
           </div>
         </div>

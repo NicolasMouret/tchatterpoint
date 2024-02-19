@@ -36,9 +36,7 @@ export default async function myProfilePage() {
           className="relative border-1 border-slate-500 w-full lg:w-3/4 p-5 sm:p-6 mb-2 "
           isBlurred>
             <EditUserInfo // <== ABSOLUTE POSITION
-              originalName={user.name}
-              originalBio={user.biography!}
-              userId={user.id}
+              userInfos={user}
               />
           <div className="flex flex-col md:flex-row items-center justify-start md:justify-center 
           md:items-stretch gap-4">
