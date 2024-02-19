@@ -20,7 +20,7 @@ export default function EditAvatarUpload() {
         }}
       onSuccess={
         (result: any) => {
-          editAvatar(result.info.secure_url);
+          editAvatar(result.info.thumbnail_url);
         }
       }>
       {({ open }) => {
