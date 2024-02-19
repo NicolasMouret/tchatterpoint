@@ -2,6 +2,7 @@
 
 import * as actions from '@/actions';
 import { supabase } from '@/db';
+import { UserWithInfos } from '@/db/queries/users';
 import {
   Button,
   Modal,
@@ -9,6 +10,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Switch,
   Tooltip,
   useDisclosure
 } from "@nextui-org/react";
@@ -17,20 +19,27 @@ import { useEffect, useState } from 'react';
 import { useFormState } from "react-dom";
 import { MdEdit } from "react-icons/md";
 import FormButton from "../common/form-button";
+import FormErrorDisplay from '../common/form-error-warning';
 import { FormInput, FormTextarea } from '../common/form-inputs';
 
 interface EditUserInfosProps {
-  originalName: string;
-  originalBio: string;
-  userId: string;
+  userInfos: UserWithInfos
 }
 
-export default function EditUserInfos({ originalName, originalBio, userId }: EditUserInfosProps) {
+export default function EditUserInfos({ userInfos }: EditUserInfosProps) {
   const session = useSession();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { 
+    id: userId, 
+    name: originalName, 
+    biography: originalBio,
+    mailIsPublic: originalMailIsPublic } = userInfos;  
   const [name, setName] = useState(originalName);
   const [bio, setBio] = useState(originalBio);
-  const [formState, action] = useFormState(actions.editUserInfos, {
+  const [isMailPublic, setIsMailPublic] = useState(originalMailIsPublic);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [formState, action] = useFormState(actions.editUserInfos.bind(null, isMailPublic), {
     errors: {}
   });
 
@@ -95,6 +104,15 @@ export default function EditUserInfos({ originalName, originalBio, userId }: Edi
               isInvalid={!!formState.errors.biography}
               errorMessage={formState.errors.biography?.join(', ')}
             />
+            <Switch 
+              isSelected={isMailPublic} 
+              onValueChange={setIsMailPublic}
+              size="sm"
+              >
+              {isMailPublic ? 
+                "Mail visible par les autres utilisateurs" : 
+                "Mail caché aux autres utilisateurs"}
+            </Switch>
           </ModalBody>
           <ModalFooter>
             <Button color="danger" variant="light" onPress={onClose}>Annuler</Button>
@@ -104,8 +122,8 @@ export default function EditUserInfos({ originalName, originalBio, userId }: Edi
               variant="shadow"
               >Enregistrer</FormButton>
             {formState.errors._form ? 
-        <div className="p-2 bg-red-200 border border-red-400 rounded">{formState.errors._form?.join(', ')}</div> :
-        null}
+              <FormErrorDisplay errors={formState.errors._form} /> :
+              null}
           </ModalFooter>
         </form>
         </>

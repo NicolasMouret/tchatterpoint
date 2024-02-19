@@ -17,6 +17,7 @@ export type UserWithInfos = {
   email?: string;
   image: string | null;
   biography?: string;
+  mailIsPublic: boolean;
   location: {
     lat: number;
     lng: number;
@@ -56,6 +57,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
       email: true,
       image: true,
       biography: true,
+      mailIsPublic: true,
       latitude: true,
       longitude: true,
     }
@@ -68,6 +70,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
       email: query.email!,
       image: query.image,
       biography: query.biography!,
+      mailIsPublic: query.mailIsPublic!,
       location: null,
     };
   };
@@ -77,6 +80,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
     email: query.email!,
     image: query.image,
     biography: query.biography!,
+    mailIsPublic: query.mailIsPublic!,
     location: {
       lat: query.latitude,
       lng: query.longitude,

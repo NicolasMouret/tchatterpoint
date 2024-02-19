@@ -19,6 +19,7 @@ interface EditUserInfosFormState {
 }
 
 export async function editUserInfos(
+  isMailPublic: boolean,
   formState: EditUserInfosFormState,
   formData: FormData,
 ): Promise<EditUserInfosFormState> {
@@ -46,6 +47,7 @@ export async function editUserInfos(
       data: {
         name: result.data.name,
         biography: result.data.biography,
+        mailIsPublic: isMailPublic,
       },
     });
   } catch (err) {

@@ -45,6 +45,7 @@ model User {
   pwHash           String?
   biography        String    @default("Pas encore de bio")
   role             String    @default("user")
+  mailIsPublic     Boolean   @default(false)
   accounts         Account[]
   sessions         Session[]
   Post             Post[]
