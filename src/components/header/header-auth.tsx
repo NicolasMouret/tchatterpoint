@@ -55,7 +55,9 @@ export default function HeaderAuth() {
         className="max-w-20" >
         <li>
           <PopoverTrigger>
-            <Avatar className="cursor-pointer hover:scale-105" src={avatar} />             
+            <button role="button">
+              <Avatar className="cursor-pointer hover:scale-105" src={avatar} /> 
+            </button>            
           </PopoverTrigger>
         </li>
       </NavbarContent>

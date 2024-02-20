@@ -20,7 +20,7 @@ export default function EditAvatarUpload() {
         }}
       onSuccess={
         (result: any) => {
-          editAvatar(result.info.secure_url);
+          editAvatar(result.info.thumbnail_url);
         }
       }>
       {({ open }) => {
@@ -36,6 +36,7 @@ export default function EditAvatarUpload() {
             className="font-medium"
             showArrow>
             <Button 
+              aria-label="Changer de photo de profil"
               color="warning"
               className="absolute top-0 right-0 z-10 rounded-lg text-md min-w-0 p-1 h-6"
               variant="ghost"

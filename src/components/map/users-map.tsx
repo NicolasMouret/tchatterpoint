@@ -4,31 +4,23 @@
 import { UserWithLocation } from '@/db/queries/users';
 import paths from '@/paths';
 import { Card, Image, Link, Skeleton } from '@nextui-org/react';
-import {
-  GoogleMap,
-  Marker as GoogleMapMarker,
-  InfoWindow,
-  useLoadScript
-} from "@react-google-maps/api";
+import { InfoWindow, Map, Marker, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useState } from "react";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 
 export default function MapUsersShow({usersLocationList}: {usersLocationList: UserWithLocation[]}) {
-  const [initialCenter, setInitialCenter] = useState(
-    { lat: 46.7772, lng: 2.2 }); // Center on France whole visible
+  const center = { lat: 46.7772, lng: 2.2 }; // Center on France whole visible
   const [selectedUser, setSelectedUser] = useState<UserWithLocation | null >(null);
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: API_KEY as string,
-  });
-  if (loadError) return <div>Erreur au chargement de la carte</div>;
-  if (!isLoaded) return <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>;
+  const isLoaded = useApiIsLoaded();
+  
 
   //CREATE MARKERS LIST FROM ALL USERS WITH LOCATION
   const MarkerList = usersLocationList.map((user) => {
     return (
-      <GoogleMapMarker
+      <Marker
         key={user.id}
+        title={user.name}
         position={user.location}
         onClick={() => {
           setSelectedUser(user);
@@ -47,12 +39,13 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
       radius="sm"
       data-testid="map"
       >
-      <GoogleMap
-        mapContainerClassName="map"
-        mapContainerStyle={{ height: "100%", width: "100%" }}
-        center={initialCenter}
-        zoom={5.4}
-        options={{ streetViewControl: false }}
+      {isLoaded ?
+      <Map
+        style={{ height: "100%", width: "100%" }}
+        defaultCenter={center}
+        defaultZoom={5.4}
+        streetViewControl={false}
+        gestureHandling={"greedy"}
       >
       <>
         {MarkerList} 
@@ -83,7 +76,8 @@ export default function MapUsersShow({usersLocationList}: {usersLocationList: Us
           </InfoWindow>
         )} 
       </>
-      </GoogleMap>
+      </Map> :
+      <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>}
     </Card>
   );
 };

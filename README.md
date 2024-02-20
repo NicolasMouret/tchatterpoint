@@ -22,7 +22,7 @@ Additionally, Tchatterpoint provides a forum-like section where players can enga
 - NextUI ([Docs](https://nextui.org/))
 - Auth.js ([Docs](https://authjs.dev/getting-started/introduction))
 - Resend ([Docs](https://resend.com/docs/introduction))
-- React Google Maps API ([Docs](https://www.npmjs.com/package/@react-google-maps/api))
+- React Google Maps API ([Docs](https://visgl.github.io/react-google-maps/docs))
 - Cloudinary/Next Cloudinary ([Docs](https://next.cloudinary.dev/))
 
 
