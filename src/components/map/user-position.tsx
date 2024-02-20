@@ -2,23 +2,16 @@
 
 import * as actions from '@/actions';
 import { Card, Skeleton } from '@nextui-org/react';
-import {
-  GoogleMap,
-  Marker as GoogleMapMarker,
-  useLoadScript,
-} from "@react-google-maps/api";
+import { Map, MapMouseEvent, Marker, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useSession } from 'next-auth/react';
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import FormButton from '../common/form-button';
 
-const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
-
 export default function MapUserPosition({initialLocation}: 
   {initialLocation: google.maps.LatLngLiteral | null}) {
   const session = useSession(); 
-  // Center on France whole visible
-  const [center, setCenter] = useState<google.maps.LatLngLiteral>({ lat: 46.7772, lng: 2.2 });
+  const center = { lat: 46.7772, lng: 2.2 }; // Center on France whole visible
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(initialLocation || null);
 
   const [updateFormState, updateAction] = useFormState(actions.editUserLocation.bind(null, location), {
@@ -28,14 +21,10 @@ export default function MapUserPosition({initialLocation}:
     errors: {}
   });
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: API_KEY as string,
-  });
-
-  const handleMapClick = (event: google.maps.MapMouseEvent) => {
-    if (!event.latLng) return;
-    setLocation(event.latLng.toJSON());
-    setCenter(event.latLng.toJSON());
+  const isLoaded = useApiIsLoaded();
+  const handleMapClick = (event: MapMouseEvent) => {
+    if (!event.detail.latLng) return;
+    setLocation(event.detail.latLng);
   };
 
   return (
@@ -52,23 +41,22 @@ export default function MapUserPosition({initialLocation}:
         nouvelle position ou la retirer de la carte.
       </p>
       {isLoaded ? 
-        <GoogleMap
-        mapContainerClassName="map"
-        mapContainerStyle={{ height: "100%", width: "100%" }}
-        center={center}
-        zoom={5.4}
+        <Map
+        style={{ height: "100%", width: "100%" }}
+        defaultCenter={center}
+        defaultZoom={5.4}
         onClick={handleMapClick}
-        options={{ 
-          streetViewControl: false,
-          gestureHandling: "greedy",}}
+        streetViewControl={false}
+        gestureHandling={"greedy"}
       >
         {location && (
-          <GoogleMapMarker
+          <Marker
+            title={"Votre position"}
             position={location}
             onClick={() => setLocation(null)}
           />
             )}
-        </GoogleMap> : 
+        </Map> : 
         <Skeleton className="w-full h-[500px] sm:h-[700px]"></Skeleton>}
       <form className="mt-2" action={updateAction} 
       onSubmit={() => session.update({latitude: location?.lat, longitude: location?.lng})}>

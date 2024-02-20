@@ -65,6 +65,7 @@ export default function EditUserInfos({ userInfos }: EditUserInfosProps) {
       className="font-medium"
       showArrow>
       <Button 
+        aria-label="Modifier mon profil"
         onPress={onOpen}
         color="warning"
         className="rounded-lg text-md min-w-0 p-1 h-7 absolute right-3 top-3"
