@@ -8,14 +8,12 @@ interface ProvidersProps {
   children: React.ReactNode;
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
-
 export default function Providers({ children }: ProvidersProps) {
   return (  
       <SessionProvider>
         <NextUIProvider>
           <APIProvider 
-            apiKey={API_KEY!}
+            apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY as string}
             region='FR'>
           {children}
           </APIProvider>

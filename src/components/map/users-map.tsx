@@ -7,8 +7,6 @@ import { Card, Image, Link, Skeleton } from '@nextui-org/react';
 import { InfoWindow, Map, Marker, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useState } from "react";
 
-const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
-
 export default function MapUsersShow({usersLocationList}: {usersLocationList: UserWithLocation[]}) {
   const center = { lat: 46.7772, lng: 2.2 }; // Center on France whole visible
   const [selectedUser, setSelectedUser] = useState<UserWithLocation | null >(null);
