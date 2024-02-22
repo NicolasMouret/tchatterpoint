@@ -29,7 +29,7 @@ export default function Header() {
       "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400", "hover:border-b-1"]}}
     >
       <NavbarContent justify="center">
-        <li>
+        <li className="h-12 w-full">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir menu"}
           className="sm:hidden"

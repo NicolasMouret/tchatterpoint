@@ -40,7 +40,7 @@ export default function MessageCard({ message, userId }: MessageCardProps) {
         <Image 
           radius="sm"
           alt="user profile picture" 
-          src={sender?.image || ""}
+          src={sender?.image || "/default-avatar.webp"}
           width={40}
           height={40}
           style={{

@@ -56,7 +56,7 @@ export default function HeaderAuth() {
         <li>
           <PopoverTrigger>
             <button role="button">
-              <Avatar className="cursor-pointer hover:scale-105" src={avatar} /> 
+              <Avatar className="cursor-pointer hover:scale-105" src={avatar || "/default-avatar.webp"} /> 
             </button>            
           </PopoverTrigger>
         </li>

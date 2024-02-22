@@ -20,7 +20,4 @@ export { editComment } from './edit-comment';
 //MESSAGING RELATED ACTIONS
 export { createMessageChat, createMessageProfile } from './create-message';
 
-export { search } from './search';
-
-
 
