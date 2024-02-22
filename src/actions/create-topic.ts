@@ -10,7 +10,11 @@ import { z } from 'zod';
 
 const createTopicSchema = z.object({
   name: z
-  .string().min(3, {message: "Minimum 3 caractères"}),
+  .string()
+  .min(3, {message: "Minimum 3 caractères"})
+  .regex(/^[^/]*$/, {
+    message: "Le nom ne doit pas contenir le caractère '/'"
+  }),
   description: z
   .string()
   .min(10, {message: "Minimum 10 caractères"}),
@@ -51,7 +55,8 @@ export async function createTopic(
   try {
     topic = await db.topic.create({
       data: {
-        slug: result.data.name,
+        slug: result.data.name.trim().replace(/\s+/g, '-').toLowerCase(),
+        name: result.data.name,
         description: result.data.description,
       },    
     })
@@ -78,6 +83,6 @@ export async function createTopic(
   }
 
   revalidatePath('/cantina');
-  redirect(paths.topicShow(topic.slug));
+  redirect(paths.topicShow(decodeURIComponent(topic.slug)));
   
 }

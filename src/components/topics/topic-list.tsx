@@ -14,7 +14,7 @@ export default async function TopicList() {
             className="hover:scale-[1.04]" 
             color="warning" 
             variant="shadow">
-              {topic.slug}
+              {topic.name}
           </Chip> 
         </Link>
       </div>
