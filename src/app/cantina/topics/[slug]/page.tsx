@@ -27,7 +27,7 @@ export default async function TopicShowPage({ params }: TopicShowPageProps) {
       </Link>
       <div className="backdrop-blur-lg rounded-lg bg-black bg-opacity-70
       border-1 border-slate-400 pl-4 py-2 mb-4">
-        <h1 className="text-2xl font-bold mb-2 font-swFont">{topic.slug}</h1>
+        <h1 className="text-2xl font-bold mb-2 font-swFont">{topic.name}</h1>
         <p className="font-medium">{topic.description}</p>
       </div>
       <div className="flex flex-col mt-2">
