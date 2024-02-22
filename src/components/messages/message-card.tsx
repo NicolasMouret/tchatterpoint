@@ -1,7 +1,7 @@
 import { supabase } from "@/db";
 import { UserWithInfos } from "@/db/queries/users";
 import { setDateComment } from "@/libs/utils";
-import { CircularProgress, Divider, Image, Link } from "@nextui-org/react";
+import { Divider, Image, Link } from "@nextui-org/react";
 import { Message } from "@prisma/client";
 import { useEffect, useState } from "react";
 
@@ -40,7 +40,7 @@ export default function MessageCard({ message, userId }: MessageCardProps) {
         <Image 
           radius="sm"
           alt="user profile picture" 
-          src={sender?.image || "/default-avatar.webp"}
+          src={sender?.image}
           width={40}
           height={40}
           style={{
@@ -51,7 +51,7 @@ export default function MessageCard({ message, userId }: MessageCardProps) {
           <Link href={`/profil/${message.senderId}`}>
             <p className="font-extrabold text-slate-300 hover:underline hover:text-yellow-400">
               {isLoading ? 
-              <CircularProgress size="sm"/> : sender?.name || 
+              null : sender?.name || 
               "Utilisateur inconnu"}
             </p>
           </Link>

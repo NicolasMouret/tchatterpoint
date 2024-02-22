@@ -62,7 +62,7 @@ export default function ConversationShow({ userId, chatId }: ConversationShowPro
         table: "Message", 
         filter: `chatId=eq.${chatId}`
        }, 
-      payload => {          
+      payload => {
           setIncomingMessages(prevMessages => [payload.new as Message,...prevMessages]);
           requestAnimationFrame(scrollToBottom);
       })
