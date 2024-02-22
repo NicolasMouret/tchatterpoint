@@ -15,7 +15,7 @@ export type UserWithInfos = {
   id: string;
   name: string;
   email?: string;
-  image: string | null;
+  image: string;
   biography?: string;
   mailIsPublic: boolean;
   location: {
@@ -39,7 +39,7 @@ export async function fetchAllUsersWithLocation(): Promise<UserWithLocation[]> {
     .map(user => ({
       id: user.id!,
       name: user.name!,
-      image: user.image,
+      image: user.image || "/default-avatar.webp",
       location: {
         lat: user.latitude!,
         lng: user.longitude!,
@@ -68,7 +68,7 @@ export async function fetchUserWithInfos(id: string): Promise<UserWithInfos | nu
       id: query.id!,
       name: query.name!,
       email: query.email!,
-      image: query.image,
+      image: query.image || "/default-avatar.webp",
       biography: query.biography!,
       mailIsPublic: query.mailIsPublic!,
       location: null,
