@@ -26,7 +26,7 @@ export default async function ChatList() {
               className="flex-row items-center border-1 border-slate-400 p-2 w-full">
               <Avatar
                 radius="md"
-                src={chat.interlocutor.image}/>
+                src={chat.interlocutor.image || "/default-avatar.webp"}/>
               <div className="flex flex-col flex-1 gap-1 ml-2">
                 <span className="font-bold">{chat.interlocutor.name}</span>
                 {chat.lastMessage && 

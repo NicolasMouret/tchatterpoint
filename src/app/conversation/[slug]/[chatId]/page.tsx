@@ -57,7 +57,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         </Link>
         <Avatar 
           radius="md"
-          src={interlocutor?.image}/>
+          src={interlocutor?.image || "/default-avatar.webp"}/>
         <Tooltip
           content="Voir le profil"
           placement="right"
