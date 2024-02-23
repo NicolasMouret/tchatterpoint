@@ -13,7 +13,7 @@ export default function CantinaPage() {
       bg-black bg-opacity-60 backdrop-blur-sm">
         <TopicCreateForm />
         <Divider className="my-2"/>
-        <h3 className="text-lg font-medium mb-2">Sujets</h3>
+        <h3 className="text-lg text-center font-medium mb-2">Sujets</h3>
         <TopicList />
       </section>
       <section>
