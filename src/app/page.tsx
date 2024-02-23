@@ -12,26 +12,27 @@ export default async function Home() {
       <div 
         className="flex flex-col items-center animate-fadeInFromBottom">
         <h1 
-          className={`font-bold text-3xl sm:text-4xl text-yellow-400 text-center mb-2 font-swFont`}>
+          className={`font-bold text-3xl sm:text-4xl text-yellow-400 
+          text-center mb-2 font-swFont backdrop-blur-sm`}>
           Bienvenue sur Tchatterpoint
         </h1>
-        <h2 className={`font-bold sm:text-xl text-center mb-8 sm:mb-12`}>
+        <h2 className={`font-bold sm:text-xl text-center mb-8 sm:mb-12 backdrop-blur-sm`}>
           Le site communautaire autour du jeu
           Star Wars Shatterpoint !
         </h2>
-        <p className={`font-semibold text-center mb-4 sm:mb-6`}>
+        <p className={`font-semibold text-center mb-4 sm:mb-6 backdrop-blur-sm`}>
           Vous pourrez ici discuter de tout ce qui concerne le jeu, partager vos
           expériences, vos astuces, vos créations, et surtout trouver des joueurs
           autour de chez vous !
         </p>
         {!session?.user ? 
         <>
-        <p className={`font-semibold text-center mb-4 sm:mb-6`}>
+        <p className={`font-semibold text-center mb-4 sm:mb-6 backdrop-blur-sm`}>
         Pour vous rendre visible sur la carte, contacter d&apos;autres joueurs et 
         participer au forum, il vous suffit de vous inscrire ou de vous connecter.
       </p>
       <Link 
-        className="w-2/3 sm:w-1/3 mb-4"
+        className="w-2/3 sm:w-1/3 my-4"
         href="/sign-up" >
         <Button 
           type="button"
@@ -43,7 +44,7 @@ export default async function Home() {
         </Button>
       </Link>
       <Link 
-        className="w-2/3 sm:w-1/3 mb-2"
+        className="w-2/3 sm:w-1/3 my-4"
         href="/sign-in" >
         <Button 
           type="button"
@@ -55,7 +56,7 @@ export default async function Home() {
         </Button>
       </Link></> : 
       <>
-      <p className={`text-center font-bold text-lg mb-2`}>
+      <p className={`text-center font-bold text-lg mb-2 backdrop-blur-sm`}>
           Pour se trouver
         </p>
         <Link 
@@ -70,7 +71,7 @@ export default async function Home() {
             Voir la carte des joueurs
           </Button>
         </Link>
-        <p className={`text-center font-bold text-lg mb-2`}>
+        <p className={`text-center font-bold text-lg mb-2 backdrop-blur-sm`}>
           Pour échanger
         </p>
         <Link 

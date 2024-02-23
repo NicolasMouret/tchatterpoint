@@ -4,13 +4,15 @@ import { Chip } from '@nextui-org/react';
 import Link from 'next/link';
 
 export default async function TopicList() {
-  const topics = await db.topic.findMany();
+  const topics = await db.topic.findMany(
+    {orderBy: {name: 'asc'}}
+  );
 
   const renderedTopics = topics.map(topic => {
     return (
       <div key={topic.id}>
         <Link href={paths.topicShow(topic.slug)}>
-          <Chip 
+          <Chip
             className="hover:scale-[1.04]" 
             color="warning" 
             variant="shadow">
@@ -22,7 +24,7 @@ export default async function TopicList() {
   });
 
   return (
-    <div className="flex flex-row flex-wrap gap-2">
+    <div className="flex justify-center flex-wrap gap-2">
       {renderedTopics}
     </div>
   )
