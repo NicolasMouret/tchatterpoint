@@ -13,23 +13,37 @@ export default async function MapPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center gap-4 p-3 w-full sm:w-4/5">
-      <h1 className="font-bold text-2xl sm:text-3xl text-yellow-400 font-swFont">Carte des joueurs</h1>
-      { !session ? 
-      <>
-        <p>Connectez vous pour pouvoir vous placer sur la carte</p>
+      <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl text-yellow-400 font-swFont">Carte des joueurs</h1>
+      {!session && (
+          <>
+          <p className={`font-semibold text-center sm:w-4/5 backdrop-blur-sm`}>
+          Pour vous rendre visible sur la carte et contacter d&apos;autres joueurs il vous suffit de vous inscrire ou de vous connecter.
+        </p>
         <Link 
-          className="w-2/3 sm:w-1/3 mb-2"
-          href="/sign-in" >
+          className="w-2/3 sm:w-1/3"
+          href="/sign-up" >
           <Button 
             type="button"
             className="w-full font-semibold text-base" 
             color="primary"
             variant="solid"
             > 
-            Se connecter
+            S&apos;inscrire
           </Button>
         </Link>
-      </> : null}
+        <Link 
+          className="w-2/3 sm:w-1/3"
+          href="/sign-in" >
+          <Button 
+            type="button"
+            className="w-full font-semibold text-base" 
+            color="warning"
+            variant="solid"
+            > 
+            Se connecter
+          </Button>
+        </Link></>
+        )}
       <MapUsersShow usersLocationList={usersLocationList} />
     </main>
   )

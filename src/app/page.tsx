@@ -1,6 +1,8 @@
 import { auth } from '@/auth';
 import { Button } from "@nextui-org/react";
+import Image from 'next/image';
 import Link from "next/link";
+import youtubeIcon from '/public/youtube-icon.svg';
 
 
 
@@ -12,81 +14,68 @@ export default async function Home() {
       <div 
         className="flex flex-col items-center animate-fadeInFromBottom">
         <h1 
-          className={`font-bold text-3xl sm:text-4xl text-yellow-400 
-          text-center mb-2 font-swFont backdrop-blur-sm`}>
+          className={`font-bold text-4xl sm:text-6xl text-yellow-400 
+          text-center mt-4 mb-2 font-swFont backdrop-blur-sm lg:max-w-[1000px]`}>
           Bienvenue sur Tchatterpoint
         </h1>
-        <h2 className={`font-bold sm:text-xl text-center mb-8 sm:mb-12 backdrop-blur-sm`}>
+        <h2 className={`font-bold sm:text-xl text-center mb-8 sm:mb-12 sm:w-3/5 backdrop-blur-sm`}>
           Le site communautaire autour du jeu
           Star Wars Shatterpoint !
         </h2>
-        <p className={`font-semibold text-center mb-4 sm:mb-6 backdrop-blur-sm`}>
+        <p className={`font-semibold text-center mb-4 sm:mb-6 sm:w-4/5 backdrop-blur-sm`}>
           Vous pourrez ici discuter de tout ce qui concerne le jeu, partager vos
           expériences, vos astuces, vos créations, et surtout trouver des joueurs
           autour de chez vous !
         </p>
-        {!session?.user ? 
-        <>
-        <p className={`font-semibold text-center mb-4 sm:mb-6 backdrop-blur-sm`}>
-        Pour vous rendre visible sur la carte, contacter d&apos;autres joueurs et 
-        participer au forum, il vous suffit de vous inscrire ou de vous connecter.
-      </p>
-      <Link 
-        className="w-2/3 sm:w-1/3 my-4"
-        href="/sign-up" >
-        <Button 
-          type="button"
-          className="w-full font-semibold text-base" 
-          color="primary"
-          variant="solid"
-          > 
-          S&apos;inscrire
-        </Button>
-      </Link>
-      <Link 
-        className="w-2/3 sm:w-1/3 my-4"
-        href="/sign-in" >
-        <Button 
-          type="button"
-          className="w-full font-semibold text-base" 
-          color="warning"
-          variant="solid"
-          > 
-          Se connecter
-        </Button>
-      </Link></> : 
-      <>
-      <p className={`text-center font-bold text-lg mb-2 backdrop-blur-sm`}>
-          Pour se trouver
-        </p>
         <Link 
-          className="w-4/5 sm:w-1/3 mb-8"
+          className="w-4/5 sm:w-1/3 mb-10"
           href="/carte-des-joueurs" >
+          <Button 
+            type="button"
+            className="w-full font-semibold text-base p-6" 
+            color="primary"
+            variant="shadow"
+            > 
+            Voir la carte des joueurs
+          </Button>
+        </Link> 
+        <p className="font-semibold text-center mb-4 sm:mb-6 sm:w-4/5 backdrop-blur-sm">
+          Pour retrouver toutes les infos et ressources autour du jeu
+        </p>
+        <a 
+          className="w-4/5 sm:w-1/3 mb-6"
+          href="https://shatterpoint-miniatures.eu/fr"
+          target="_blank" >
           <Button 
             type="button"
             className="w-full font-semibold text-base" 
             color="primary"
             variant="solid"
             > 
-            Voir la carte des joueurs
+            Shatterpoint-miniatures.eu
           </Button>
-        </Link>
-        <p className={`text-center font-bold text-lg mb-2 backdrop-blur-sm`}>
-          Pour échanger
+        </a> 
+        <p className="font-semibold text-center mb-4 sm:mb-6 sm:w-4/5 backdrop-blur-sm">
+          Rapports de bataille et analyses 
         </p>
-        <Link 
-          className="w-4/5 sm:w-1/3 mb-8"
-          href="/cantina" >
+        <a 
+          className="w-4/5 sm:w-1/3 mb-6"
+          href="https://www.youtube.com/@doublethefall0"
+          target="_blank" >
           <Button 
             type="button"
             className="w-full font-semibold text-base" 
-            color="warning"
+            color="primary"
             variant="solid"
             > 
-            Vers la cantina
+            <Image 
+              src={youtubeIcon} 
+              alt="icone youtube"
+              className="h-8 w-8"
+            />
+            Double the fall
           </Button>
-        </Link>
-      </>}
+        </a> 
       </div>
     </main>
   )

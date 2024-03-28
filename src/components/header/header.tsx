@@ -24,16 +24,16 @@ export default function Header() {
     <Navbar 
     onMenuOpenChange={setIsMenuOpen} 
     isMenuOpen={isMenuOpen}
-    className="mb-6 border-b border-slate-500 sm:border sm:border-t-0 sm:rounded-b-md font-swFont"
+    className="mb-2 sm:mb-6 border-b border-slate-500 font-swFont w-[100vw]"
     classNames={{item: ["data-[active=true]:text-yellow-400",
       "data-[active=true]:border-b-1", "data-[active=true]:border-yellow-400", "hover:border-b-1"]}}
     >
       <NavbarContent justify="center">
         <li className="h-12 w-full">
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir menu"}
-          className="sm:hidden"
-        />
+          <NavbarMenuToggle
+            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir menu"}
+            className="lg:hidden"
+          />
         </li>
         <li>
           <NavbarBrand>
@@ -45,7 +45,7 @@ export default function Header() {
         </NavbarBrand>
         </li>
       </NavbarContent>
-      <NavbarContent className="hidden font-medium sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden font-medium lg:flex gap-4" justify="center">
         <NavbarItem 
           isActive={pathname === "/carte-des-joueurs"}>
           <Link color="foreground" href="/carte-des-joueurs">
