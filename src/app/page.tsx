@@ -36,7 +36,7 @@ export default async function Home() {
             type="button"
             className="w-full font-semibold text-base p-6" 
             color="primary"
-            variant="shadow"
+            variant="solid"
             > 
             Voir la carte des joueurs
           </Button>
