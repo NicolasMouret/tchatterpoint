@@ -2,6 +2,8 @@ import { auth } from '@/auth';
 import { Button } from "@nextui-org/react";
 import Image from 'next/image';
 import Link from "next/link";
+import discordIcon from '/public/discord-icon.svg';
+import webIcon from '/public/website-click.svg';
 import youtubeIcon from '/public/youtube-icon.svg';
 
 
@@ -15,10 +17,10 @@ export default async function Home() {
         className="flex flex-col items-center animate-fadeInFromBottom">
         <h1 
           className={`font-bold text-4xl sm:text-6xl text-yellow-400 
-          text-center mt-4 mb-2 font-swFont backdrop-blur-sm lg:max-w-[1000px]`}>
+          text-center lg:mt-4 mb-2 font-swFont backdrop-blur-sm lg:max-w-[1000px]`}>
           Bienvenue sur Tchatterpoint
         </h1>
-        <h2 className={`font-bold sm:text-xl text-center mb-8 sm:mb-12 sm:w-3/5 backdrop-blur-sm`}>
+        <h2 className={`font-bold sm:text-xl text-center mb-12 sm:mb-16 sm:w-3/5 backdrop-blur-sm`}>
           Le site communautaire autour du jeu
           Star Wars Shatterpoint !
         </h2>
@@ -28,7 +30,7 @@ export default async function Home() {
           autour de chez vous !
         </p>
         <Link 
-          className="w-4/5 sm:w-1/3 mb-10"
+          className="w-4/5 sm:w-fit mb-14 sm:mb-20"
           href="/carte-des-joueurs" >
           <Button 
             type="button"
@@ -39,33 +41,60 @@ export default async function Home() {
             Voir la carte des joueurs
           </Button>
         </Link> 
-        <p className="font-semibold text-center mb-4 sm:mb-6 sm:w-4/5 backdrop-blur-sm">
+        <p className="font-semibold text-center mb-4 sm:mb-4 sm:w-4/5 backdrop-blur-sm">
           Pour retrouver toutes les infos et ressources autour du jeu
         </p>
-        <a 
-          className="w-4/5 sm:w-1/3 mb-6"
-          href="https://shatterpoint-miniatures.eu/fr"
+        <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6 mb-6 sm:mb-12">
+          <a 
+            className="w-fit"
+            href="https://shatterpoint-miniatures.eu/fr"
+            target="_blank" >
+            <Button 
+              type="button"
+              aria-label="Site web Shatterpoint-miniatures.eu"
+              className="w-full font-semibold text-base" 
+              color="warning"
+              variant="solid"
+              > 
+              <Image 
+                src={webIcon} 
+                alt="generic website icon"
+                className="h-8 w-8"
+              />
+              Shatterpoint-miniatures.eu
+            </Button>
+          </a>
+          <a 
+          className="w-4/5 sm:w-fit"
+          href="https://discord.gg/h4bQG4CJ2A"
           target="_blank" >
           <Button 
             type="button"
+            aria-label="Serveur Discord Star Wars Shatterpoint [FR]"
             className="w-full font-semibold text-base" 
-            color="primary"
+            color="warning"
             variant="solid"
             > 
-            Shatterpoint-miniatures.eu
+            <Image 
+              src={discordIcon} 
+              alt="icone youtube"
+              className="h-8 w-8"
+            />
+            Shatterpoint [FR]
           </Button>
-        </a> 
-        <p className="font-semibold text-center mb-4 sm:mb-6 sm:w-4/5 backdrop-blur-sm">
+        </a>
+        </div>
+        <p className="font-semibold text-center mb-4 sm:mb-4 sm:w-4/5 backdrop-blur-sm">
           Rapports de bataille et analyses 
         </p>
         <a 
-          className="w-4/5 sm:w-1/3 mb-6"
+          className="w-4/5 sm:w-fit mb-6"
           href="https://www.youtube.com/@doublethefall0"
           target="_blank" >
           <Button 
             type="button"
             className="w-full font-semibold text-base" 
-            color="primary"
+            color="warning"
             variant="solid"
             > 
             <Image 
